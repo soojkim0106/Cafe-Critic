@@ -39,7 +39,9 @@ The `client` folder contains a basic React application, while the `server`
 folder contains a basic Flask application. You will adapt both folders to
 implement the code for your project .
 
----
+NOTE: If you did not previously install `tree` in your environment setup, MacOS
+users can install this with the command `brew install tree`. WSL and Linux users
+can run `sudo apt-get install tree` to download it as well.
 
 ## Where Do I Start?
 
