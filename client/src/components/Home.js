@@ -1,6 +1,6 @@
 import { React, useState, useEffect }from "react"
 import PlaceCard from "./PlaceCard"
-// import '../styling/Home.css'
+import '../styling/home.css'
 
 function Home(){
     const [places, setPlaces] = useState([])
@@ -28,8 +28,8 @@ const filteredPlaces = places.filter(place => place.city && place.city.toLowerCa
 ));
 
     return(
-        <div className="trail-list">
-            <h1 className="trail-list-header">Destinations</h1>
+        <div className="place-list">
+            <h1 className="place-list-header">Destinations</h1>
             <div className="search-container">
                 <input
                     className="search-input"

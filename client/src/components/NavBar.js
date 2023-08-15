@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-// import '../styling/NavBar.css';
+import '../styling/navbar.css';
 // import mytrails from '../myTrails.png'
 
 function NavBar( {user, setUser, navigate} ) {    
@@ -28,6 +28,7 @@ function NavBar( {user, setUser, navigate} ) {
             </div>
             <div className="nav-bar">
                 <li className="nav-bar-list"><NavLink className="nav-bar-link" to="home">Home</NavLink></li>
+                <li className="nav-bar-list"><NavLink className="nav-bar-link" to="List">Packing List</NavLink></li>
                 <li className="nav-bar-list"><NavLink className="nav-bar-link" to="social">Social</NavLink></li>
                 <li className="nav-bar-list"><NavLink className="nav-bar-link" to="trips">My Trips</NavLink></li>
                 <li className="nav-bar-list"><button className="nav-bar-link" onClick={handleLogout}>Logout</button></li>

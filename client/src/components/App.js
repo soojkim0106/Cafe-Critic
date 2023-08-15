@@ -5,6 +5,8 @@ import Home from "./Home"
 import MyTrips from './MyTrips'
 import Social from './Social'
 import Auth from './Auth'
+import PackingList from './PackingList'
+import '../styling/app.css'
 
 function App() {
   const [ user, setUser ] = useState(null)
@@ -29,6 +31,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Auth  setUser={setUser} navigate={navigate}/>}></Route>
         <Route path='home' element={<Home />} />
+        <Route path='list' element={<PackingList />} />
         <Route path='trips' element={<MyTrips user = {user}/>} />
         <Route path='social' element={<Social user = {user}/>} />
       </Routes>
