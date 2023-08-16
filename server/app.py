@@ -59,18 +59,20 @@ def trips():
     
     if request.method == 'POST':
         data = request.get_json()
+        import ipdb
+        ipdb.set_trace()
         try:
             new_trip = Trip(
                 user_id = data['user_id'],
                 place_id = data['place_id'],
-                rating = data['rating'],
+                rating = int(data['rating']),
                 comments = data['comments']
             )
             db.session.add(new_trip)
             db.session.commit()
             return make_response(new_trip.to_dict(), 201)
-        except:
-            return make_response({"errors": ["validation errors"]}, 400)
+        except Exception as e:
+            return make_response({"errors": [str(e)]}, 400)
         
 
 @app.route('/trips/<int:id>', methods=['DELETE', 'PATCH'])

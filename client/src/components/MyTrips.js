@@ -79,10 +79,10 @@ function MyTrips({user}){
                 {filteredTrip}
             </div>
             </div>
-            {/* <div className='trip-form'>
+            <div className='trip-form'>
                 <h1 className="trip-header">Add a Trip!</h1>
                 <TripForm user={user} addNewTrip={addNewTrip}/>
-            </div> */}
+            </div>
         </div>
     )
 }
