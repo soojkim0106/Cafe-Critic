@@ -74,6 +74,7 @@ class Trip(db.Model, SerializerMixin):
     place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
     rating = db.Column(db.Integer)
     comments = db.Column(db.String)
+    favorite = db.Column(db.Boolean)
 
     # user = db.relationship('User', back_populates = 'trips')
     # place = db.relationship('Place', back_populates = 'trips')
