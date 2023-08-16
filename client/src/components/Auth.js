@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 function Auth({ setUser, navigate }){
 
     useEffect(() => {
-        document.title="Travel"
+        document.title="Traveler's Club"
     }, [])
 
     const [ isLogin, setIsLogin ] = useState(0) // if 1 we'll fetch to .../login, if 2, we'll fetch to .../signup
@@ -47,7 +47,6 @@ function Auth({ setUser, navigate }){
                 if (user)
                     setFormData({username:"",password:""})
                 setUser(user)
-                // window.location.href = 'home'
                 navigate('home')
             })
             .catch( error => {
@@ -58,7 +57,7 @@ function Auth({ setUser, navigate }){
 
     return(
         <div className="authentication">
-            <p className="welcome">Welcome to</p>
+            <p className="welcome">Welcome to The Traveler's Club!</p>
             {/* <img className='my-trails'src={mytrails} alt="My Trails" height={175}/> */}
             <p className="continue">To continue, please Login or Signup.</p>
             {isLogin === 0 ? 

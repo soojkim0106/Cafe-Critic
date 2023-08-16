@@ -13,7 +13,7 @@ useEffect(() => {
 },[])
 
 useEffect(() => {
-    document.title="Travel | Home"
+    document.title="Traveler's Club | Home"
 }, [])
 
 const filteredPlaces = places.filter(place => place.city && place.city.toLowerCase().includes(search.toLowerCase()))

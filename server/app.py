@@ -137,7 +137,7 @@ def signup():
         new_user = User(
             username=username,
             password_hash=password,
-            profile_image=f'http://127.0.0.1:5555/static/profile_photos/{image_path}'
+            profile_image=f'http://127.0.0.1:5555/{image_path}'
         )
         db.session.add(new_user)
         db.session.commit()

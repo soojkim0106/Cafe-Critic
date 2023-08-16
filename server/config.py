@@ -31,7 +31,7 @@ api = Api(app)
 CORS(app)
 
 bcrypt = Bcrypt(app)
-UPLOAD_FOLDER = 'static/user_images'
+UPLOAD_FOLDER = 'static/profile_photos'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app.secret_key = 'abscfw'
