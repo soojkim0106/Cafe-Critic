@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
+import { UserContext } from "../context/user"
 // import '../styling/Auth.css'
 
-function Auth({ setUser, navigate }){
+function Auth({navigate }){
+
+    const {setUser} = useContext(UserContext)
 
     useEffect(() => {
         document.title="Traveler's Club"

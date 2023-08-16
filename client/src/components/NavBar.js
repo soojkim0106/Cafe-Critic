@@ -1,8 +1,12 @@
 import { NavLink } from "react-router-dom";
 import '../styling/navbar.css';
+import { useContext } from "react";
+import { UserContext } from "../context/user";
 // import mytrails from '../myTrails.png'
 
-function NavBar( {user, setUser, navigate} ) {    
+function NavBar( {navigate} ) {    
+
+    const {user, setUser} = useContext(UserContext)
 
     const handleLogout = () => {
     fetch("/logout",{

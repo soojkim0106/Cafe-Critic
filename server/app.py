@@ -59,8 +59,6 @@ def trips():
     
     if request.method == 'POST':
         data = request.get_json()
-        import ipdb
-        ipdb.set_trace()
         try:
             new_trip = Trip(
                 user_id = data['user_id'],

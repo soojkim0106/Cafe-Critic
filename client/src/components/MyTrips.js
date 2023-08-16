@@ -1,9 +1,12 @@
 import TripCard from "./TripCard"
 import TripForm from "./TripForm"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import '../styling/mytrips.css'
+import { UserContext } from "../context/user"
 
-function MyTrips({user}){
+function MyTrips(){
+
+    const {user} = useContext(UserContext)
 
     const [trips, setTrips] = useState([])
 

@@ -1,5 +1,6 @@
-import {React, useEffect, useState } from "react";
+import {React, useContext, useEffect} from "react";
 import {Route, Routes, useNavigate} from "react-router-dom";
+import { UserContext } from "../context/user";
 import NavBar from "./NavBar"
 import Home from "./Home"
 import MyTrips from './MyTrips'
@@ -9,12 +10,12 @@ import PackingList from './PackingList'
 import '../styling/app.css'
 
 function App() {
-  const [ user, setUser ] = useState(null)
+  const {user, setUser} = useContext(UserContext)
   const navigate = useNavigate()
 
   useEffect(()=>{
     fetchUser()
-  },[])
+  }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUser = () => {
     fetch("/authorized")
@@ -27,13 +28,14 @@ function App() {
 
   return (
     <div className="App">
-      {user ? <NavBar user={user} setUser={setUser} navigate={navigate}/> : null}
+      {user ? <NavBar navigate={navigate}/> : null}
       <Routes>
-        <Route path='/' element={<Auth  setUser={setUser} navigate={navigate}/>}></Route>
+        <Route path='/' element={<Auth navigate={navigate}/>}></Route>
         <Route path='home' element={<Home />} />
         <Route path='list' element={<PackingList />} />
-        <Route path='trips' element={<MyTrips user = {user}/>} />
-        <Route path='social' element={<Social user = {user}/>} />
+        <Route path='trips' element={<MyTrips />} />
+        <Route path='social' element={<Social />} />
+        {/* social needs user */}
       </Routes>
     </div>
   );
