@@ -1,0 +1,77 @@
+.header {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+.nav-bar{
+    list-style-type: none;
+    display: inline-flex;
+    padding-right: 25px;
+    float:right;
+}
+/* .header:hover{
+    box-shadow: 0px 10px 16px 10px rgba(97, 76, 51, 0.5);
+  } */
+
+
+/* LOGO */
+.left-side-nav {
+    float: left;
+    display: inline-flex;
+    padding-left: 25px;
+}
+
+
+/* WELCOME, USER */
+.center-nav{
+    font-size: 20px;
+    display: flex;
+    padding-left: 20%;
+}
+.hello{
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    padding-right: 15px;
+}
+.current-user-img{
+    width: 65px;
+    height: 65px;
+    border-radius: 50px;
+}
+
+
+/* THE LINKS */
+.nav-bar-list{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.nav-bar-link{
+    position: relative;
+    font-size: 18px;
+    display: block;
+    width:100%;
+    text-decoration: none;
+    color:black;
+    cursor: pointer;
+}
+.nav-bar-link:hover{
+    opacity: 0.6;
+}
+/* LOGOUT BUTTON */
+button{
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+}

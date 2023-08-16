@@ -1,0 +1,26 @@
+.card{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.place-list{
+    padding-top: 175px;
+    padding-bottom: 250px;
+    margin: 0 45px 0 45px;
+}
+
+.place-card{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    border: 5px solid black;
+}
+.place-pic{
+    width: 100%;
+}
+.place-card-info{
+    text-align: center;
+}

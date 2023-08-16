@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-
+from flask_bcrypt import Bcrypt
 # Local imports
 
 # Instantiate app, set attributes
@@ -29,3 +29,9 @@ api = Api(app)
 
 # Instantiate CORS
 CORS(app)
+
+bcrypt = Bcrypt(app)
+UPLOAD_FOLDER = 'static/profile_photos'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+app.secret_key = 'abscfw'

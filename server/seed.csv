@@ -1,0 +1,53 @@
+City,State,Country,Image
+Tokyo,,Japan,http://127.0.0.1:5555/static/place_photos/tokyo.jpg
+Paris,,France,http://127.0.0.1:5555/static/place_photos/paris.jpg
+New York,New York,USA,http://127.0.0.1:5555/static/place_photos/nyc.jpg
+Sydney,New South Wales,Australia,http://127.0.0.1:5555/static/place_photos/sydney.jpg
+Rome,,Italy,http://127.0.0.1:5555/static/place_photos/rome.jpg
+Cape Town,,South Africa,http://127.0.0.1:5555/static/place_photos/cape-town.jpg
+Rio de Janeiro,,Brazil,http://127.0.0.1:5555/static/place_photos/rio.jpg
+Bangkok,,Thailand,http://127.0.0.1:5555/static/place_photos/bangkok.jpg
+Istanbul,,Turkey,http://127.0.0.1:5555/static/place_photos/istanbul.jpg
+Boston,Massachusetts,USA,http://127.0.0.1:5555/static/place_photos/boston.jpg
+London,,United Kingdom,http://127.0.0.1:5555/static/place_photos/london.jpg
+Barcelona,,Spain,http://127.0.0.1:5555/static/place_photos/barcelona.jpg
+Dubai,,United Arab Emirates,http://127.0.0.1:5555/static/place_photos/dubai.jpg
+Amsterdam,,Netherlands,http://127.0.0.1:5555/static/place_photos/amsterdam.jpg
+Toronto,Ontario,Canada,http://127.0.0.1:5555/static/place_photos/toronto.jpg
+Buenos Aires,,Argentina,http://127.0.0.1:5555/static/place_photos/buenos-aires.jpg
+Hong Kong,,China,http://127.0.0.1:5555/static/place_photos/hong-kong.jpg
+Auckland,,New Zealand,http://127.0.0.1:5555/static/place_photos/auckland.jpg
+Seoul,,South Korea,http://127.0.0.1:5555/static/place_photos/seoul.jpg
+Machu Picchu,,Peru,http://127.0.0.1:5555/static/place_photos/machu-picchu.jpg
+Prague,,Czech Republic,http://127.0.0.1:5555/static/place_photos/prague.jpg
+Santorini,,Greece,http://127.0.0.1:5555/static/place_photos/santorini.jpg
+Cairo,,Egypt,http://127.0.0.1:5555/static/place_photos/cairo.jpg
+Reykjavik,,Iceland,http://127.0.0.1:5555/static/place_photos/reykjavik.jpg
+Kyoto,,Japan,http://127.0.0.1:5555/static/place_photos/kyoto.jpg
+Athens,,Greece,http://127.0.0.1:5555/static/place_photos/athens.jpg
+Venice,,Italy,http://127.0.0.1:5555/static/place_photos/venice.jpg
+Moscow,,Russia,http://127.0.0.1:5555/static/place_photos/moscow.jpg
+Las Vegas,Nevada,USA,http://127.0.0.1:5555/static/place_photos/vegas.jpg
+Vancouver,British Columbia,Canada,http://127.0.0.1:5555/static/place_photos/vancouver.jpg
+Queenstown,,New Zealand,http://127.0.0.1:5555/static/place_photos/queenstown.jpg
+Jerusalem,,Israel,http://127.0.0.1:5555/static/place_photos/jerusalem.jpg
+Edinburgh,,Scotland,http://127.0.0.1:5555/static/place_photos/edinburgh.jpg
+Dublin,,Ireland,http://127.0.0.1:5555/static/place_photos/dublin.jpg
+Havana,,Cuba,http://127.0.0.1:5555/static/place_photos/havana.jpg
+Chiang Mai,,Thailand,http://127.0.0.1:5555/static/place_photos/chiang-mai.jpg
+Bali,,Indonesia,http://127.0.0.1:5555/static/place_photos/bali.jpg
+Cusco,,Peru,http://127.0.0.1:5555/static/place_photos/cusco.jpg
+Stockholm,,Sweden,http://127.0.0.1:5555/static/place_photos/stockholm.jpg
+Dubrovnik,,Croatia,http://127.0.0.1:5555/static/place_photos/dubrovnik.jpg
+Montreal,Quebec,Canada,http://127.0.0.1:5555/static/place_photos/montreal.jpg
+Kruger National Park,,South Africa,http://127.0.0.1:5555/static/place_photos/kruger.jpg
+San Francisco,California,USA,http://127.0.0.1:5555/static/place_photos/san-fran.jpg
+Zurich,,Switzerland,http://127.0.0.1:5555/static/place_photos/zurich.jpg
+Beijing,,China,http://127.0.0.1:5555/static/place_photos/beijing.jpg
+Amalfi Coast,,Italy,http://127.0.0.1:5555/static/place_photos/almafi.jpg
+Siem Reap,,Cambodia,http://127.0.0.1:5555/static/place_photos/siem-reap.jpg
+Vienna,,Austria,http://127.0.0.1:5555/static/place_photos/vienna.jpg
+Los Angeles,California,USA,http://127.0.0.1:5555/static/place_photos/los-angeles.jpg
+Marrakech,,Morocco,http://127.0.0.1:5555/static/place_photos/marrakech.jpg
+Hawaii,,USA,http://127.0.0.1:5555/static/place_photos/hawaii.jpg
+Boulder,Colorado,USA,http://127.0.0.1:5555/static/place_photos/boulder.jpg
