@@ -70,6 +70,8 @@ class Recipe(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key = True)
     description = db.Column(db.String, nullable = False)
+    user_id = db.Column(db.String, nullable = False)
+    image = db.Column(db.String(255))
 
     books = db.relationship('Book', secondary=recipe_book, back_populates='books')
 

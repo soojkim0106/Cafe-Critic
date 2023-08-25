@@ -87,7 +87,7 @@ class Books(Resource):
         if session.get('user_id'):
             try:
                 new_book = Book(
-                    category = request.get_json()['category']
+                    category = request.get_json()['category'],
                     user_id = session['user_id']
                 )
                 db.session.add(new_book)
@@ -146,7 +146,7 @@ class BookById(Resource):
         return {'error': 'unauthorized'}, 401
 
     
-class Recipes:
+class Recipes(Resource):
 
     def get(self):
 
@@ -164,7 +164,9 @@ class Recipes:
 
             try:
                 new_recipe = Recipe(
-                    description = request.get_json()['description']
+                    description = request.get_json()['description'],
+                    image = request.files['image'],
+                    user_id = session['user_id']
                 )
                 db.session.add(new_recipe)
                 db.session.commit()
@@ -173,7 +175,7 @@ class Recipes:
                 return {'error': 'Could not create recipe'}, 422
             
 # get specific recipe belonging to a book that belongs to a user   
-class RecipeByID:
+class RecipeByID(Resource):
 
     def get(self, book_id, recipe_id):
 
@@ -200,15 +202,13 @@ class RecipeByID:
         return {'error': 'Unauthorized'}, 401
 
 
-
-
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Books, '/books', endpoint='books')
 api.add_resource(BookById, '/book/<int:id>')
-api.add_resource(RecipeByID, '/book/<int:id>/recipe/<int:id>')
+api.add_resource(RecipeByID, '/book/<int:book_id>/recipe/<int:recipe_id>')
 
 
 if __name__ == '__main__':
