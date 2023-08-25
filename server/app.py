@@ -5,11 +5,12 @@
 # Remote library imports
 from flask import request, session
 from flask_restful import Resource
+from sqlalchemy.exc import IntegrityError
 
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Book, Recipe
+from models import User, Book, Recipe, recipe_book
 
 
 # Views go here!
@@ -70,12 +71,144 @@ class Logout(Resource):
         
         return {'error': 'Unauthorized'}, 401
     
+class Books(Resource):
+
+    def get(self):
+
+        if session.get('user_id'):
+            books = Book.query.filter(Book.user_id == session['user_id']).all()
+            if books:
+                return [b.to_dict() for b in books], 200
+            return {'error': 'books not found'}, 404
+        return {'error': 'Unauthorized'}, 401
+    
+    def post(self):
+
+        if session.get('user_id'):
+            try:
+                new_book = Book(
+                    category = request.get_json()['category']
+                    user_id = session['user_id']
+                )
+                db.session.add(new_book)
+                db.session.commit()
+                return new_book.to_dict(), 201
+            except IntegrityError:
+                return {'error': 'Could not create book'}, 422
+        return {'error': 'Unauthorized'}, 401
+    
+class BookById(Resource):
+
+    def get(self, id):
+
+        if session.get('user_id'):
+            book = Book.query.filter(Book.id == id and Book.user_id == session['user_id']).first()
+            if book:
+                return book.to_dict(rules = ('recipes')), 200
+            return {'error': 'Book not found'}, 404
+        return {'error': 'Unauthorized'}, 401
+    
+    def patch(self, id):
+
+        if session.get('user_id'):
+            book = Book.query.filter(Book.user_id == session['user_id'] and Book.id == id).first()
+            if book:
+                setattr(book, 'category', request.get_json()['category'])
+                db.session.add(book)
+                db.session.commit()
+                return book.to_dict(), 202
+            return {'error': 'Book not found'}, 404
+        return {'error': 'Unauthorized'}, 401
+    
+    def delete(self, id):
+
+        if session.get('user_id'):
+            book = Book.query.filter(Book.user_id == session['user_id'] and Book.id == id).first()
+            if book:
+                db.session.delete(book)
+                db.session.commit()
+                return {'Message': "Book deleted"}, 204 
+            return {'error': 'List not found'}, 404
+        return {'error': 'Unauthorized'}, 401
+    
+    def post(self, book_id):
+
+        if session.get('user_id'): 
+            book = Book.query.filter(Book.id == book_id)
+            recipe = Recipe.query.filter(Recipe.id == request.get_json()['recipe_id']).first()
+            if book and recipe:
+                if recipe not in book.recipes:
+                    book.recipes.append(recipe)
+                    db.session.commit()
+                    return book.to_dict(rules=('recipes',)), 201
+                return {'error': 'Recipe already in book'}, 400
+            return {'error': 'book or recipe not found'}, 404
+        return {'error': 'unauthorized'}, 401
+
+    
+class Recipes:
+
+    def get(self):
+
+        if session.get('user_id'):
+            recipes = Recipe.query.all()
+            if recipes:
+                return [r.to_dict(rules=('-description')) for r in recipes], 200
+            return {'error': 'no recipes found'}
+        
+        return {'error': 'Unauthorized'}, 401
+    
+    def post(self):
+
+        if session.get('user_id'):
+
+            try:
+                new_recipe = Recipe(
+                    description = request.get_json()['description']
+                )
+                db.session.add(new_recipe)
+                db.session.commit()
+                return new_recipe.to_dict(), 201
+            except IntegrityError:
+                return {'error': 'Could not create recipe'}, 422
+            
+# get specific recipe belonging to a book that belongs to a user   
+class RecipeByID:
+
+    def get(self, book_id, recipe_id):
+
+        if session.get('user_id'):
+            recipe = Recipe.query.filter(Recipe.books.id == book_id and Recipe.id == recipe_id).first()
+            if recipe:
+                return recipe.to_dict(rules=('description',)), 200
+            return {'error': 'Recipe not found'}, 404
+        return {'error': 'Unauthorized'}, 401
+
+    
+    def delete(self, book_id, recipe_id):
+
+        if session.get('user_id'): 
+            book = Book.query.filter(Book.id == book_id)
+            recipe = Recipe.query.filter(Recipe.books.id == book_id and Recipe.id == recipe_id).first()
+            if book and recipe:
+                if recipe in book.recipes:
+                    book.recipes.remove(recipe)
+                    db.session.commit()
+                    return book.to_dict(rules=('recipes')), 204
+                return {'error': 'recipe not in book'}, 400
+            return {'error': 'book or recipe not found'}, 404
+        return {'error': 'Unauthorized'}, 401
+
+
+
 
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
-
+api.add_resource(Books, '/books', endpoint='books')
+api.add_resource(BookById, '/book/<int:id>')
+api.add_resource(RecipeByID, '/book/<int:id>/recipe/<int:id>')
 
 
 if __name__ == '__main__':
