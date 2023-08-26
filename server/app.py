@@ -10,9 +10,7 @@ from sqlalchemy.exc import IntegrityError
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Book, Recipe, recipe_book
-
-
+from models import User, Book, Recipe
 # Views go here!
 
 @app.route('/')
@@ -31,7 +29,7 @@ class Signup(Resource):
             db.session.add(new_user)
             db.session.commit()
             session['user_id'] = new_user.id
-            return new_user.to_dict(rules=('books',)), 201
+            return new_user.to_dict(), 201
         
         return {'error': '422 Unprocessable Entity'}, 422
     
@@ -174,15 +172,20 @@ class Recipes(Resource):
             except IntegrityError:
                 return {'error': 'Could not create recipe'}, 422
             
-# get specific recipe belonging to a book that belongs to a user   
+#get specific recipe belonging to a book that belongs to a user   
 class RecipeByID(Resource):
 
     def get(self, book_id, recipe_id):
 
         if session.get('user_id'):
-            recipe = Recipe.query.filter(Recipe.books.id == book_id and Recipe.id == recipe_id).first()
+            # recipe = Recipe.query.filter(Recipe.books.id == book_id and Recipe.id == recipe_id).first()
+            # recipe = Recipe.query.filter(Recipe.books.any(Book.id == book_id) and Recipe.id == recipe_id).first()
+            recipe = Recipe.query.filter(Recipe.id == recipe_id).first()
             if recipe:
-                return recipe.to_dict(rules=('description',)), 200
+                book = Book.query.filter(Book.id == book_id).first()
+                if book and recipe in book.recipes:
+                    return recipe.to_dict(rules=('description',)), 200
+                return {'error': 'Recipe not associated with this book'}, 404
             return {'error': 'Recipe not found'}, 404
         return {'error': 'Unauthorized'}, 401
 

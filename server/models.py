@@ -5,7 +5,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from config import db, bcrypt
 # Models go here!
 
-recipe_book = db.Table('recipe_book_association', 
+recipe_book = db.Table('recipe_book', 
                        db.Column('recipe.id', db.Integer, db.ForeignKey('recipes.id'), primary_key=True),
                        db.Column('book.id', db.Integer, db.ForeignKey('books.id'), primary_key=True)
 )
@@ -14,13 +14,13 @@ class User(db.Model, SerializerMixin):
 
     __tablename__ = 'users'
 
-    serialize_rules = ('-_password_hash', '-books',)
+    serialize_rules = ('-_password_hash', '-user_books',)
 
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String)
 
-    books = db.relationship('Book', back_populates='user', cascade='all, delete, delete-orphan')
+    user_books = db.relationship('Book', back_populates='user', cascade='all, delete, delete-orphan')
 
     @hybrid_property
     def password_hash(self):
@@ -46,15 +46,15 @@ class Book(db.Model, SerializerMixin):
 
     __tablename__ = 'books'
 
-    serialize_rules = ('-user', '-recipe')
+    serialize_rules = ('-user',)
 
     id = db.Column(db.Integer, primary_key = True)
     category = db.Column(db.Integer, nullable = False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
 
-    user = db.relationship('User', back_populates='books')
-    recipes = db.relationship('Recipe', secondary=recipe_book, back_populates='books')
+    user = db.relationship('User', back_populates='user_books')
+    recipes = db.relationship('Recipe', secondary=recipe_book, back_populates='user_books')
 
     @validates('category')
     def validate_category(self, key, category):
@@ -73,15 +73,12 @@ class Recipe(db.Model, SerializerMixin):
     user_id = db.Column(db.String, nullable = False)
     image = db.Column(db.String(255))
 
-    books = db.relationship('Book', secondary=recipe_book, back_populates='books')
+    user_books = db.relationship('Book', secondary=recipe_book, back_populates='recipes')
 
     @validates('description')
     def validate_description(self, key, desc):
         if not desc or len(desc) < 1 or not isinstance(desc, str):
             raise ValueError
         return desc
-
-    
-
 
     
