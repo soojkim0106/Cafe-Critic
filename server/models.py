@@ -49,7 +49,7 @@ class Book(db.Model, SerializerMixin):
     serialize_rules = ('-user',)
 
     id = db.Column(db.Integer, primary_key = True)
-    category = db.Column(db.Integer, nullable = False)
+    category = db.Column(db.String, nullable = False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
 
@@ -66,12 +66,12 @@ class Recipe(db.Model, SerializerMixin):
 
     __tablename__ = 'recipes'
 
-    serialize_rules = ('-books')
+    serialize_rules = ('-user_books',)
 
     id = db.Column(db.Integer, primary_key = True)
     description = db.Column(db.String, nullable = False)
     user_id = db.Column(db.String, nullable = False)
-    image = db.Column(db.String(255))
+    image = db.Column(db.LargeBinary)
 
     user_books = db.relationship('Book', secondary=recipe_book, back_populates='recipes')
 

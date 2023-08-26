@@ -11,6 +11,7 @@ from sqlalchemy.exc import IntegrityError
 from config import app, db, api
 # Add your model imports
 from models import User, Book, Recipe
+import base64
 # Views go here!
 
 @app.route('/')
@@ -151,7 +152,8 @@ class Recipes(Resource):
         if session.get('user_id'):
             recipes = Recipe.query.all()
             if recipes:
-                return [r.to_dict(rules=('-description')) for r in recipes], 200
+                return [ {'id': r.id, 'image': base64.b64encode(r.image).decode('utf-8')} for r in recipes], 200
+            
             return {'error': 'no recipes found'}
         
         return {'error': 'Unauthorized'}, 401
@@ -159,11 +161,10 @@ class Recipes(Resource):
     def post(self):
 
         if session.get('user_id'):
-
             try:
                 new_recipe = Recipe(
-                    description = request.get_json()['description'],
-                    image = request.files['image'],
+                    description = request.form.get('description'),
+                    image = request.files['image'].read(),
                     user_id = session['user_id']
                 )
                 db.session.add(new_recipe)
@@ -211,6 +212,7 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Books, '/books', endpoint='books')
 api.add_resource(BookById, '/book/<int:id>')
+api.add_resource(Recipes, '/recipes', endpoint='recipes')
 api.add_resource(RecipeByID, '/book/<int:book_id>/recipe/<int:recipe_id>')
 
 
