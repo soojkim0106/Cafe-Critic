@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, setIsFlipped } from "react";
 import { Switch, Route } from "react-router-dom";
 
 function App() {
@@ -17,6 +17,6 @@ const FlipBook = () => {
       <div className="page page-back">Page 2</div>
     </div>
   );
-};
+
 
 export default FlipBook;
