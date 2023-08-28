@@ -72,7 +72,7 @@ class Recipe(db.Model, SerializerMixin):
     description = db.Column(db.String, nullable = False)
     ingredients = db.Column(db.String, nullable = False)
     user_id = db.Column(db.String, nullable = False)
-    image = db.Column(db.LargeBinary)
+    image = db.Column(db.String)
 
     user_books = db.relationship('Book', secondary=recipe_book, back_populates='recipes')
 
