@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
-
-function App() {
-  return <h1>Phase 4 Project Client</h1>;
-}
+import Nav from './Nav'
+import signup from './signup'
 
 handleSubmit = (event) => {
   fetch('http://localhost:5555', {
@@ -14,6 +12,18 @@ handleSubmit = (event) => {
     });
 
   event.preventDefault();
+}
+
+function App() {
+  return (
+    <div>
+      <Nav />
+      <Switch>
+        <Route exact path="/" render={() => <Home/>} />
+        <Route exact path="/signup" render={() => <signup />} />
+      </Switch>
+    </div>
+  )
 }
 
 export default App;
