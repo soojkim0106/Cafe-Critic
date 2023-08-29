@@ -72,3 +72,5 @@ const signUpPage = () => {
         <button type="submit">Sign Up</button>
       </form>
        </div>)}
+       
+export default signUpPage
