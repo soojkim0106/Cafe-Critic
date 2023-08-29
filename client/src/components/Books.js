@@ -11,12 +11,13 @@ function Books(){
     const [prev, setPrev] = useState(0)
     const [selBook, setBook] = useState(<div>__________</div>)
     const [selRecipes, setRecipes] = useState([])
+    const [allRecipes, setAllRecipes] = useState([])
     const [rindex, setRindex] = useState(0)
 
     useEffect(()=>{
         fetch('/recipes')
         .then((r) => r.json())
-        .then((data) => setRecipes(data))
+        .then((data) => setAllRecipes(data))
     })
 
     useEffect(()=>{
@@ -64,6 +65,13 @@ function Books(){
                     {rindex === 0 ? <></> : <button onClick={prevRecipe}>{'\u276c'}</button>}<button onClick={removeRecipe(selRecipes[rindex])}>Remove Recipe</button>{rindex === selRecipes.length-1 ? <></> : <button onClick={nextRecipe}>{'\u276d'}</button>}
                 </div>
             </div>}
+            <div>
+                {allRecipes.map((recipe) => {
+                    <div key={recipe.id}>
+                        <img src ={recipe.img} />
+                    </div>
+                })}
+            </div>
         </div>
     )
 }
