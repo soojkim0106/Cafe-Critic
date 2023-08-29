@@ -1,5 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import Recipe from "./Recipe";
+import Carousel from "./Carousel";
 
 function Books(){
 
@@ -48,39 +50,20 @@ function Books(){
         setRecipes(currentBook.recipes)
     }
 
+    function removeRecipe()
+
+
     return (
         <div>
+            <Carousel books = {books} prev ={prev} current={current} next={next} loadBook={loadBook} prevBook={prevBook} nextBook={nextBook}/>
+            {selRecipes === [] ? 
+            <h2>No Recipes</h2> : 
             <div>
+                <Recipe recipe = {selRecipes[rindex]}/>
                 <div>
-                    <div>
-                        {books[prev] === undefined ? <div></div> : <div><h2>{books[prev].category}</h2></div>}
-                        {books[current] === undefined ? <div></div> : <div onClick={loadBook(books[current])}><h2>{books[current].category}</h2></div>}
-                        {books[prev] === undefined ? <div></div> : <div><h2>{books[next].category}</h2></div>}
-                    </div>
-                    <div>
-                        <button onClick={prevBook}>{'\u276c'}</button><button onClick={nextBook}>{'\u276d'}</button>
-                    </div>
-                    <div>
-                        <div>
-                            {selRecipes === [] ? 
-                            <div>
-                                <h2>No Recipes</h2>
-                            </div> : 
-                            <div>
-                                <img src = {setRecipes[rindex].image}/>
-                                <span>{setRecipes[rindex].ingredients}</span>
-                                <span>{setRecipes[rindex].description}</span>
-                            </div>
-                            }
-                            <div>
-                                <div>
-                                    {rindex === 0 ?<></> : <button onClick={prevRecipe}>{'\u276c'}</button>}{rindex === selRecipes.length-1 ? <></> : <button onClick={nextRecipe}>{'\u276d'}</button>}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {rindex === 0 ? <></> : <button onClick={prevRecipe}>{'\u276c'}</button>}<button onClick={removeRecipe(selRecipes[rindex])}>Remove Recipe</button>{rindex === selRecipes.length-1 ? <></> : <button onClick={nextRecipe}>{'\u276d'}</button>}
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }
