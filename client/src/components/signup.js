@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
-function SignupPage(){
+function Signup(){
 
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
     password: '',
     confirmPassword: '',
   });
@@ -34,8 +34,10 @@ function SignupPage(){
 
       if (response.ok) {
         // User successfully registered
+
         alert('Registration successful!');
         // Redirect user or perform other actions
+        useNavigate('/signin')
       } else {
         const data = await response.json();
         alert(`Registration failed: ${data.message}`);
@@ -74,4 +76,4 @@ function SignupPage(){
       </form>
        </div>)}
 
-export default SignupPage
+export default Signup
