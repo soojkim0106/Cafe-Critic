@@ -33,3 +33,59 @@
   transform: rotateY(180deg);
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.carousel {
+  overflow: hidden;
+  width: 80%;
+  max-width: 800px;
+  position: relative;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.carousel-nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 0 5px;
+  font-size: 18px;
+  color: #333;
+}
+
+.carousel-nav button:focus {
+  outline: none;
+}
+
+.carousel-nav button.active {
+  font-weight: bold;
+  color: #000;
+}
