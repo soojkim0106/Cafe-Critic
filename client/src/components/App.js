@@ -17,6 +17,5 @@ const FlipBook = () => {
       <div className="page page-back">Page 2</div>
     </div>
   );
-};
 
 export default FlipBook;
