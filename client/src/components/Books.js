@@ -51,7 +51,9 @@ function Books(){
         setRecipes(currentBook.recipes)
     }
 
-    function removeRecipe()
+    function removeRecipe(){
+        return 1
+    }
 
 
     return (

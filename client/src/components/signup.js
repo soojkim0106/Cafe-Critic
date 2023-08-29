@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 
 function Signup(){
@@ -9,6 +9,8 @@ function Signup(){
     password: '',
     confirmPassword: '',
   });
+
+  const [status, setStatus] = useState(false)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -35,9 +37,9 @@ function Signup(){
       if (response.ok) {
         // User successfully registered
 
-        alert('Registration successful!');
+        //alert('Registration successful!');
         // Redirect user or perform other actions
-        useNavigate('/signin')
+        setStatus(true)
       } else {
         const data = await response.json();
         alert(`Registration failed: ${data.message}`);
@@ -46,6 +48,10 @@ function Signup(){
       console.error('Error during registration:', error);
     }
   };
+
+  if (status){
+    return <Redirect to='/signin'/>
+  }
 
   return (
     <div className="sign-up-page">

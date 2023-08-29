@@ -6,9 +6,6 @@ const HomePage = () => {
       <header className="header">
         <nav className="nav">
           <div className="logo">Your Logo</div>
-          <div className="login-button">
-            <button>Login</button>
-          </div>
         </nav>
       </header>
       <main className="main-content">
