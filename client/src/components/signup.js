@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react'
 
 
-const signUpPage = () => {
+function SignupPage(){
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -72,5 +73,5 @@ const signUpPage = () => {
         <button type="submit">Sign Up</button>
       </form>
        </div>)}
-       
-export default signUpPage
+
+export default SignupPage
