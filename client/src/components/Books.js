@@ -70,7 +70,7 @@ function Books(){
             <div>
                 {allRecipes.map((recipe) => {
                     <div key={recipe.id}>
-                        <img src ={recipe.img} />
+                        <img src ={recipe.image} />
                     </div>
                 })}
             </div>

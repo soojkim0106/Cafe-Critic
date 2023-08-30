@@ -4,7 +4,7 @@ function Recipe({recipe}){
 
     return (
         <div>
-            <img src={recipe.img}/>
+            <img src={recipe.image}/>
             <span>{recipe.ingredients}</span>
             <span>{recipe.description}</span>
         </div>
