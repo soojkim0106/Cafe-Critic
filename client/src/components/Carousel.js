@@ -1,5 +1,5 @@
 import React from 'react';
-import './carouselStyles.css';
+
 
 function Carousel({ books, prev, current, next, loadBook, prevBook, nextBook }) {
   return (

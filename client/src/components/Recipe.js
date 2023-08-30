@@ -1,5 +1,3 @@
-import './index.css';
-
 function Recipe({recipe}){
 
     return (
