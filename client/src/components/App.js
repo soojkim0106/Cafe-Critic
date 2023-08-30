@@ -30,7 +30,7 @@ function App () {
   return (
 
     <div>
-      <div>Header</div>
+      <h1>𝓖𝓸𝓸𝓭 𝓔𝓪𝓽 𝓜𝓪𝓽𝓮</h1>
       <Nav user={user} logout={logout}/>
       <Switch>
         <Route exact path='/' render={() => <Home/>} />

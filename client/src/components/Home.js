@@ -6,7 +6,6 @@ const HomePage = () => {
     <div className="home-page">
       <header className="header">
         <nav className="nav">
-          <div className="logo">Your Logo</div>
         </nav>
       </header>
       <main className="main-content">

@@ -32,23 +32,31 @@ function Signin({onLogin}){
         return <Redirect to='/home'/>
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Username</label>
-            <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                />
-
-            <label>Password</label>
-            <input
-                type="text"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                />
-            <button type="submit">Submit</button>
-        </form>
-    )       
+        <div className="form-container">
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+    
+                <div className="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+    
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    );
+           
 }
 
 export default Signin
