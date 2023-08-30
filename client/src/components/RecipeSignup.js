@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef} from 'react';
 
+
 function YourComponent({user}) {
 
-    const [form, setform] = useState({
+    const [formData, setForm] = useState({
+        user_id: user.id,
+        book: "",
         name: "",
         image: "",
         ingredients: "",
@@ -12,76 +15,57 @@ function YourComponent({user}) {
     const cloudinaryRef = useRef()
     const widgetRef = useRef()
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
+    function handleChange(event) {
+        const { name, value } = event.target;
+        setForm({...formData, [name]: value})
+    }
+
+    function openWidget () {
+        widgetRef.current.open();
+    }
+
+    useEffect(() => {
+        console.log(window.cloudinary)
+        widgetRef.current = window.cloudinary.createUploadWidget({
+            cloudName: 'dcejyrcsu',
+            uploadPreset: 'gz5dnomm'
+        } , (error, result) => {
+            if (result.event === 'success'){
+                setForm({...formData, image: result.info.url})
+            }
+        })
+    }, [])
+
+    const handleSubmit = async(event) =>{
+        event.preventDefault()
+        try{
             const response = await fetch('http://localhost:5555/recipes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify(formData),
             })
-
-            if (response.ok){
-                console.log("Success")
-                setform({
+            if (response.ok) {
+                console.log(response)
+                setForm({
                     name: "",
+                    image: "",
                     ingredients: "",
-                    description: ""
+                    description: "",
                 })
-            }else {
-                const data = await response.json()
-                alert(`Error: ${data.message}`)
             }
-        }catch (error){
-            console.error('Error during submit', error);
+
+        }catch(error){
+            console.error('Error during submit', error)
         }
     }
 
-    function handleSubmit (){
-        useEffect(() => {
-            console.log(window.cloudinary)
-            cloudinaryRef.current = window.cloudinary;
-            widgetRef.current = cloudinaryRef.current.createUploadWidget({
-                cloudName: 'dcejyrcsu',
-                uploadPreset: 'gz5dnomm'
-            }, function (error, result) {
-                // console.log(result)
-                if (result.event == "success") {
-                    console.log(result)
-                    console.log(result.info.url)
-                    // 
-                    fetch('http://localhost:5555/recipes', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            "image": result.info.url,
-                            "description": form.name,
-                            "ingredients": form.ingredients,
-                            "description": form.description
-                        }),
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            setImageList(prevImageList => [...prevImageList, data.publicId])
-                            console.log('Success:', data);
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        });
-                }
-                else {
-                    console.log(result)
-                }
-            })
-    
-        }, [])
-    }
-
     return (
+        !user.books ? 
+        <div>
+            <h2>No books to add recipes to</h2>
+        </div>:
         <div>
             <header>
                 <h1>New Recipes</h1>
@@ -89,39 +73,41 @@ function YourComponent({user}) {
             <div className="container">
                 <h2>Add a New Recipe</h2>
                 <form className="recipe-form" onSubmit={handleSubmit}>
-                <label htmlFor="recipe-name">Recipe Name:</label> 
-                <input 
+                    <label>Select book this recipe belongs to:</label>
+                    <select 
+                        name="book"
+                        onChange={handleChange}>
+                        {user.books.map(book => <option key={book.id} value={book.category}>{book.category}</option>)}
+                    </select>
+                    <label htmlFor="recipe-name">Recipe Name:</label> 
+                    <input 
                         id="recipe-name" 
-                        name="recipe-name" required 
+                        name="name" required 
                         onChange={handleChange}/>
-                         <label htmlFor="ingredients">Ingredients:</label>
-                         <label htmlsFor="image">Image</label>
+                    <label htmlsFor="image">Image</label>
                     <input 
                         id="image"
                         type="button"
                         name="image" required
-                        onClick={uploadImage}
+                        onClick={openWidget}
                         />
+                    <label htmlFor="ingredients">Ingredients:</label>
                     <textarea 
                         id="ingredients" 
                         name="ingredients" 
                         rows="4" required 
                         onChange={handleChange}></textarea>
-                         <label htmlFor="Directions">Directions:</label>
-                         <textarea 
+                    <label htmlFor="Directions">Directions:</label>
+                    <textarea 
                         id="Directions" 
                         name="description" 
                         rows="6" required 
                         onChange={handleChange}></textarea>
-                         <button type="submit">Write your own recipe!</button>
+                    <button type="submit">Write your own recipe!</button>
                 </form>
             </div>
         </div>
     );
-<<<<<<< HEAD
 }
 
 export default YourComponent
-=======
-}    export default YourComponent
->>>>>>> b5f9b259f12bf8eb2a54b036c9ccc126cbe94836
