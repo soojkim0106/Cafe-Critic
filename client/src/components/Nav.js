@@ -14,6 +14,9 @@ function Nav({user, logout}){
             <NavLink to={'/books'} exact>
                 <span>My Books</span>
             </NavLink>
+            <NavLink to={'/brSignup'}>
+                <span>Add books/recipes</span>
+            </NavLink>
             <button onClick={logout}>Logout</button>
         </div> :
         <div>

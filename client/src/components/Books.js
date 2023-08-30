@@ -2,8 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Recipe from "./Recipe";
 import Carousel from "./Carousel";
+import AllRecipes from './AllRecipes'
+import BookSignup from "./BookSignup";
+import RecipeSignup from './RecipeSignup'
 
-function Books(){
+function Books({user}){
 
     const [books, setBooks] = useState([])
     const [current, setCurrent] = useState(1)
@@ -13,6 +16,8 @@ function Books(){
     const [selRecipes, setRecipes] = useState([])
     const [allRecipes, setAllRecipes] = useState([])
     const [rindex, setRindex] = useState(0)
+    const [renderIndex, setRenderIndex] = useState(0)
+    const renderArr = [<AllRecipes allRecipes={allRecipes}/>, <BookSignup />, <RecipeSignup/>]
 
     useEffect(()=>{
         fetch('/recipes')
@@ -55,8 +60,12 @@ function Books(){
         return 1
     }
 
+    function changView(e){
+        setRenderIndex(parseInt(e.target.id))
+    }
 
     return (
+        user !== null ?
         <div>
             <Carousel books = {books} prev ={prev} current={current} next={next} loadBook={loadBook} prevBook={prevBook} nextBook={nextBook}/>
             {selRecipes === [] ? 
@@ -64,17 +73,21 @@ function Books(){
             <div>
                 <Recipe recipe = {selRecipes[rindex]}/>
                 <div>
-                    {rindex === 0 ? <></> : <button onClick={prevRecipe}>{'\u276c'}</button>}<button onClick={removeRecipe(selRecipes[rindex])}>Remove Recipe</button>{rindex === selRecipes.length-1 ? <></> : <button onClick={nextRecipe}>{'\u276d'}</button>}
+                    {rindex === 0 ? <></> : <button onClick={prevRecipe}>{'\u276c'}</button>}
+                    <button onClick={removeRecipe(selRecipes[rindex])}>Remove Recipe</button>
+                    {rindex === selRecipes.length-1 ? <></> : <button onClick={nextRecipe}>{'\u276d'}</button>}
                 </div>
             </div>}
             <div>
-                {allRecipes.map((recipe) => {
-                    <div key={recipe.id}>
-                        <img src ={recipe.image} />
-                    </div>
-                })}
+                <div>
+                    <button id='0'onClick={(e) => changView}>View Recipes</button>
+                    <button id='1'onClick={(e) => changView}>Add Book</button>
+                    <button id='2' onClick={(e) => changView}>Add Recipe</button>
+                </div>
+                {renderArr[renderIndex]}
             </div>
-        </div>
+        </div> :
+        <span>Error must be logged in</span>
     )
 }
 
