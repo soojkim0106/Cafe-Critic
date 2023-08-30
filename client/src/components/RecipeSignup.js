@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef} from 'react';
 
-
 function YourComponent({user}) {
 
     const [formData, setForm] = useState({
-        user_id: user.id,
-        book: "",
+        book_id: "",
         name: "",
         image: "",
         ingredients: "",
@@ -26,7 +24,9 @@ function YourComponent({user}) {
 
     useEffect(() => {
         console.log(window.cloudinary)
-        widgetRef.current = window.cloudinary.createUploadWidget({
+        cloudinaryRef.current = window.cloudinary
+        widgetRef.current = cloudinaryRef.current.createUploadWidget({
+        
             cloudName: 'dcejyrcsu',
             uploadPreset: 'gz5dnomm'
         } , (error, result) => {
@@ -77,7 +77,7 @@ function YourComponent({user}) {
                     <select 
                         name="book"
                         onChange={handleChange}>
-                        {user.books.map(book => <option key={book.id} value={book.category}>{book.category}</option>)}
+                        {user.books.map(book => <option key={book.id} value={book.id}>{book.category}</option>)}
                     </select>
                     <label htmlFor="recipe-name">Recipe Name:</label> 
                     <input 
