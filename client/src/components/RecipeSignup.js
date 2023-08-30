@@ -9,6 +9,9 @@ function YourComponent({user}) {
         description: "",
     })
 
+    const cloudinaryRef = useRef()
+    const widgetRef = useRef()
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
@@ -20,28 +23,64 @@ function YourComponent({user}) {
                 body: JSON.stringify(form),
             })
 
-            // if (response.ok){
-            //     console.log("Success")
-            //     setform({
-            //         name: "",
-            //         ingredients: "",
-            //         description: ""
-            //     })
-            // }else {
-            //     const data = await response.json()
-            //     alert(`Error: ${data.message}`)
-            // }
+            if (response.ok){
+                console.log("Success")
+                setform({
+                    name: "",
+                    ingredients: "",
+                    description: ""
+                })
+            }else {
+                const data = await response.json()
+                alert(`Error: ${data.message}`)
+            }
         }catch (error){
             console.error('Error during submit', error);
         }
     }
 
-    function uploadImage (files){
-        useEffect
-        setform({...form, image: files[0]})
+    function handleSubmit (){
+        useEffect(() => {
+            console.log(window.cloudinary)
+            cloudinaryRef.current = window.cloudinary;
+            widgetRef.current = cloudinaryRef.current.createUploadWidget({
+                cloudName: 'dcejyrcsu',
+                uploadPreset: 'gz5dnomm'
+            }, function (error, result) {
+                // console.log(result)
+                if (result.event == "success") {
+                    console.log(result)
+                    console.log(result.info.url)
+                    // 
+                    fetch('http://localhost:5555/recipes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "image": result.info.url,
+                            "description": form.name,
+                            "ingredients": form.ingredients,
+                            "description": form.description
+                        }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            setImageList(prevImageList => [...prevImageList, data.publicId])
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                }
+                else {
+                    console.log(result)
+                }
+            })
+    
+        }, [])
     }
 
-function YourComponent() {
     return (
         <div>
             <header>
@@ -66,4 +105,4 @@ function YourComponent() {
     );
 }
 
-export default RecipeSignUp;
+export default YourComponent
