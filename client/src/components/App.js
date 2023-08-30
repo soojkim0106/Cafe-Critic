@@ -5,6 +5,7 @@ import Signin from './Signin'
 import Books from './Books'
 import { Switch, Route } from 'react-router-dom'
 import { useState, useEffect} from 'react'
+import Footer from "./Footer"
 
 function App () {
 
@@ -36,6 +37,7 @@ function App () {
         <Route exact path='/signin' render={() => <Signin onLogin={onLogin}/>}/>
         <Route exact path='/books' render={() => <Books />}/>
       </Switch>
+      <Footer/>
     </div>
   );
 };

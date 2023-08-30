@@ -31,9 +31,6 @@ const HomePage = () => {
         </section>
         {/* Other main content sections */}
       </main>
-      <footer className="footer">
-        {/* Footer content */}
-      </footer>
     </div>
   );
 };

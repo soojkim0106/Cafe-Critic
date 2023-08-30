@@ -1,6 +1,6 @@
 import React from 'react';
 
-function YourComponent() {
+function RecipeSignUp() {
     return (
         <div>
             <header>
@@ -12,9 +12,9 @@ function YourComponent() {
                     <label htmlFor="recipe-name">Recipe Name:</label>
                     <input id="recipe-name" name="recipe-name" required />
                     <label htmlFor="ingredients">Ingredients:</label>
-                    <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
+                    <textarea id="ingredients" name="ingredients" rows="6" required></textarea>
                     <label htmlFor="Directions">Directions:</label>
-                    <textarea id="Directions" name="Directions" rows="6" required></textarea>
+                    <textarea id="Directions" name="Directions" rows="10" required></textarea>
                     <button type="submit">Write your own recipe!</button>
                 </form>
             </div>
@@ -22,4 +22,4 @@ function YourComponent() {
     );
 }
 
-export default YourComponent;
+export default RecipeSignUp;
