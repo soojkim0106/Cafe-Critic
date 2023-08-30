@@ -18,7 +18,6 @@ function Signin({onLogin}){
             body: JSON.stringify({username, password}),
         }).then((r) => {
             if (r.ok){
-                alert("logged in")
                 r.json().then((user) => onLogin(user))
                 setStatus(true)
             }else{

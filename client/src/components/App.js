@@ -1,6 +1,6 @@
 import Nav from './Nav'
 import Home from './Home'
-import Signup from './signup'
+import Signup from './Signup'
 import Signin from './Signin'
 import Books from './Books'
 import { Switch, Route } from 'react-router-dom'
