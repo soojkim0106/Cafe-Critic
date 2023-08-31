@@ -1,0 +1,482 @@
+/* Books */
+
+.recipe-app {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
+
+.header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #ee6e73;
+  color: #fff;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.carousel {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.recipes {
+  flex: 2;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-details {
+  display: flex;
+  align-items: center;
+}
+.recipe {
+  flex: 3;
+  margin-right: 20px;
+}
+
+.recipe-navigation {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button,
+.remove-button {
+  font-size: 24px;
+  background-color: #ee6e73;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover,
+.remove-button:hover {
+  background-color: #f44336;
+}
+
+.all-recipes {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.recipe-thumbnail {
+  flex: 1;
+}
+
+.recipe-thumbnail img {
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* HomePage */
+
+h1 {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 2rem 0;
+  background: linear-gradient(120deg, #f8b400, #ff6f69);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: 'Comic Sans MS', cursive; /* Change this line */
+}
+
+
+.home-page {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}.main-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.about-section {
+  margin-bottom: 40px;
+}
+
+.about-section h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.about-section p {
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+/* Nav*/
+
+.navigation {
+  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.navigation h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navigation a:hover {
+  color: #ee6e73;
+}
+
+.logout-button:hover {
+  background-color: #f44336;
+}
+
+.navigation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-link {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #f0f0f0;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.logout-button {
+padding: 10px 20px;
+margin: 10px;
+background-color: #e74c3c;
+color: #fff;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+/* RecipeSignUp */
+
+.header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+}
+
+h2:hover {
+  color: #ff6f69;
+}
+
+h2 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.about-section {
+  background-color: #f9f9f9;
+  padding: 40px 0;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.about-section p:last-child {
+  margin-bottom: 0;
+}
+
+.about-section {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #666;
+}
+.recipe-form input,
+.recipe-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.recipe-form button {
+  background-color: #ee6e73;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.recipe-form button:hover {
+  background-color: #f44336;
+}
+/* Signin */
+
+.signin-form {
+  font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #ee6e73;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #f44336;
+}
+
+.error-message {
+  margin-top: 10px;
+  color: #f44336;
+}
+
+.error-message p {
+  margin: 5px 0;
+}
+
+.form-container {
+  margin: 100px;
+}
+
+
+.form-group {
+  margin-bottom: 50px;
+}
+
+
+.sign-up-page {
+  font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #ee6e73;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #f44336;
+}
+/* Carousel */
+
+.carousel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.book-content {
+  width: 200px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.book-content:hover {
+  background-color: #ee6e73;
+  color: #fff;
+}
+
+.book-title {
+  font-size: 18px;
+  text-align: center;
+}
+
+.nav-buttons {
+  margin-top: 10px;
+}
+
+.nav-button {
+  background-color: #ee6e73;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin: 0 5px;
+}
+/* Footer */
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+/*BookSignUp*/
+.book-form {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
