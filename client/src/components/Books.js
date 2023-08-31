@@ -64,6 +64,50 @@ function Books({user}){
         setRenderIndex(parseInt(e.target.id))
     }
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setRecipe({ ...recipe, [name]: value });
+      };
+    
+      return (
+        <div>
+          <h1>Book Form</h1>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Recipe Name"
+              value={recipe?.name}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="ingredients"
+              placeholder="Ingredients"
+              value={recipe?.ingredients}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="instructions"
+              placeholder="Instructions"
+              value={recipe?.instructions}
+              onChange={handleChange}
+            />
+            <button type="submit">Save Recipe</button>
+          </form>
+          <Carousel>
+            {recipes.map((recipe) => (
+              <Carousel.Item key={recipe.id}>
+                <img src={recipe.image} alt={recipe.name} />
+                <h3>{recipe.name}</h3>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        </div>
+      );
+    };
+
     return (
         user !== null ?
         <div>
