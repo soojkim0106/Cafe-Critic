@@ -453,3 +453,30 @@ button:hover {
   text-align: center;
   padding: 20px 0;
 }
+/*BookSignUp*/
+.book-form {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
