@@ -16,7 +16,7 @@ function Books({user}){
     const [selRecipes, setRecipes] = useState([])
     const [allRecipes, setAllRecipes] = useState([])
     const [rindex, setRindex] = useState(0)
-    const [renderIndex, setRenderIndex] = useState(0)
+    const [renderIndex, setRenderIndex] = useState(1)
     const renderArr = [<AllRecipes allRecipes={allRecipes}/>, <BookSignup />, <RecipeSignup/>]
 
     useEffect(()=>{
@@ -68,7 +68,7 @@ function Books({user}){
         user !== null ?
         <div>
             <Carousel books = {books} prev ={prev} current={current} next={next} loadBook={loadBook} prevBook={prevBook} nextBook={nextBook}/>
-            {selRecipes === [] ? 
+            {selRecipes.length === 0 ? 
             <h2>No Recipes</h2> : 
             <div>
                 <Recipe recipe = {selRecipes[rindex]}/>
@@ -80,9 +80,9 @@ function Books({user}){
             </div>}
             <div>
                 <div>
-                    <button id='0'onClick={(e) => changView}>View Recipes</button>
-                    <button id='1'onClick={(e) => changView}>Add Book</button>
-                    <button id='2' onClick={(e) => changView}>Add Recipe</button>
+                    <button id='0'onClick={(e) => changView(e)}>View Recipes</button>
+                    <button id='1'onClick={(e) => changView(e)}>Add Book</button>
+                    <button id='2' onClick={(e) => changView(e)}>Add Recipe</button>
                 </div>
                 {renderArr[renderIndex]}
             </div>
