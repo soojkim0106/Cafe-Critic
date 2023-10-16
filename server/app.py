@@ -82,6 +82,13 @@ class UserByID(Resource):
         if not user_hold:
             return make_response("Boi not found", 404)
         return make_response(user_hold.to_dict(), 200)
+    def delete(self, id):
+        user_hold = User.query.filter_by(id=id).one_or_none()
+        if not user_hold:
+            return make_response("Boi not found", 404)
+        db.session.delete(user_hold)
+        db.session.commit()
+        return make_response("Successful delete",204)
 
 
 api.add_resource(UserByID, "/users/<int:id>")

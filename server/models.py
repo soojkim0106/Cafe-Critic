@@ -12,7 +12,7 @@ class User(db.Model, SerializerMixin):
     fname = db.Column(db.String)
     lname = db.Column(db.String)
 
-    adoptions = db.relationship("Adoption", backref="user")
+    adoptions = db.relationship("Adoption", backref="user", cascade="all, delete")
 
     serialize_rules = ("-adoptions.user",)
 
@@ -31,7 +31,7 @@ class Pet(db.Model, SerializerMixin):
     breed = db.Column(db.String)
     type = db.Column(db.String)
 
-    adoptions = db.relationship("Adoption", backref="pet")
+    adoptions = db.relationship("Adoption", backref="pet", cascade="all, delete")
 
     serialize_rules = ("-adoptions.pet",)
 
