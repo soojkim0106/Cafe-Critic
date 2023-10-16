@@ -24,6 +24,18 @@ class UserList(Resource):
     def get(self):
         return_list = [u.to_dict() for u in User.query.all()]
         return make_response(return_list, 200)
+    def post(self):
+        data = request.get_json()
+        try:
+            user_hold = User(
+                fname=data["fname"],
+                lname=data["lname"]
+            )
+            db.session.add(user_hold)
+            db.session.commit()
+            return make_response(user_hold.to_dict(),201)
+        except:
+            return make_response("Failed to create user",400)
 
 
 api.add_resource(UserList, "/users")
