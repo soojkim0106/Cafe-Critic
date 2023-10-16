@@ -62,16 +62,19 @@ class AdoptionList(Resource):
     def get(self):
         rtrn_list = [a.to_dict() for a in Adoption.query.all()]
         return make_response(rtrn_list, 200)
-    
+
     def post(self):
         data = request.get_json()
         try:
-            adopt_hold = Adoption(user_id=int(data["user_id"]), pet_id=int(data["pet_id"]))
+            adopt_hold = Adoption(
+                user_id=int(data["user_id"]), pet_id=int(data["pet_id"])
+            )
             db.session.add(adopt_hold)
             db.session.commit()
             return make_response(adopt_hold.to_dict(), 201)
         except:
             return make_response("Failed to create adoption", 400)
+
 
 api.add_resource(AdoptionList, "/adoptions")
 
@@ -82,13 +85,14 @@ class UserByID(Resource):
         if not user_hold:
             return make_response("Boi not found", 404)
         return make_response(user_hold.to_dict(), 200)
+
     def delete(self, id):
         user_hold = User.query.filter_by(id=id).one_or_none()
         if not user_hold:
             return make_response("Boi not found", 404)
         db.session.delete(user_hold)
         db.session.commit()
-        return make_response("Successful delete",204)
+        return make_response("Successful delete", 204)
 
 
 api.add_resource(UserByID, "/users/<int:id>")
@@ -101,6 +105,14 @@ class PetByID(Resource):
             return make_response("Good boi not found", 404)
         return make_response(pet_hold.to_dict(), 200)
 
+    def delete(self, id):
+        pet_hold = Pet.query.filter_by(id=id).one_or_none()
+        if not pet_hold:
+            return make_response("Bad boi not found", 404)
+        db.session.delete(pet_hold)
+        db.session.commit()
+        return make_response("Successful delete", 204)
+
 
 api.add_resource(PetByID, "/pets/<int:id>")
 
@@ -111,6 +123,7 @@ class AdoptionByID(Resource):
         if not adopt_hold:
             return make_response("Every good boi deserves a good home", 404)
         return make_response(adopt_hold.to_dict(), 200)
+
 
 api.add_resource(AdoptionByID, "/adoptions/<int:id>")
 
