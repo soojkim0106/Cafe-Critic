@@ -13,7 +13,6 @@ from models import db, User, Pet, Adoption
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
-        db.create_all()
         print("Starting seed...")
         # Seed code goes here!
 
@@ -23,6 +22,7 @@ if __name__ == '__main__':
         Pet.query.delete()
         User.query.delete()
         Adoption.query.delete()
+        db.create_all()
 
         print("Creating pets...")
         pet1 = Pet(name="Fido", breed='pet1', type='pet1')
