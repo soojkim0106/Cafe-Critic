@@ -62,7 +62,16 @@ class AdoptionList(Resource):
     def get(self):
         rtrn_list = [a.to_dict() for a in Adoption.query.all()]
         return make_response(rtrn_list, 200)
-
+    
+    def post(self):
+        data = request.get_json()
+        try:
+            adopt_hold = Adoption(user_id=int(data["user_id"]), pet_id=int(data["pet_id"]))
+            db.session.add(adopt_hold)
+            db.session.commit()
+            return make_response(adopt_hold.to_dict(), 201)
+        except:
+            return make_response("Failed to create adoption", 400)
 
 api.add_resource(AdoptionList, "/adoptions")
 
@@ -95,7 +104,6 @@ class AdoptionByID(Resource):
         if not adopt_hold:
             return make_response("Every good boi deserves a good home", 404)
         return make_response(adopt_hold.to_dict(), 200)
-
 
 api.add_resource(AdoptionByID, "/adoptions/<int:id>")
 
