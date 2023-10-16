@@ -66,8 +66,16 @@ class PetByID(Resource):
         return make_response(pet_hold.to_dict(), 200)
 
 
-api.add_resource(PetByID, "/pets/<int:id>")
+api.add_resource(PetByID, "/pets/<int:id>") 
 
+class AdoptionByID(Resource):
+    def get(self, id):
+        adopt_hold = Adoption.query.filter_by(id=id).one_or_none()
+        if not adopt_hold:
+            return make_response("Every good boi deserves a good home", 404)
+        return make_response(adopt_hold.to_dict(), 200)
+
+api.add_resource(AdoptionByID, "/adoptions/<int:id>") 
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
