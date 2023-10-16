@@ -4,3 +4,10 @@
   --link: #61dafb;
   --text: hsla(0, 0%, 100%, 0.88);
 }
+
+
+.navigation-bar {
+  position: relative; /* Add relative positioning to the header */
+  background-color: #FFF2EF;
+  height: 70px; /* Adjust the header height as needed */
+}

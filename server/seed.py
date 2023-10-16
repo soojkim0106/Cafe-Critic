@@ -1,5 +1,8 @@
-from your_flask_app import db, User, Closet, ClothingItem
+
+from app import app
+from models import db, User, Closet, ClothingItem
 from faker import Faker
+
 
 # Initialize Faker for generating fake user data
 fake = Faker()
@@ -11,15 +14,17 @@ def seed_database():
 
     for _ in range(3):
         user_data = {
+            "name": fake.name(),
             "username": fake.user_name(),
-            "email": fake.email(),
+            # "email": fake.word(),
             "password": "password1",  # You can set a common password for fake users
         }
         users_data.append(user_data)
-
-    for user_data in users_data:
-        user = User(**user_data)
-        db.session.add(user)
+        db.session.add_all(users_data)
+        db.session.commit()
+    # for user_data in users_data:
+    #     user = User(**user_data)
+        # db.session.add(user)
 
     # Create and add closets 🚪
     closets_data = [
@@ -49,7 +54,7 @@ def seed_database():
 
 if __name__ == "__main__":
     # Initialize your Flask app and database 🌐
-    from your_flask_app import create_app
+    # from your_flask_app import create_app
 
     app = create_app()
     with app.app_context():

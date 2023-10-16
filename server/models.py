@@ -11,17 +11,25 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 
 # -------------------------USER -------------------------
+# POST user (when user signs up, that info is posted in backend)
+# GET user (get data from the backend when user logs in)
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable = False)
+    password = db.Column(db.String, nullable=False)
     
     closets = db.relationship('Closet', back_populates='user')
+    clothingitem = association_proxy('closets', 'clothingitem')
 
     serialize_rules = ('-closets.user',)
     
 # -------------------------CLOTHINGITEM-------------------------
+# GET ALL clothingitems 
+# GET clothing items by ID
+# POST clothing item to Closet
 class ClothingItem(db.Model, SerializerMixin):
     __tablename__ = 'clothingitems'
  
@@ -31,10 +39,13 @@ class ClothingItem(db.Model, SerializerMixin):
     tags = db.Column(db.String, nullable=False)
     
     closets = db.relationship('Closet', back_populates='clothingitem')
+    user = association_proxy('closets', 'user')
     
     serialize_rules = ('-closets.clothingitem')
     
 # -------------------------CLOSET (bridge)-------------------------
+# GET closet
+# DELETE from closet
 class Closet(db.Model, SerializerMixin):
     __tablename__ = 'closets'
 
