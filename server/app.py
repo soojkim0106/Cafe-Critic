@@ -37,11 +37,26 @@ class PetList(Resource):
 
 api.add_resource(PetList, "/pets")
 
+
 class AdoptionList(Resource):
     def get(self):
         rtrn_list = [a.to_dict() for a in Adoption.query.all()]
         return make_response(rtrn_list, 200)
+
+
 api.add_resource(AdoptionList, "/adoptions")
+
+
+class UserByID(Resource):
+    def get(self,id):
+        user_hold = User.query.filter_by(id=id).one_or_none()
+        if not user_hold:
+            return make_response("Boi not found",404)
+        return make_response(user_hold.to_dict(),200)
+
+
+api.add_resource(UserByID, "/users/<int:id>")
+
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
