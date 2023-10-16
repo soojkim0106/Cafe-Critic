@@ -35,7 +35,6 @@ class UserList(Resource):
         except:
             return make_response("Failed to create user", 400)
 
-
 api.add_resource(UserList, "/users")
 
 
@@ -53,7 +52,6 @@ class PetList(Resource):
             return make_response(pet_hold.to_dict(), 201)
         except:
             return make_response("Failed to create pet", 400)
-
 
 api.add_resource(PetList, "/pets")
 
@@ -74,8 +72,7 @@ class AdoptionList(Resource):
             return make_response(adopt_hold.to_dict(), 201)
         except:
             return make_response("Failed to create adoption", 400)
-
-
+        
 api.add_resource(AdoptionList, "/adoptions")
 
 
@@ -93,7 +90,6 @@ class UserByID(Resource):
         db.session.delete(user_hold)
         db.session.commit()
         return make_response("Successful delete", 204)
-
 
 api.add_resource(UserByID, "/users/<int:id>")
 
@@ -124,7 +120,14 @@ class AdoptionByID(Resource):
             return make_response("Every good boi deserves a good home", 404)
         return make_response(adopt_hold.to_dict(), 200)
 
-
+    def delete(self, id):
+        adopt_hold = Adoption.query.filter_by(id=id).one_or_none()
+        if not adopt_hold:
+            return make_response("Find another good boi!", 404)
+        db.session.delete(adopt_hold)
+        db.session.commit()
+        return make_response("Good boi home found!", 204)
+    
 api.add_resource(AdoptionByID, "/adoptions/<int:id>")
 
 if __name__ == "__main__":
