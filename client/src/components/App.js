@@ -19,9 +19,9 @@ const App = () => {
     });
   };
 
-  const onChange = e => {
-    setMessage(e.target.value);
-  };
+  // const onChange = e => {
+  //   setMessage(e.target.value);
+  // };
 
   // const onClick = () => {
   //   if (message !== '') {
