@@ -48,14 +48,25 @@ api.add_resource(AdoptionList, "/adoptions")
 
 
 class UserByID(Resource):
-    def get(self,id):
+    def get(self, id):
         user_hold = User.query.filter_by(id=id).one_or_none()
         if not user_hold:
-            return make_response("Boi not found",404)
-        return make_response(user_hold.to_dict(),200)
+            return make_response("Boi not found", 404)
+        return make_response(user_hold.to_dict(), 200)
 
 
 api.add_resource(UserByID, "/users/<int:id>")
+
+
+class PetByID(Resource):
+    def get(self, id):
+        pet_hold = Pet.query.filter_by(id=id).one_or_none()
+        if not pet_hold:
+            return make_response("Good boi not found", 404)
+        return make_response(pet_hold.to_dict(), 200)
+
+
+api.add_resource(PetByID, "/pets/<int:id>")
 
 
 if __name__ == "__main__":
