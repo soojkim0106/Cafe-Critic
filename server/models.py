@@ -4,11 +4,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from config import db
 
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
 
-db = SQLAlchemy(metadata=metadata)
 
 # -------------------------USER -------------------------
 # POST user (when user signs up, that info is posted in backend)
@@ -41,7 +37,7 @@ class ClothingItem(db.Model, SerializerMixin):
     closets = db.relationship('Closet', back_populates='clothingitem')
     user = association_proxy('closets', 'user')
     
-    serialize_rules = ('-closets.clothingitem')
+    serialize_rules = ('-closets.clothingitem', )
     
 # -------------------------CLOSET (bridge)-------------------------
 # GET closet
@@ -54,9 +50,10 @@ class Closet(db.Model, SerializerMixin):
     clothingitem_id = db.Column(db.Integer, db.ForeignKey('clothingitems.id'))
 
     user = db.relationship('User', back_populates='closets')
+    
     clothingitem = db.relationship('ClothingItem', back_populates='closets')
     
-    serialize_rules = ('-user.closets', '-clothingitem.closets',)
+    serialize_rules = ('-user.closets', '-clothingitem.closets')
 
 
 

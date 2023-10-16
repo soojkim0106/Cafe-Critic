@@ -1,62 +1,82 @@
-
-from app import app
+from config import app
 from models import db, User, Closet, ClothingItem
 from faker import Faker
+import random 
 
 
-# Initialize Faker for generating fake user data
-fake = Faker()
-
-# Function to seed the database 🌱
-def seed_database():
-    # Create and add users 👤
-    users_data = []
-
-    for _ in range(3):
-        user_data = {
-            "name": fake.name(),
-            "username": fake.user_name(),
-            # "email": fake.word(),
-            "password": "password1",  # You can set a common password for fake users
-        }
-        users_data.append(user_data)
-        db.session.add_all(users_data)
-        db.session.commit()
-    # for user_data in users_data:
-    #     user = User(**user_data)
-        # db.session.add(user)
-
-    # Create and add closets 🚪
-    closets_data = [
-        {"user_id": 1, "name": "User 1's Closet"},
-        {"user_id": 2, "name": "User 2's Closet"},
-        {"user_id": 3, "name": "User 3's Closet"},
-    ]
-
-    for closet_data in closets_data:
-        closet = Closet(**closet_data)
-        db.session.add(closet)
-
-    # Create and add clothing items 👗👟👒
-    clothing_items_data = [
-        {"name": "Blue Jeans", "description": "Classic blue jeans", "category": "Pants", "closet_id": 1, "color": "Blue", "fabric": "Denim", "size": "32x34"},
-        {"name": "Running Shoes", "description": "Comfortable running shoes", "category": "Shoes", "closet_id": 1, "color": "Gray", "fabric": "Mesh", "size": "9"},
-        {"name": "Sun Hat", "description": "Wide-brimmed sun hat", "category": "Hats", "closet_id": 2, "color": "Beige", "fabric": "Straw", "size": "One size"},
-        # Add more clothing items with color, fabric, and size for different users and closets
-    ]
-
-    for item_data in clothing_items_data:
-        clothing_item = ClothingItem(**item_data)
-        db.session.add(clothing_item)
-
-    # Commit the changes to the database 🚀
-    db.session.commit()
 
 if __name__ == "__main__":
-    # Initialize your Flask app and database 🌐
-    # from your_flask_app import create_app
-
-    app = create_app()
+    fake = Faker()
+    
     with app.app_context():
-        # Call the seed_database function to populate the database 🌿
-        seed_database()
+        
+           
+        print("starting seed...")
+        
+        
+        print("deleting old seed...")
+        
+        User.query.delete()
+        ClothingItem.query.delete()
+        Closet.query.delete()
+        
+        print("creating user")
+        
+        user_list = []
+        
+        for _ in range(5):
+            
+            new_user = User(name=fake.name(), 
+                            username = fake.first_name(),
+                            password = fake.word())
+            
+            user_list.append(new_user)
+            db.session.add_all(user_list)
+            db.session.commit()
+        
+        print("creating clothing item...")
+        
+        clothinglist = []
+        
+        for _ in range(10):
+            
+            new_clothing = ClothingItem(name = fake.name(),
+                                        category = fake.company(),
+                                        tags = fake.word())
+            
+            clothinglist.append(new_clothing)
+            db.session.add_all(clothinglist)
+            db.session.commit()
+        
+        
+        print("creating closet...")
+    
+        closetlist = []
+    
+        for _ in range(5):
+            
+            new_closet = Closet(user = random.choice(user_list), clothingitem = random.choice(clothinglist))
+            
+            closetlist.append(new_closet)
+            db.session.add_all(closetlist)
+            db.session.commit()
+    
+            
+        
+        
+        
+        
+        # users_data = []
+
+        # for _ in range(3):
+        #     user_data = {
+        #         "name": fake.name(),
+        #         "username": fake.user_name(),
+        #         "password": "password1"
+        #     }
+        #     users_data.append(user_data)
+            
+        # print("adding users")
+        # db.session.add_all(users_data)
+        # db.session.commit()
+       
