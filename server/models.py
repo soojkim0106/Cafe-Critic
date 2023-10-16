@@ -16,6 +16,13 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = ("-adoptions.user",)
 
+    @validates("fname", "lname")
+    def validate_names(self, key, value):
+        if not value:
+            raise ValueError("Needs valid first and or last name")
+        return value
+
+
 class Pet(db.Model, SerializerMixin):
     __tablename__ = "pets"
 
@@ -26,6 +33,17 @@ class Pet(db.Model, SerializerMixin):
 
     serialize_rules = ("-adoptions.pet",)
 
+    @validates("name", "type", "breed")
+    def validate_animal(self, key, value):
+        if not value or len(value) < 1:
+            raise ValueError("Input must be valid")
+        return value
+
+    # this validates types of animal and type of breed within sort of animal
+    # if key == 'type':
+    #     return value
+
+
 class Adoption(db.Model, SerializerMixin):
     __tablename__ = "adoptions"
 
@@ -34,4 +52,17 @@ class Adoption(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pet_id = db.Column(db.Integer, db.ForeignKey("pets.id"))
 
-    serialize_rules = ("-user.adoptions", "-pet.adoptions",)
+    serialize_rules = (
+        "-user.adoptions",
+        "-pet.adoptions",
+    )
+
+    @validates("user_id", "pet_id")
+    def validate_ids(self, key, value):
+        if not value or type(value) != int:
+            raise ValueError("Not in the database")
+        if key == "user_id" and User.query.filter_by(id=value).one_or_none() == None:
+            raise ValueError("Not in the database")
+        if key == "pet_id" and Pet.query.filter_by(id=value).one_or_none() == None:
+            raise ValueError("Not in the database")
+        return value
