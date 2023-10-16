@@ -17,7 +17,7 @@ from models import Pet, User, Adoption
 
 @app.route("/")
 def index():
-    return "<h1>Project Server</h1>"
+    return "<h1>getPet Adoption List</h1>"
 
 
 class UserList(Resource):
@@ -37,6 +37,11 @@ class PetList(Resource):
 
 api.add_resource(PetList, "/pets")
 
+class AdoptionList(Resource):
+    def get(self):
+        rtrn_list = [a.to_dict() for a in Adoption.query.all()]
+        return make_response(rtrn_list, 200)
+api.add_resource(AdoptionList, "/adoptions")
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
