@@ -1,16 +1,16 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
 
-from config import db
 
-# Models go here!
-
+from config import db, metadata
 
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    fname = db.Column(db.String)
+    lname = db.Column(db.String)
 
     adoptions = db.relationship("Adoption", backref="user")
 
@@ -28,6 +28,8 @@ class Pet(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    breed = db.Column(db.String)
+    type = db.Column(db.String)
 
     adoptions = db.relationship("Adoption", backref="pet")
 
@@ -39,9 +41,9 @@ class Pet(db.Model, SerializerMixin):
             raise ValueError("Input must be valid")
         return value
 
-    # this validates types of animal and type of breed within sort of animal
-    # if key == 'type':
-    #     return value
+#     # this validates types of animal and type of breed within sort of animal
+#     # if key == 'type':
+#     #     return value
 
 
 class Adoption(db.Model, SerializerMixin):
