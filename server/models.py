@@ -31,6 +31,7 @@ class ClothingItem(db.Model, SerializerMixin):
  
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=False)
     category = db.Column(db.String, nullable=False)
     tags = db.Column(db.String, nullable=False)
     

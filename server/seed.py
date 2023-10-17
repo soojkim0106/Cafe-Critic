@@ -7,7 +7,7 @@ import random
 
 if __name__ == "__main__":
     fake = Faker()
-    
+
     with app.app_context():
         
            
@@ -41,6 +41,7 @@ if __name__ == "__main__":
         for _ in range(10):
             
             new_clothing = ClothingItem(name = fake.name(),
+                                        image_url = fake.url(),
                                         category = fake.company(),
                                         tags = fake.word())
             
@@ -60,23 +61,3 @@ if __name__ == "__main__":
             closetlist.append(new_closet)
             db.session.add_all(closetlist)
             db.session.commit()
-    
-            
-        
-        
-        
-        
-        # users_data = []
-
-        # for _ in range(3):
-        #     user_data = {
-        #         "name": fake.name(),
-        #         "username": fake.user_name(),
-        #         "password": "password1"
-        #     }
-        #     users_data.append(user_data)
-            
-        # print("adding users")
-        # db.session.add_all(users_data)
-        # db.session.commit()
-       
