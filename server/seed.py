@@ -22,7 +22,7 @@ if __name__ == '__main__':
         Pet.query.delete()
         User.query.delete()
         Adoption.query.delete()
-        db.create_all()
+        # db.create_all()
 
         print("Creating pets...")
         pet1 = Pet(name="Bang Kitty", breed='American Shorthair', type='Cat')
