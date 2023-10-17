@@ -25,10 +25,10 @@ if __name__ == '__main__':
         # db.create_all()
 
         print("Creating pets...")
-        pet1 = Pet(name="Bang Kitty", breed='American Shorthair', type='Cat')
-        pet2 = Pet(name="Abby", breed= 'Mixed Breed',type='Dog')
-        pet3 = Pet(name="Lil King Trashmouth", breed='North American Raccoon', type='Raccoon')
-        pet4 = Pet(name="Buddy", breed="Golden Doodle", type="Dog")
+        pet1 = Pet(name="Bang Kitty", breed='American Shorthair', type='Cat', image="nonUrl")
+        pet2 = Pet(name="Abby", breed= 'Mixed Breed',type='Dog',image="nonUrl")
+        pet3 = Pet(name="Lil King Trashmouth", breed='North American Raccoon', type='Raccoon',image="nonUrl")
+        pet4 = Pet(name="Buddy", breed="Golden Doodle", type="Dog",image="nonUrl")
         pets = [pet1, pet2, pet3, pet4]
 
         print("Creating users...")

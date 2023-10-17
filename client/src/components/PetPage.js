@@ -12,6 +12,7 @@ function PetPage() {
         fetch(`${xurl}/pets`)
             .then(r => r.json())
             .then(setPets)
+            console.log(pets)
     }, [])
 
 

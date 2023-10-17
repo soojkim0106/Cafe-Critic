@@ -7,9 +7,9 @@ function PetList({ pets }) {
     })
 
     return (
-
-        <ul className="cards">{renderPets}</ul>
-
+        <>
+            <ul className="cards">{renderPets}</ul>
+        </>
     )
 }
 
