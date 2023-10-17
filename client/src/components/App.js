@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
+import React from "react";
+import Header from "./Header";
+import PetPage from "./PetPage";
 
 function App() {
-  return <h1>Project Client</h1>;
+  return (
+    <div className="app">
+      <Header />
+      <PetPage />
+    </div>
+  );
 }
 
 export default App;

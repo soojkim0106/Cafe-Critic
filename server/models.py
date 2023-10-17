@@ -5,6 +5,7 @@ from sqlalchemy.orm import validates
 
 from config import db, metadata
 
+
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
@@ -30,6 +31,7 @@ class Pet(db.Model, SerializerMixin):
     name = db.Column(db.String)
     breed = db.Column(db.String)
     type = db.Column(db.String)
+    image = db.Column(db.String)
 
     adoptions = db.relationship("Adoption", backref="pet", cascade="all, delete")
 
@@ -40,6 +42,7 @@ class Pet(db.Model, SerializerMixin):
         if not value or len(value) < 1:
             raise ValueError("Input must be valid")
         return value
+
 
 #     # this validates types of animal and type of breed within sort of animal
 #     # if key == 'type':
