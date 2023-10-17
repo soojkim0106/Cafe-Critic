@@ -91,6 +91,20 @@ class UserByID(Resource):
         db.session.commit()
         return make_response("Successful delete", 204)
 
+    def patch(self, id):
+        user_hold = User.query.filter_by(id=id).one_or_none()
+        if not user_hold:
+            return make_response("Boi not found", 404)
+        try:
+            data = request.get_json()
+            for attr in data:
+                setattr(user_hold,attr,data[attr])
+            db.session.add(user_hold)
+            db.session.commit()
+            return make_response(user_hold.to_dict(),202)
+        except:
+            return make_response("Failed to update boi",400)
+
 api.add_resource(UserByID, "/users/<int:id>")
 
 
@@ -108,6 +122,20 @@ class PetByID(Resource):
         db.session.delete(pet_hold)
         db.session.commit()
         return make_response("Successful delete", 204)
+
+    def patch(self, id):
+        pet_hold = Pet.query.filter_by(id=id).one_or_none()
+        if not pet_hold:
+            return make_response("Boi not found", 404)
+        try:
+            data = request.get_json()
+            for attr in data:
+                setattr(pet_hold,attr,data[attr])
+            db.session.add(pet_hold)
+            db.session.commit()
+            return make_response(pet_hold.to_dict(),202)
+        except:
+            return make_response("Failed to update boi",400)
 
 
 api.add_resource(PetByID, "/pets/<int:id>")
@@ -127,6 +155,20 @@ class AdoptionByID(Resource):
         db.session.delete(adopt_hold)
         db.session.commit()
         return make_response("Good boi home found!", 204)
+
+    def patch(self, id):
+        adopt_hold = Adoption.query.filter_by(id=id).one_or_none()
+        if not adopt_hold:
+            return make_response("Boi not found", 404)
+        try:
+            data = request.get_json()
+            for attr in data:
+                setattr(adopt_hold,attr,data[attr])
+            db.session.add(adopt_hold)
+            db.session.commit()
+            return make_response(adopt_hold.to_dict(),202)
+        except:
+            return make_response("Failed to update boi",400)
     
 api.add_resource(AdoptionByID, "/adoptions/<int:id>")
 
