@@ -1,29 +1,39 @@
 // import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import ClothingItemCard from "./ClothingItemCard";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 
-function Closet({closetItems}) { 
+function Closet() { 
 
+  // const {closetItems} = useLoaderData()
+
+  const [closetItems, setClosetItems] = useOutletContext()
+
+  console.log(closetItems)
+
+  const mappedClosetItems = closetItems.map(closetObj => (
+    <ClothingItemCard 
+      key={closetObj.id} 
+      clothingObj={closetObj} /> ))
 
     return(
-
-        <div>
-           <div className="nav-container-collection">
-                    <nav>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/collection">Collection</Link></li>
-                        <li><Link to="/closet">Closet</Link></li>
-                    </ul>
-                    </nav>
+      <div>
+            <div className="collection-header">
+                <img src="images/fashion-forecast-logo.jpg" alt="logo"></img>
+                <div className="user-header">
+                     {/* this is where it says "Hi, {username}" */}
+                </div>
+                <div className="categories-bar">
+                    <button>tops</button>
+                    <button>bottom</button>
+                    <button>outerwear</button>
+                    <button>footwear</button>
                 </div>
 
-                <div>
-                    {closetItems.map((item) => (
-                        <div key={item.id}>
-                            <h3>{item.name}</h3>
-                        </div>
-                    ))}
-                </div>
+                <div className="clothingitems-container">
+                    {mappedClosetItems}
+                </div>               
+            </div>
         </div>
       
     ) 

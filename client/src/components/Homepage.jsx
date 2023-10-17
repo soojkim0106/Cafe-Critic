@@ -8,15 +8,6 @@ function Homepage() {
         {/* <img src="your-image.jpg" alt="Banner" /> */}
       </div>
       <div className="main-content">
-        <div className="nav">
-          <nav>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/collection">Collection</Link></li>
-              <li><Link to="/closet">Closet</Link></li>
-            </ul>
-          </nav>
-        </div>
         <div className="steps">
           <div className="step-card">
             <h2>Step 1: Add Items to Closet</h2>

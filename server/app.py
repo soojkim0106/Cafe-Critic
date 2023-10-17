@@ -29,8 +29,9 @@ def create_user():
 
 @app.get('/collection')
 def get_clothingitems():
-    
     clothingitems = ClothingItem.query.all()
+    for clothingitem in clothingitems:
+        print(clothingitem.to_dict())
     return jsonify([clothingitem.to_dict() for clothingitem in clothingitems])
 
 # ----------------GET CLOTHING ITEM BY ID----------------
@@ -45,18 +46,25 @@ def get_clothingitems_by_id(id):
 
 # ----------------POST CLOTHING ITEMS TO CLOSET----------------
 
-
-
-
-
+@app.post('/closet')
+def creating_closet():
+    data = request.json
+    
+    new_closet = Closet(user_id = data['user_id'], clothingitem_id=data['clothingitem_id'])
+    db.session.add(new_closet)
+    db.session.commit()
+    
+    return new_closet.to_dict(), 201
+   
 
 # ----------------GET CLOSET----------------
 @app.get('/closet')
 def get_closet():
-    pass
-
-
-
+    closetitems = Closet.query.all()
+    for closetitem in closetitems:
+        print(closetitem.to_dict())
+    # return jsonify([{"message": "kash was here"}])
+    return jsonify([closetitem.to_dict() for closetitem in closetitems])
 
 # ----------------DELETE FROM CLOSET----------------
 

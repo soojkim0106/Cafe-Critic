@@ -1,15 +1,18 @@
 // import NavBar from "./components/NavBar"
 import { Outlet } from 'react-router-dom'
-import ClothingItemList from './components/ClothingItemList';
+import NavBar from './components/NavBar'
+import { useState } from 'react';
 
 
 function App() {
+  const [closetItems, setClosetItems] = useState([]);
 
   return (
   <div className="App">
 
 
-    <Outlet/>
+    <NavBar/>
+    <Outlet context={[closetItems, setClosetItems]} />
 
   </div>
   );

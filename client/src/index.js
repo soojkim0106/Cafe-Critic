@@ -13,6 +13,7 @@ import Closet from "./components/Closet"
 
 
 // LOADERS
+import { getClosetItems, getClothingItems } from './loaders';
 
 const router = createBrowserRouter([
     {
@@ -25,11 +26,13 @@ const router = createBrowserRouter([
        },
        {
         path: "/collection",
-        element: <ClothingItemList/>
+        element: <ClothingItemList/>,
+        loader: getClothingItems
        },
        {
         path: "/closet",
-        element: <Closet/>
+        element: <Closet/>,
+        loader: getClosetItems
        }
     ]
     }
