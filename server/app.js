@@ -1,17 +1,14 @@
-import React from "react"
+import React from "react";
+import Header from "./Header";
+import PetPage from "./PetPage";
 
 function App() {
-    const xurl = "http://localhost"
-
-
-
-
-
-
-
-
-
-
-
-    return {}
+    return (
+        <div className="app">
+            <Header />
+            <PetPage />
+        </div>
+    );
 }
+
+export default App;
