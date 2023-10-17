@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
-import PlantList from "./PetList";
-import Search from "./Search";
+import PetList from "./PetList";
+// import Search from "./Search";
 
 
 function PetPage() {
 
-    const xurl = "http://localhost:5555"
+    const xurl = "http://localhost:4000"
     const [pets, setPets] = useState([])
 
     useEffect(() => {
-        fetch(xurl + '/pets')
+        fetch(`${xurl}/pets`)
             .then(r => r.json())
             .then(setPets)
     }, [])
 
 
-
-
-
     return (
         <main>
-            <Search />
+            {/* <Search /> */}
             <PetList
                 pets={pets} />
         </main>

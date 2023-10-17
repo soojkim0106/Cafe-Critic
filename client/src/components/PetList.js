@@ -1,5 +1,5 @@
 import React from "react";
-import PlantCard from "./PetCard";
+import PetCard from "./PetCard";
 
 function PetList({ pets }) {
     const renderPets = pets.map((pet) => {

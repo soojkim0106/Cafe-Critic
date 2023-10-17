@@ -1,7 +1,50 @@
-:root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #ffffff;
 }
 
+.favoritesStrip {
+  width: 100px;
+  background-color: #b19cd9;
+  color: #ffffff;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.petList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.petItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #b19cd9;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.petItem img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.petItem:hover {
+  transform: scale(1.1);
+  box-shadow: 10px 10px 10px #888888;
+}
