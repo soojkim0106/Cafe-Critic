@@ -14,9 +14,6 @@ function ClothingItemList() {
 
     return(
         <div>
-            {/* <div>
-                <Closet closetItems={closetItems} />
-            </div> */}
             <div className="collection-header">
                 <img src="images/fashion-forecast-logo.jpg" alt="logo"></img>
                 <div className="user-header">
