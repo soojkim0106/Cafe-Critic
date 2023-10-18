@@ -1,8 +1,8 @@
 
 export async function getClothingItems() {
     const res = await fetch('http://localhost:5555/collection')
-    const clothingitems = await res.json()
-    return {clothingitems}
+    const clothingItems = await res.json()
+    return {clothingItems}
 }
 export async function getClosetItems() {
     const res = await fetch('http://localhost:5555/closet')

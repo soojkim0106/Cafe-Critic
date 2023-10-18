@@ -8,9 +8,6 @@ import App from "./App";
 import Homepage from "./components/Homepage"
 import ClothingItemList from "./components/ClothingItemList";
 import Closet from "./components/Closet"
-// import NavBar from "./components/NavBar"
-// import ClothingItemCard from "./components/ClothingItemCard"
-
 
 // LOADERS
 import { getClosetItems, getClothingItems } from './loaders';

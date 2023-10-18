@@ -1,14 +1,12 @@
-import { React, useEffect, useState } from "react";
+import { React } from "react";
 import ClothingItemCard from "./ClothingItemCard"
-// import Closet from "./Closet";
 import { useLoaderData } from "react-router-dom";
 
 function ClothingItemList() {
 
+  const {clothingItems} = useLoaderData()
 
-  const {clothingitems} = useLoaderData()
-
-      const mappedClothingItems = clothingitems.map(clothingObj => (
+      const mappedClothingItems = clothingItems.map(clothingObj => (
       <ClothingItemCard 
         key={clothingObj.id} 
         clothingObj={clothingObj} />

@@ -1,4 +1,4 @@
-
+ 
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -56,17 +56,16 @@ def creating_closet():
     
     return new_closet.to_dict(), 201
    
-
 # ----------------GET CLOSET----------------
 @app.get('/closet')
 def get_closet():
     closetitems = Closet.query.all()
     for closetitem in closetitems:
         print(closetitem.to_dict())
-    # return jsonify([{"message": "kash was here"}])
     return jsonify([closetitem.to_dict() for closetitem in closetitems])
 
 # ----------------DELETE FROM CLOSET----------------
+
 
 
 

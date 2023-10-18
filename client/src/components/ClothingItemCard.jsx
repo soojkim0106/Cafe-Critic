@@ -1,22 +1,40 @@
 import React from "react";
-import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+// import { useState } from "react";
 
 function ClothingItemCard({ clothingObj }) {
-    
-  // const navigate = useNavigate()
+
   const [closetItems, setClosetItems] = useOutletContext()
 
   function addToCloset(clothingitem) {
     // I need to fetch (POST) this item to my Closets database.
-    setClosetItems(closetItems => [...closetItems, clothingitem])
-    // navigate("/closet")
+    console.log(clothingitem)
+    
+    const OPTIONS = { 
+      method : "POST",
+      headers : { 
+        "Accept" : "application/json",
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify({
+        "user_id": 1,
+        "clothingitem_id": 1
+      })
+    } 
+    
+    fetch('http://localhost:5555/closet', OPTIONS)
+    .then(res => res.json())
+    .then(res => {
+      if (res.success) {
+        setClosetItems(closetItems => [...closetItems, clothingitem])
+        console.log("please work")
+      } else {
+        console.error("failed to add item to closet")
+      }
+    })
+
   }
-
-  // function removeFromCloset(closetItem) {
-  //   // remove the item from the closet
-  // }
-
+  
     return (
       <div>
         <h3>Clothing Item Card</h3>
