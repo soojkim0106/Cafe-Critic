@@ -10,14 +10,16 @@ class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    fname = db.Column(db.String)
-    lname = db.Column(db.String)
+    name = db.Column(db.String)
+    username = db.Column(db.String)
+    password = db.Column(db.String)
 
     adoptions = db.relationship("Adoption", backref="user", cascade="all, delete")
+    favorites = db.relationship("Favorite", backref="user", cascade="all, delete")
 
-    serialize_rules = ("-adoptions.user",)
+    serialize_rules = ("-adoptions.user","-favorites.user",)
 
-    @validates("fname", "lname")
+    @validates("name", "username")
     def validate_names(self, key, value):
         if not value:
             raise ValueError("Needs valid first and or last name")
@@ -34,8 +36,9 @@ class Pet(db.Model, SerializerMixin):
     image = db.Column(db.String)
 
     adoptions = db.relationship("Adoption", backref="pet", cascade="all, delete")
+    favorites = db.relationship("Favorite", backref="pet", cascade="all, delete")
 
-    serialize_rules = ("-adoptions.pet",)
+    serialize_rules = ("-adoptions.pet","-favorites.pet",)
 
     @validates("name", "type", "breed")
     def validate_animal(self, key, value):
@@ -58,6 +61,33 @@ class Adoption(db.Model, SerializerMixin):
     pet_id = db.Column(db.Integer, db.ForeignKey("pets.id"))
 
     serialize_rules = (
+        "-user.adoptions",
+        "-pet.adoptions",
+        "-user.favorites",
+        "-pets.favorites",
+    )
+
+    @validates("user_id", "pet_id")
+    def validate_ids(self, key, value):
+        if not value or type(value) != int:
+            raise ValueError("Not in the database")
+        if key == "user_id" and User.query.filter_by(id=value).one_or_none() == None:
+            raise ValueError("Not in the database")
+        if key == "pet_id" and Pet.query.filter_by(id=value).one_or_none() == None:
+            raise ValueError("Not in the database")
+        return value
+
+class Favorite(db.Model, SerializerMixin):
+    __tablename__ = "favorites"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pet_id = db.Column(db.Integer, db.ForeignKey("pets.id"))
+
+    serialize_rules = (
+        "-user.favorites",
+        "-pet.favorites",
         "-user.adoptions",
         "-pet.adoptions",
     )

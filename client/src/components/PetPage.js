@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PetList from "./PetList";
+import { NavLink } from "react-router-dom";
 // import Search from "./Search";
 
 
-function PetPage() {
-
-    const xurl = "http://localhost:4000"
-    const [pets, setPets] = useState([])
-
-    useEffect(() => {
-        fetch(`${xurl}/pets`)
-            .then(r => r.json())
-            .then(setPets)
-            console.log(pets)
-    }, [])
+function PetPage({xurl,pets,currUser,postFavorites,removeFavroite}) {
 
 
     return (
         <main>
             {/* <Search /> */}
             <PetList
-                pets={pets} />
+                pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavroite={removeFavroite}/>
+            <NavLink to="/login">To Login</NavLink>
         </main>
     )
 }

@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Pet, Adoption
+from models import db, User, Pet, Adoption, Favorite
 
 if __name__ == "__main__":
     fake = Faker()
@@ -22,6 +22,7 @@ if __name__ == "__main__":
         Pet.query.delete()
         User.query.delete()
         Adoption.query.delete()
+        Favorite.query.delete()
         # db.create_all()
 
         print("Creating pets...")
@@ -36,7 +37,7 @@ if __name__ == "__main__":
             name="Lil King Trashmouth",
             breed="North American Raccoon",
             type="Raccoon",
-            image="https://www.google.com/url?sa=i&url=https%3A%2F%2Fsdzwildlifeexplorers.org%2Fanimals%2Fnorth-american-raccoon&psig=AOvVaw0P2x5pRNInXXEbPBRcQDHJ&ust=1697657134795000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOi0xuXn_YEDFQAAAAAdAAAAABAd",
+            image="https://sdzwildlifeexplorers.org/sites/default/files/2020-10/racoon-02.jpg",
         )
         pet4 = Pet(
             name="DOOfus",
@@ -48,9 +49,9 @@ if __name__ == "__main__":
 
         print("Creating users...")
 
-        user1 = User(fname="Emma", lname="Firstwright")
-        user2 = User(fname="Geri", lname="Holloway")
-        user3 = User(fname="Melanie", lname="Robles")
+        user1 = User(name="Emma", username="Firstwright", password="123badpass")
+        user2 = User(name="Geri", username="Holloway", password="51^$23618*)")
+        user3 = User(name="Melanie", username="Robles", password="emptyPass")
         users = [user1, user2, user3]
         db.session.add_all(pets)
         db.session.add_all(users)
@@ -60,8 +61,13 @@ if __name__ == "__main__":
         adopt1 = Adoption(user_id=1, pet_id=1)
         adopt2 = Adoption(user_id=2, pet_id=2)
         adopt3 = Adoption(user_id=3, pet_id=3)
+        fav1 = Favorite(user_id=1, pet_id=1)
+        fav2 = Favorite(user_id=2, pet_id=2)
+        fav3 = Favorite(user_id=3, pet_id=3)
         adoptions = [adopt1, adopt2, adopt3]
+        favorites = [fav1,fav2,fav3]
         db.session.add_all(adoptions)
+        db.session.add_all(favorites)
         db.session.commit()
 
         print("Seeding done!")  # Empty tables
