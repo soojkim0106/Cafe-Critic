@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
         user1 = User(name="Emma", username="Firstwright", password="123badpass")
         user2 = User(name="Geri", username="Holloway", password="51^$23618*)")
-        user3 = User(name="Melanie", username="Robles", password="emptyPass")
+        user3 = User(name="Nial Johnson", username="Nilo", password="mtpass1")
         users = [user1, user2, user3]
         db.session.add_all(pets)
         db.session.add_all(users)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
         fav2 = Favorite(user_id=2, pet_id=2)
         fav3 = Favorite(user_id=3, pet_id=3)
         adoptions = [adopt1, adopt2, adopt3]
-        favorites = [fav1,fav2,fav3]
+        favorites = [fav1, fav2, fav3]
         db.session.add_all(adoptions)
         db.session.add_all(favorites)
         db.session.commit()
