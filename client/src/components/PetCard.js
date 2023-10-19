@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 function PetCard({ xurl,pet,currUser,postFavorites,removeFavroite }) {
     const { name, breed, image, type, id, favorites } = pet
     const [inFavorite, setInFavorite] = useState(false)
+    const [enableFav, setEnableFav] = useState(false)
 
     function onClick(e){
         if(inFavorite){
@@ -28,24 +29,38 @@ function PetCard({ xurl,pet,currUser,postFavorites,removeFavroite }) {
             if(currUser.favorites.find((searchPet)=>searchPet.pet_id===id)){setInFavorite(true)}
         }
     },[pet])
-    return (
-        <li className="card">
-            <h4>{name}</h4>
-            <img src={image} alt={name} />
-            <p>Type: {type}</p>
-            <p>Breed: {breed}</p>
-            {inFavorite ? (
-                <>
-                    <button onClick={onClick} > Unfavorite </button>
-                    <button >Adopt</button>
-                </>
-            ) : (
-                <>
-                    <button onClick={onClick} className="primary"> Favorite </button>
-                </>
-            )}
-        </li>
-    );
+    useEffect(()=>{
+        if(currUser === ""){setEnableFav(false)}else{setEnableFav(true)}
+    },[currUser])
+    if(enableFav){
+        return (
+            <li className="card">
+                <h4>{name}</h4>
+                <img src={image} alt={name} />
+                <p>Type: {type}</p>
+                <p>Breed: {breed}</p>
+                {inFavorite ? (
+                    <>
+                        <button onClick={onClick} > Unfavorite </button>
+                        <button >Adopt</button>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={onClick} className="primary"> Favorite </button>
+                    </>
+                )}
+            </li>
+        );
+    }else{
+        return (
+            <li className="card">
+                <h4>{name}</h4>
+                <img src={image} alt={name} />
+                <p>Type: {type}</p>
+                <p>Breed: {breed}</p>
+            </li>
+        )
+    }
 }
 
 export default PetCard;
