@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Login from "./Login";
 import PetPage from "./PetPage";
+import NavBar from "./NavBar"
 
 function App() {
   const xurl = "http://localhost:4000"
@@ -123,6 +124,7 @@ function removeFavroite(data){
     <div className="app">
       <BrowserRouter>
         <Header/>
+        <NavBar/>
         <Routes>
           <Route path="/" element={<></>}/>
           <Route path="/pets" element={<PetPage pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavroite={removeFavroite}/>}/>

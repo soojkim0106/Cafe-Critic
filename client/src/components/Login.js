@@ -60,7 +60,6 @@ function Login({users,currUser,loggedIn,setLogIn,setCurrentUser}) {
                     <input type="submit"/>
                 </div>
             </form>
-            <NavLink to="/pets">To Pets</NavLink>
         </div>
     );
 }

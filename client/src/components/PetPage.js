@@ -12,7 +12,6 @@ function PetPage({xurl,pets,currUser,postFavorites,removeFavroite}) {
             {/* <Search /> */}
             <PetList
                 pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavroite={removeFavroite}/>
-            <NavLink to="/login">To Login</NavLink>
         </main>
     )
 }
