@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 
 
-function UserForm({ handleProf, currUser }) {
+function UserForm({ handleProf, currUser, deleteUsr }) {
 
     const initialVal = {
         name: currUser.name,
@@ -51,7 +51,10 @@ function UserForm({ handleProf, currUser }) {
                 />
                 <br />
                 <button type="submit">Submit</button>
+
             </form>
+
+            <button onClick={deleteUsr}>Delete Account</button>
 
         </div>
 

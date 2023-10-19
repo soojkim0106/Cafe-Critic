@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import UsrSet from "./UsrSet";
 import UserForm from "./UserForm";
 
 function Profile({ currUser, setCurrUser, xurl }) {
@@ -30,14 +29,27 @@ function Profile({ currUser, setCurrUser, xurl }) {
             })
     }
 
+    const deleteUsr = () => {
+        fetch(xurl + "/users/" + currUser.id, {
+            method: "DELETE",
+
+        })
+            .then(r => {
+                if (r.ok) {
+                    setCurrUser('')
+                }
+
+            })
+
+    }
+
 
 
 
 
     return (
         <>
-            <UsrSet />
-            {showForm ? <UserForm handleProf={handleProf} currUser={currUser} /> : null}
+            {showForm ? <UserForm handleProf={handleProf} currUser={currUser} deleteUsr={deleteUsr} /> : <> </>}
             <div className="buttonContainer">
                 <button onClick={handleClick}>User Settings</button>
             </div>
