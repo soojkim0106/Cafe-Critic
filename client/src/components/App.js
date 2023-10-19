@@ -19,6 +19,16 @@ function App() {
   //   console.log(currUser)
   // },[currUser])
 
+  useEffect(()=>{
+    fetch(`${xurl}/authorized`)
+    .then(r=>{
+      if(r.ok){
+        r.json()
+        .then(d=>setCurrentUser(d))
+      }
+    })
+  })
+
   useEffect(() => {
     fetch(`${xurl}/pets`)
       .then(r => r.json())
@@ -130,12 +140,12 @@ function removeFavorite(data){
     <div className="app">
       <BrowserRouter>
         <Header />
-        <NavBar />
+        <NavBar currUser={currUser}/>
         <Routes>
           <Route path="/" element={<></>}/>
           <Route path="/pets" element={<PetPage pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavorite={removeFavorite}/>}/>
           <Route path="/login" element={<Login users={users} currUser={currUser} loggedIn={loggedIn} setLogIn={setLogIn} setCurrentUser={setCurrentUser} xurl={xurl} addUser={addUser}/>}/>
-          <Route path="/profile" element={<Profile currUser={currUser} setCurrUser={setCurrUser} xurl={xurl} />} />
+          <Route path="/profile" element={<Profile currUser={currUser} setCurrentUser={setCurrentUser} xurl={xurl} />} />
         </Routes>
       </BrowserRouter>
     </div>

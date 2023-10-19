@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserForm from "./UserForm";
 
-function Profile({ currUser, setCurrUser, xurl }) {
+function Profile({ currUser, setCurrentUser, xurl }) {
     const [showForm, setShowForm] = useState(false);
 
     function handleClick() {
@@ -24,7 +24,7 @@ function Profile({ currUser, setCurrUser, xurl }) {
                     const updatesUseee = {
                         ...updProf, favorites: currUser.favorites, adoptions: currUser.adoptions, id: currUser.id
                     }
-                    setCurrUser(updatesUseee)
+                    setCurrentUser(updatesUseee)
                 }
             })
     }
@@ -36,7 +36,7 @@ function Profile({ currUser, setCurrUser, xurl }) {
         })
             .then(r => {
                 if (r.ok) {
-                    setCurrUser('')
+                    setCurrentUser('')
                 }
 
             })

@@ -19,11 +19,29 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = ("-adoptions.user","-favorites.user",)
 
-    @validates("name", "username")
-    def validate_names(self, key, value):
-        if not value:
-            raise ValueError("Needs valid first and or last name")
-        return value
+    # @validates("name")
+    # def validate_names(self, key, value):
+    #     if not value:
+    #         raise ValueError("Requires name")
+    #     return value
+    # @validates("username")
+    # def validate_no_copy(self,key,value):
+    #     print(key)
+    #     print(value)
+    #     if not value:
+    #         raise ValueError("Requires both password and username")
+    #     if key == username and self.query.filter_by(username=value).one_or_none():
+    #         raise ValueError("Username or Password already taken")
+    #     # if key == password and self.query.filter_by(password=value).one_or_none():
+    #     #     raise ValueError("Username or Password already taken")
+    #     return value
+    # @validates("password")
+    # def validate_pass(self,key,value):
+    #     print(key)
+    #     print(value)
+    #     if key == password and self.query.filter_by(password=value).one_or_none():
+    #         raise ValueError("Username or Password already taken")
+    #     return value
 
 
 class Pet(db.Model, SerializerMixin):

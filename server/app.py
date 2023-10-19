@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, make_response
+from flask import request, make_response, session
 from flask_restful import Resource
 
 # Local imports
@@ -13,7 +13,7 @@ from config import app, db, api
 from models import Pet, User, Adoption, Favorite
 
 # Views go here!
-
+app.secret_key=b'\xf3\xffD(\xc0e\x05\x10\x8c;t\x87\x8d\xec\x14\xb3'
 
 @app.route("/")
 def index():
@@ -31,6 +31,7 @@ class UserList(Resource):
             user_hold = User(name=data["name"], username=data["username"], password=data["password"])
             db.session.add(user_hold)
             db.session.commit()
+            session["user_id"] = user_hold.id
             return make_response(user_hold.to_dict(), 201)
         except:
             return make_response("Failed to create user", 400)
@@ -220,6 +221,16 @@ class FavoriteByID(Resource):
             return make_response("Failed to update boi",400)
     
 api.add_resource(FavoriteByID, "/favorites/<int:id>")
+
+class AuthSession(Resource):
+    def get(self):
+        user_hold = User.query.filter_by(id=session.get("user_id")).one_or_none()
+        if not user_hold:
+            return make_response("User not found",404)
+        return make_response(user_hold.to_dict(),200)
+
+api.add_resource(AuthSession, "/authorized")
+
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

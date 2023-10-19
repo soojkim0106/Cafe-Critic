@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login({users,currUser,loggedIn,setLogIn,setCurrentUser,xurl,addUser}) {
 
@@ -10,6 +11,7 @@ function Login({users,currUser,loggedIn,setLogIn,setCurrentUser,xurl,addUser}) {
 
     const [searchUserHold,setSearchUserHold] = useState(initValue)
     const [loginMode,setLoginMode] = useState(true)
+    const navigate = useNavigate()
     // const history = useHistory()
 
     useEffect(()=>{
@@ -38,6 +40,7 @@ function Login({users,currUser,loggedIn,setLogIn,setCurrentUser,xurl,addUser}) {
             setLogIn(true);
             setCurrentUser(users.find((user)=>user.username===searchUserHold.username))
             // history.push("/pets")
+            navigate("/profile")
         }
     }
     function handleSignupChange(e){
@@ -60,9 +63,14 @@ function Login({users,currUser,loggedIn,setLogIn,setCurrentUser,xurl,addUser}) {
                     adoptions:[],
                 }
                 addUser(data)
+                navigate("/profile")
             }
         })
     }
+    function handleSignout(e){
+        setCurrentUser("")
+    }
+    if(currUser === ""){
     return (
         <div>
             {loginMode ? (
@@ -130,7 +138,13 @@ function Login({users,currUser,loggedIn,setLogIn,setCurrentUser,xurl,addUser}) {
             )}
 
         </div>
-    );
+    )}else{
+        return(
+        <div>
+            <button onClick={handleSignout}>Sign out</button>
+        </div>
+        )
+    }
 }
 
 export default Login;
