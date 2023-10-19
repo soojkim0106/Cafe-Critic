@@ -109,6 +109,10 @@ function postFavorites(data){
   })
 }
 
+function addUser(data){
+  setUsers([...users,data])
+}
+
 function removeFavroite(data){
     setFavorites(favorites.filter((favorite) => favorite.id !== data))
     const updatedCurrUserFavs = currUser.favorites.filter(
@@ -128,7 +132,7 @@ function removeFavroite(data){
         <Routes>
           <Route path="/" element={<></>}/>
           <Route path="/pets" element={<PetPage pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavroite={removeFavroite}/>}/>
-          <Route path="/login" element={<Login users={users} currUser={currUser} loggedIn={loggedIn} setLogIn={setLogIn} setCurrentUser={setCurrentUser}/>}/>
+          <Route path="/login" element={<Login users={users} currUser={currUser} loggedIn={loggedIn} setLogIn={setLogIn} setCurrentUser={setCurrentUser} xurl={xurl} addUser={addUser}/>}/>
         </Routes>
       </BrowserRouter>
     </div>
