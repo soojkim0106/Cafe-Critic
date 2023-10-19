@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import { NavLink } from "react-router-dom";
 
 function Login({users,currUser,loggedIn,setLogIn,setCurrentUser,xurl,addUser}) {
 

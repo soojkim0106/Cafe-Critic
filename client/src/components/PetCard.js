@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function PetCard({ xurl,pet,currUser,postFavorites,removeFavroite }) {
+function PetCard({ xurl,pet,currUser,postFavorites,removeFavorite }) {
     const { name, breed, image, type, id, favorites } = pet
     const [inFavorite, setInFavorite] = useState(false)
     const [enableFav, setEnableFav] = useState(false)
@@ -11,7 +11,7 @@ function PetCard({ xurl,pet,currUser,postFavorites,removeFavroite }) {
             fetch(`${xurl}/favorites/${fav_hold.id}`,{method:"DELETE"})
             .then((r)=>{
                 if(r.ok){
-                removeFavroite(fav_hold.id)
+                removeFavorite(fav_hold.id)
                 setInFavorite(false)
             }})
         }else{

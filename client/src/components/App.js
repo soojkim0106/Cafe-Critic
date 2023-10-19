@@ -115,7 +115,7 @@ function App() {
     setUsers([...users,data])
   }
 
-function removeFavroite(data){
+function removeFavorite(data){
     setFavorites(favorites.filter((favorite) => favorite.id !== data))
     const updatedCurrUserFavs = currUser.favorites.filter(
       (favorite) => favorite.id !== data
@@ -124,6 +124,7 @@ function removeFavroite(data){
       ...currUser,
       favorites: updatedCurrUserFavs,
   })
+}
 
   return (
     <div className="app">
@@ -132,13 +133,13 @@ function removeFavroite(data){
         <NavBar />
         <Routes>
           <Route path="/" element={<></>}/>
-          <Route path="/pets" element={<PetPage pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavroite={removeFavroite}/>}/>
+          <Route path="/pets" element={<PetPage pets={pets} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavorite={removeFavorite}/>}/>
           <Route path="/login" element={<Login users={users} currUser={currUser} loggedIn={loggedIn} setLogIn={setLogIn} setCurrentUser={setCurrentUser} xurl={xurl} addUser={addUser}/>}/>
           <Route path="/profile" element={<Profile currUser={currUser} setCurrUser={setCurrUser} xurl={xurl} />} />
         </Routes>
       </BrowserRouter>
     </div>
   );
-}
+
 }
 export default App;

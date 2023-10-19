@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import Search from "./Search";
 
 
-function PetPage({xurl,pets,currUser,postFavorites,removeFavroite}) {
+function PetPage({xurl,pets,currUser,postFavorites,removeFavorite}) {
     const [petsSearch,setPetsSearch] = useState(pets)
     const [searchTerm,setSearchTerm] = useState("")
 
@@ -25,7 +25,7 @@ function PetPage({xurl,pets,currUser,postFavorites,removeFavroite}) {
         <main>
             <Search onSearchTermChange={onSearchTermChange} searchTerm={searchTerm}/>
             <PetList
-                pets={petsSearch} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavroite={removeFavroite}/>
+                pets={petsSearch} currUser={currUser} xurl={xurl} postFavorites={postFavorites} removeFavorite={removeFavorite}/>
         </main>
     )
 }
