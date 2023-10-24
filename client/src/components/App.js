@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 function App() {
-  return <h1>Project Client</h1>;
+	return (
+		<div>
+			<Button variant="contained" color="primary">
+				Click Me
+			</Button>
+		</div>
+	);
 }
 
 export default App;
