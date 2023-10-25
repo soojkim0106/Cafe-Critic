@@ -20,47 +20,52 @@ const Login = () => {
 			<form>
 				{isLogin ? (
 					<>
-						<TextField
-							label="Username"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-							fullWidth
-							required
-						/>
-						<TextField
-							label="Password"
-							value={password}
-							type="password"
-							onChange={(e) => setPassword(e.target.value)}
-							fullWidth
-							required
-						/>
+						<div style={{ display: 'block' }}>
+							<TextField
+								label="Username"
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
+								required
+							/>
+						</div>
+						<div style={{ display: 'block' }}>
+							<TextField
+								label="Password"
+								value={password}
+								type="password"
+								onChange={(e) => setPassword(e.target.value)}
+								required
+							/>
+						</div>
 					</>
 				) : (
 					<>
-						<TextField
-							label="Create Username"
-							value={newUsername}
-							onChange={(e) => setNewUsername(e.target.value)}
-							fullWidth
-							required
-						/>
-						<TextField
-							label="Create Password"
-							value={newPassword}
-							type="password"
-							onChange={(e) => setNewPassword(e.target.value)}
-							fullWidth
-							required
-						/>
-						<TextField
-							label="Confirm Password"
-							value={confirmPassword}
-							type="password"
-							onChange={(e) => setConfirmPassword(e.target.value)}
-							fullWidth
-							required
-						/>
+						<div style={{ display: 'block' }}>
+							<TextField
+								label="Create Username"
+								value={newUsername}
+								onChange={(e) => setNewUsername(e.target.value)}
+								required
+							/>
+						</div>
+						<div style={{ display: 'block' }}>
+							<TextField
+								label="Create Password"
+								value={newPassword}
+								type="password"
+								onChange={(e) => setNewPassword(e.target.value)}
+								required
+							/>
+						</div>
+						<div style={{ display: 'block' }}>
+							<TextField
+								label="Confirm Password"
+								value={confirmPassword}
+								type="password"
+								onChange={(e) => setConfirmPassword(e.target.value)}
+								required
+							/>
+						</div>
 					</>
 				)}
 				<Button type="submit" variant="contained" color="primary">
