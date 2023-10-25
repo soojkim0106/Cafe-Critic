@@ -10,7 +10,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({ title }) => {
 	const [drawerOpen, setDrawerOpen] = useState(false);
 
 	const toggleDrawer = () => {
@@ -30,16 +30,13 @@ const NavBar = () => {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" style={{ flex: 1 }}>
-						Homepage
+						{title}
 					</Typography>
 				</Toolbar>
 			</AppBar>
 
 			<Drawer open={drawerOpen} onClose={toggleDrawer}>
 				<List>
-					<ListItem button component={Link} to="/">
-						<ListItemText primary="Login" />
-					</ListItem>
 					<ListItem button component={Link} to="/stock_simulator">
 						<ListItemText primary="Stock Simulator" />
 					</ListItem>

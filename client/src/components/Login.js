@@ -37,8 +37,8 @@ const Login = ({ onLogin, setUser }) => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				username,
-				password,
+				newUsername,
+				newPassword,
 				password_confirmation: passwordConfirmation,
 			}),
 		}).then((r) => {
