@@ -1,10 +1,9 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
-from app import bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from config import db
+from config import db, bcrypt
 
 # Models go here!
 class Stock(db.Model, SerializerMixin):
@@ -90,12 +89,11 @@ class User(db.Model, SerializerMixin):
     # Will have to make sure username is unique
     @hybrid_property
     def password_hash(self):
-        raise Exception('Password hashes may not be viewed')
+        raise Exception('Password hashes may not be view')
     
     @password_hash.setter
-    def pasword_hash(self, password):
-        password_hash = bcrypt.generate_password_hash(
-            password.encode('utf-8'))
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):

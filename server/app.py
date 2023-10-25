@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-from models import db, Product, Location, Stock
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request, session
 from flask_cors import CORS
-from flask.ext.bcrypt import Bcrypt
 import os
+from models import User, Stock, Portfolio, Expense, TotalExpense
+from config import app, db, api
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
@@ -18,6 +18,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.jsonify_compatibility = False
+app.secret_key = 'Thisismysecretkey#48'
 
 CORS(app)
 
@@ -26,7 +27,6 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 api = Api(app)
-bcrypt = Bcrypt(app)
 
 @app.route('/')
 def index():
@@ -42,8 +42,8 @@ api.add_resource(ClearSession, '/clear_session')
 
 class Signup(Resource):
     def post(self):
-        username = request.get_json()['username']
-        password = request.get_json()['password']
+        username = request.get_json()['newUsername']
+        password = request.get_json()['newPassword']
 
         if username and password:
             new_user = User(username=username)
@@ -70,18 +70,18 @@ api.add_resource(CheckSession, '/check_session')
 
 class Login(Resource):
     def post(self):
+
         username = request.get_json()['username']
-        user = User.query.filter(User.username == username)
-
         password = request.get_json()['password']
-        if password == user.password:
-            session['user_id'] = user.id
-            return user.to_dict()
-        if user.authenticate(password):
-            session['user_id'] = user.id
-            return user.to_dict()
 
-        return {'error':'Invalid username or password'}, 401
+        user = User.query.filter(User.username == username).first()
+
+        if user.authenticate(password):
+
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+
+        return {'error': '401 Unauthorized'}, 401
     
 api.add_resource(Login, '/login')
 
