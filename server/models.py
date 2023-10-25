@@ -1,6 +1,8 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
+from app import bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from config import db
 
@@ -76,8 +78,8 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String)
-    password = db.Column(db.String)
+    username = db.Column(db.String, unique=True)
+    _password_hash = db.Column(db.String, nullable=False)
 
     portfolios = db.relationship('Portfolio', backref='user', cascade='all, delete-orphan')
     total_expenses = db.relationship('TotalExpense', backref='user', cascade='all, delete-orphan')
@@ -86,6 +88,19 @@ class User(db.Model, SerializerMixin):
 
 
     # Will have to make sure username is unique
+    @hybrid_property
+    def password_hash(self):
+        raise Exception('Password hashes may not be viewed')
+    
+    @password_hash.setter
+    def pasword_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(
+            password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))
     
     @validates('username')
     def validates_username(self, key, username):
@@ -93,11 +108,11 @@ class User(db.Model, SerializerMixin):
             raise ValueError('Username must be unique and at least 4 characters long.')
         return username
     
-    @validates('password')
-    def validates_password(self, key, password):
-        if not password or len(password) < 8:
+    @validates('_password_hash')
+    def validates_password(self, key, _password_hash):
+        if not _password_hash or len(_password_hash) < 8:
             raise ValueError('For security purposes, password must be at least 7 characters long. ')
-        return password
+        return _password_hash
 
 
     def __repr__(self):

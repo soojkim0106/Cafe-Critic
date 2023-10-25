@@ -2,22 +2,56 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-const Login = () => {
+const Login = ({ onLogin, setUser }) => {
 	const [isLogin, setIsLogin] = useState(true);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [newUsername, setNewUsername] = useState('');
 	const [newPassword, setNewPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
+	const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
 	const toggleForm = () => {
 		setIsLogin(!isLogin);
 	};
 
+	function handleLoginSubmit(e) {
+		e.preventDefault();
+		fetch('/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ username, password }),
+		}).then((r) => {
+			if (r.ok) {
+				r.json().then((user) => onLogin(user));
+			}
+		});
+	}
+
+	function handleSignupSubmit(e) {
+		e.preventDefault();
+		fetch('/signup', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				username,
+				password,
+				password_confirmation: passwordConfirmation,
+			}),
+		}).then((r) => {
+			if (r.ok) {
+				r.json().then((user) => setUser(user));
+			}
+		});
+	}
+
 	return (
 		<div>
 			<h2>{isLogin ? 'Login' : 'Create Account'}</h2>
-			<form>
+			<form onSubmit={isLogin ? handleLoginSubmit : handleSignupSubmit}>
 				{isLogin ? (
 					<>
 						<div style={{ display: 'block' }}>
@@ -60,9 +94,9 @@ const Login = () => {
 						<div style={{ display: 'block' }}>
 							<TextField
 								label="Confirm Password"
-								value={confirmPassword}
+								value={passwordConfirmation}
 								type="password"
-								onChange={(e) => setConfirmPassword(e.target.value)}
+								onChange={(e) => setPasswordConfirmation(e.target.value)}
 								required
 							/>
 						</div>
