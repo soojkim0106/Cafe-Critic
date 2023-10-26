@@ -44,30 +44,53 @@ def get_clothingitems_by_id(id):
     except:
         return {'error': 'clothing item does not exist'}, 404
 
-# ----------------POST CLOTHING ITEMS TO CLOSET----------------
-
-@app.post('/closet')
-def creating_closet():
-    data = request.json
-    
-    new_closet = Closet(user_id = data['user_id'], clothingitem_id=data['clothingitem_id'])
-    db.session.add(new_closet)
-    db.session.commit()
-    
-    return new_closet.to_dict(), 201
-   
 # ----------------GET CLOSET----------------
-@app.get('/closet')
+@app.get('/closets')
 def get_closet():
     closetitems = Closet.query.all()
     for closetitem in closetitems:
         print(closetitem.to_dict())
     return jsonify([closetitem.to_dict() for closetitem in closetitems])
 
+
+# ----------------GET CLOSET by id----------------
+@app.get('/closets/<int:id>')
+def get_closet_by_id(id):
+    closets = Closet.query.filter(Closet.user_id == 1).all()
+    for closet in closets:
+        return jsonify([closet.to_dict()]), 201
+    
+# ----------------POST CLOTHING ITEMS TO CLOSET----------------
+
+@app.post('/closets')
+def creating_closet():
+    data = request.json
+    
+    # if there is an existing closet
+    existingclosets = Closet.query.filter(Closet.user_id == 1).first()
+    # for existingcloset
+        
+    
+    # add the item to that closet
+    
+    # new users:
+    # if there isnt an existing closet, create new closet and add item
+    
+    
+    new_closet = Closet(user_id = 1, 
+                        clothingitem_id=data['id'])
+    
+    
+    db.session.add(new_closet)
+    db.session.commit()
+    
+    return new_closet.to_dict(), 201
+   
+
+
+
+
 # ----------------DELETE FROM CLOSET----------------
-
-
-
 
 
 if __name__ == '__main__':

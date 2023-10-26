@@ -10,10 +10,13 @@ function App() {
 
   return (
   <div className="App">
-
+    <div className="user-header">
+                     {/* this is where it says "Hi, {username}" */}
+                </div>
 
     <NavBar/>
     <Outlet context={[closetItems, setClosetItems]} />
+
 
   </div>
   );

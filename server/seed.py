@@ -1,18 +1,15 @@
 from config import app
 from models import db, User, Closet, ClothingItem
+# from new_models import db, User, ClothingItem, Item_User_Association
 from faker import Faker
-import random 
-
-
+import random
 
 if __name__ == "__main__":
     fake = Faker()
 
     with app.app_context():
-        
            
         print("starting seed...")
-        
         
         print("deleting old seed...")
         
@@ -24,7 +21,7 @@ if __name__ == "__main__":
         
         user_list = []
         
-        for _ in range(5):
+        for _ in range(1):
             
             new_user = User(name=fake.name(), 
                             username = fake.first_name(),
@@ -54,9 +51,9 @@ if __name__ == "__main__":
     
         closetlist = []
     
-        for _ in range(5):
+        for _ in range(1):
             
-            new_closet = Closet(user = random.choice(user_list), clothingitem = random.choice(clothinglist))
+            new_closet = Closet(user_id = 1, clothingitem = random.choice(clothinglist))
             
             closetlist.append(new_closet)
             db.session.add_all(closetlist)

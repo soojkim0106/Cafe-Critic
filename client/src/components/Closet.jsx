@@ -19,10 +19,7 @@ function Closet() {
     return(
       <div>
             <div className="collection-header">
-                <img src="images/fashion-forecast-logo.jpg" alt="logo"></img>
-                <div className="user-header">
-                     {/* this is where it says "Hi, {username}" */}
-                </div>
+                
                 <div className="categories-bar">
                     <button>tops</button>
                     <button>bottom</button>

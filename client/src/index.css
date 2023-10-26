@@ -5,6 +5,33 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+body {
+    background-color: lightblue;
+}
+
+/* CSS */
+.navigation-bar {
+  background-color: #333; /* Set a background color for the navigation bar */
+  padding: 10px; /* Add padding for spacing */
+}
+
+.navigation-bar a {
+  display: block; /* Display the links as blocks */
+  text-align: center; /* Center-align the link text */
+  margin: 10px 0; /* Add margin for spacing between links */
+  padding: 10px; /* Add padding to create boxes around the links */
+  border: 1px solid #fff; /* Add borders around the link boxes */
+  color: #fff; /* Set link text color */
+  text-decoration: none; /* Remove underlines from links */
+}
+
+.navigation-bar a:hover {
+  background-color: #555; /* Change background color on hover */
+}
+
+
+
+
 
 
 .clothingitems-container {
@@ -20,10 +47,6 @@
   padding: 10px;
   /* Add any other styling you need */
 }
-
-/* .nav-container-collection {
-  display: flex;
-} */
 
 .categories-bar {
   display: flex;

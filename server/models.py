@@ -21,7 +21,7 @@ class User(db.Model, SerializerMixin):
     clothingitem = association_proxy('closets', 'clothingitem')
 
     serialize_rules = ('-closets.user',)
-    
+     
 # -------------------------CLOTHINGITEM-------------------------
 # GET ALL clothingitems 
 # GET clothing items by ID

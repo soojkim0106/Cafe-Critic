@@ -6,9 +6,9 @@ function ClothingItemCard({ clothingObj }) {
 
   const [closetItems, setClosetItems] = useOutletContext()
 
-  function addToCloset(clothingitem) {
+  function addToCloset(clickedOnItem) {
     // I need to fetch (POST) this item to my Closets database.
-    console.log(clothingitem)
+    console.log(clickedOnItem)
     
     const OPTIONS = { 
       method : "POST",
@@ -16,20 +16,17 @@ function ClothingItemCard({ clothingObj }) {
         "Accept" : "application/json",
         "Content-Type" : "application/json"
       },
-      body : JSON.stringify({
-        "user_id": 1,
-        "clothingitem_id": 1
-      })
+      body : JSON.stringify(clickedOnItem)
     } 
     
-    fetch('http://localhost:5555/closet', OPTIONS)
+    fetch('http://localhost:5555/closets', OPTIONS)
     .then(res => res.json())
     .then(res => {
       if (res.success) {
-        setClosetItems(closetItems => [...closetItems, clothingitem])
+        setClosetItems(closetItems => [...closetItems, clickedOnItem])
         console.log("please work")
-      } else {
-        console.error("failed to add item to closet")
+    //   } else {
+    //     console.error("failed to add item to closet")
       }
     })
 
