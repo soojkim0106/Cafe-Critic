@@ -67,7 +67,7 @@ def creating_closet():
     data = request.json
     
     # if there is an existing closet
-    existingclosets = Closet.query.filter(Closet.user_id == 1).first()
+    # existingclosets = Closet.query.filter(Closet.user_id == 1).first()
     # for existingcloset
         
     

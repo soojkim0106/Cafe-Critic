@@ -2,6 +2,8 @@ from config import app
 from models import db, User, Closet, ClothingItem
 # from new_models import db, User, ClothingItem, Item_User_Association
 from faker import Faker
+# from lorem_picsum import get_random_image
+
 import random
 
 if __name__ == "__main__":
@@ -35,10 +37,12 @@ if __name__ == "__main__":
         
         clothinglist = []
         
-        for _ in range(10):
-            
+        for _ in range(20):
+            image_width = 200  # Adjust the desired width
+            image_height = 200  # Adjust the desired height
+            image_url = f"https://picsum.photos/{image_width}/{image_height}"
             new_clothing = ClothingItem(name = fake.name(),
-                                        image_url = fake.url(),
+                                        image_url = image_url,
                                         category = fake.company(),
                                         tags = fake.word())
             
