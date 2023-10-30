@@ -68,6 +68,16 @@ class CheckSession(Resource):
         
 api.add_resource(CheckSession, '/check_session')
 
+class GetCurrentUser(Resource):
+    def get(self):
+        if 'user_id' in session:
+            current_user = User.query.get(session['user_id'])
+            if current_user:
+                return jsonify(current_user.to_dict()), 200
+            return jsonify({'error': 'User not authenticated'}), 401
+
+api.add_resource(GetCurrentUser, '/api/user')
+
 class Login(Resource):
     def post(self):
 
@@ -91,8 +101,56 @@ class Logout(Resource):
         session['user_id'] = None
         return {}, 204
 api.add_resource(Logout, '/logout')
-        
 
+class Expenses(Resource):
+    def get(self):
+        if 'user_id' in session:
+            user_id = session['user_id']
+            expenses = [expense.to_dict(rules=('-users'))for expense in Expense.query.filter(Expense.user_id==user_id)]
+            return make_response(expenses, 200)
+        else:
+            return make_response({'error':'Not allowed'}, 401)
+    
+    def post(self):
+        fields = request.get_json()
+        try:
+            expense = Expense(
+                name=fields['name'],
+                description=fields['description'],
+                cost=float(fields['cost']),
+                user_id=fields['user_id'],
+            )
+            db.session.add(expense)
+            db.session.commit()
+            return make_response(expense.to_dict(), 201)
+        except ValueError as e:
+            return make_response({'error': e.__str__()}, 400)
+        
+api.add_resource(Expenses, '/expenses')
+
+class ExpenseById(Resource):
+    def patch(self, id):
+        expense = Expense.query.filter(Expense.id==id).one_or_none()
+        if expense is None:
+            return make_response({'error':'Expense not found'}, 404)
+        
+        data = request.get_json()
+        for field, value in data.items():
+            if hasattr(expense, field):
+                setattr(expense, field, value)
+        
+        db.session.commit()
+        return make_response(expense.to_dict(), 202)
+    
+    def delete(self, id):
+        expense = Expense.query.filter(Expense.id==id).one_or_none()
+        if expense is None:
+            return make_response({'error':'expense not found'}, 404)
+        db.session.delete(expense)
+        db.session.commit()
+        return make_response({}, 204)
+        
+api.add_resource(ExpenseById, '/expenses/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

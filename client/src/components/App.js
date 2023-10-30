@@ -12,6 +12,7 @@ function App() {
 	const [user, setUser] = useState(null);
 	const history = useHistory();
 	const location = useLocation();
+	console.log(user);
 
 	// function handleLogin(user) {
 	// 	setUser(user);
@@ -39,6 +40,7 @@ function App() {
 		fetch('check_session').then((response) => {
 			if (response.ok) {
 				response.json().then((user) => setUser(user));
+				console.log('user is set');
 			}
 		});
 	}, []);
@@ -58,7 +60,7 @@ function App() {
 						<FinancialNews />
 					</Route>
 					<Route exact path="/track_expenses">
-						<TrackExpenses />
+						<TrackExpenses setUser={setUser} user={user} />
 					</Route>
 					<Route exact path="/logout">
 						<Logout onLogout={handleLogout} />
@@ -67,7 +69,7 @@ function App() {
 			</div>
 		);
 	} else {
-		return <Login onLogin={setUser} />;
+		return <Login onLogin={setUser} user={user} />;
 	}
 }
 

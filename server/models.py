@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
+import ipdb
 
 from config import db, bcrypt
 
@@ -46,14 +47,14 @@ class Expense(db.Model, SerializerMixin):
     name = db.Column(db.String)
     description = db.Column(db.String)
     cost = db.Column(db.Float)
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    total_expenses = db.relationship('TotalExpense', backref='expense', cascade='all, delete-orphan')
-
-    serialize_rules = ('-total_expenses.expense', '-users.expenses')
+    serialize_rules=("-user",)
 
     @validates('cost')
     def validates_cost(self, key, cost):
-        if not cost or cost < 0:
+        if not isinstance(cost, float) or cost < 0:
             raise ValueError('Cost must be positive number.')
         return cost
     
@@ -82,8 +83,9 @@ class User(db.Model, SerializerMixin):
 
     portfolios = db.relationship('Portfolio', backref='user', cascade='all, delete-orphan')
     total_expenses = db.relationship('TotalExpense', backref='user', cascade='all, delete-orphan')
+    expenses = db.relationship('Expense', backref='user', cascade='all, delete-orphan')
 
-    serialize_rules = ('-portfolios.user', '-stocks.users', '-expenses.users', '-total_expenses.user')
+    serialize_rules = ('-portfolios.user', '-stocks.users', '-expenses.users')
 
 
     # Will have to make sure username is unique

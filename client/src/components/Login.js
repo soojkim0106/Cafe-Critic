@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-const Login = ({ onLogin, setUser }) => {
+const Login = ({ onLogin, setUser, user }) => {
 	const [isLogin, setIsLogin] = useState(true);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
