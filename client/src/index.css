@@ -8,3 +8,48 @@
 .button {
 	background-color: green;
 }
+
+.newsItem {
+	align-items: center;
+	text-align: center;
+	border-top: 1px dashed;
+}
+
+.newsContainer {
+	align-items: center;
+	text-align: center;
+	width: 40%;
+	overflow: scroll;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	height: 800px;
+	margin-top: 30px;
+	border: 3px solid;
+	border-radius: 20px;
+	border-color: lightgray;
+}
+
+.newsImage {
+	height: 200px;
+	display: block;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 30%;
+}
+
+.newsTitle {
+	align-items: center;
+	text-align: center;
+}
+
+.newsSource {
+	font-size: 18px;
+}
+
+.stockList {
+	height: 50%;
+	display: block;
+	overflow: scroll;
+}

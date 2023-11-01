@@ -54,7 +54,7 @@ function App() {
 						<Login onLogin={handleLogin} setUser={setUser} />
 					</Route> */}
 					<Route exact path="/stock_simulator">
-						<StockSimulator />
+						<StockSimulator user={user} setUser={setUser} />
 					</Route>
 					<Route exact path="/financial_news">
 						<FinancialNews />

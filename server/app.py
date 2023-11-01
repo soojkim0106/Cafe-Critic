@@ -3,7 +3,8 @@
 # Standard library imports
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
-from flask import Flask, make_response, jsonify, request, session
+from flask import Flask, make_response, jsonify, request, session, render_template
+import requests
 from flask_cors import CORS
 import os
 from models import User, Stock, Portfolio, Expense, TotalExpense
@@ -28,9 +29,6 @@ db.init_app(app)
 
 api = Api(app)
 
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
 
 class ClearSession(Resource):
     def delete(self):
@@ -69,6 +67,7 @@ class CheckSession(Resource):
 api.add_resource(CheckSession, '/check_session')
 
 class GetCurrentUser(Resource):
+    @classmethod
     def get(self):
         if 'user_id' in session:
             current_user = User.query.get(session['user_id'])
@@ -129,18 +128,6 @@ class Expenses(Resource):
 api.add_resource(Expenses, '/expenses')
 
 class ExpenseById(Resource):
-    def patch(self, id):
-        expense = Expense.query.filter(Expense.id==id).one_or_none()
-        if expense is None:
-            return make_response({'error':'Expense not found'}, 404)
-        
-        data = request.get_json()
-        for field, value in data.items():
-            if hasattr(expense, field):
-                setattr(expense, field, value)
-        
-        db.session.commit()
-        return make_response(expense.to_dict(), 202)
     
     def delete(self, id):
         expense = Expense.query.filter(Expense.id==id).one_or_none()
@@ -149,8 +136,73 @@ class ExpenseById(Resource):
         db.session.delete(expense)
         db.session.commit()
         return make_response({}, 204)
+    
+    def patch(self, id):
+        expense = Expense.query.get(id)
+        if not expense:
+            return make_response({'error': 'Expense not found'}, 404)
+        data = request.get_json()
+        if 'cost' in data:
+            data['cost'] = float(data['cost'])
+        for field, value in data.items():
+            if hasattr(expense, field):
+                setattr(expense, field, value)
+        db.session.commit()
+        return make_response(expense.to_dict(), 202)
         
 api.add_resource(ExpenseById, '/expenses/<int:id>')
+
+class Stocks(Resource):
+    def get(self):
+        stocks = [stock.to_dict(rules=('-portfolios', '-users'))for stock in Stock.query.all()]
+        return make_response(stocks, 200)
+
+api.add_resource(Stocks, '/stocks')
+
+class Portfolios(Resource):
+    def post(self):
+        fields = request.get_json()
+        try:
+            portfolio = Portfolio(
+                quantity=fields['quantity'],
+                purchase_value=fields['purchase_value'],
+                user_id=fields['user_id'],
+                stock_id=fields['stock_id']
+            )
+            db.session.add(portfolio)
+            db.session.commit()
+            return make_response(portfolio.to_dict(), 201)
+        except ValueError as e:
+            return make_response({'error': e.__str__()}, 400)
+        
+    # def get(self):
+    #     if 'user_id' in session:
+    #         user_id = session['user_id']
+    #         portfolios = [portfolio.to_dict(rules=('-users'))for portfolio in Portfolio.query.filter(Portfolio.user_id==user_id)]
+    #         return make_response(portfolios, 200)
+    #     else:
+    #         return make_response({'error':'Not allowed'}, 401)
+
+    def get(self):
+        portfolios = [portfolio.to_dict(rules=('-users', '-stocks')) for portfolio in Portfolio.query.all()]
+        return make_response(portfolios, 200)
+        
+
+
+api.add_resource(Portfolios, '/portfolios')
+
+class PortfolioById(Resource):
+    
+    def delete(self, id):
+        portfolio = Portfolio.query.filter(Portfolio.id==id).one_or_none()
+        if portfolio is None:
+            return make_response({'error':'portfolio not found'}, 404)
+        db.session.delete(portfolio)
+        db.session.commit()
+        return make_response({}, 204)
+    
+        
+api.add_resource(PortfolioById, '/portfolios/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

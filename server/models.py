@@ -12,18 +12,12 @@ class Stock(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    purchase_value = db.Column (db.Float)
-    quantity = db.Column(db.Integer)
+    value = db.Column (db.Float)    
 
     portfolios = db.relationship('Portfolio', backref='stock', cascade='all, delete-orphan')
 
     serialize_rules = ('-portfolios.stock', '-users.stocks')
 
-    @validates('quantity')
-    def validates_quantity(self, key, quantity):
-        if not quantity or quantity < 1:
-            raise ValueError('Quantity must be positive number')
-        return quantity
     
     @validates('name')
     def validates_name(self, key, name):
@@ -31,12 +25,6 @@ class Stock(db.Model, SerializerMixin):
             raise ValueError('Stock must have a name.')
         return name
     
-    @validates('purchase_value')
-    def validates_value(self, key, purchase_value):
-        if not purchase_value:
-            raise ValueError('Stock must have a purchase_value.')
-        return purchase_value
-
     def __repr__(self):
         return f'<Stock {self.name} ${self.value}'
     
@@ -124,6 +112,8 @@ class Portfolio(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), nullable=False)
+    purchase_value = db.Column (db.Float)
+    quantity = db.Column(db.Integer)
 
     serialize_rules = ('-user.portfolios', '-stock.portfolios')
 
@@ -138,6 +128,18 @@ class Portfolio(db.Model, SerializerMixin):
         if not stock_id:
             raise ValueError('Must have a stock ID.')
         return stock_id
+    
+    @validates('purchase_value')
+    def validates_value(self, key, purchase_value):
+        if not purchase_value:
+            raise ValueError('Stock must have a purchase_value.')
+        return purchase_value
+    
+    @validates('quantity')
+    def validates_quantity(self, key, quantity):
+        if not quantity or quantity < 1:
+            raise ValueError('Quantity must be positive number')
+        return quantity
 
     def __repr__(self):
         return f'<Portfolio for User ID {self.user_id}: contains: {self.stock_id}'
