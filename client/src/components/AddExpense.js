@@ -31,7 +31,11 @@ const AddExpense = ({ expenses, setExpenses, user }) => {
 				});
 				if (response.ok) {
 					const data = await response.json();
-					setExpenses([...expenses, data]);
+					if (Array.isArray(expenses)) {
+						setExpenses([...expenses, data]);
+					} else {
+						setExpenses([data]);
+					}
 					formik.resetForm();
 				} else {
 					console.error('Failed to add new expense');

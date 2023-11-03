@@ -152,6 +152,16 @@ class ExpenseById(Resource):
         
 api.add_resource(ExpenseById, '/expenses/<int:id>')
 
+class ExpensesByUserId(Resource):
+    def get(self, user_id=None):
+        expenses = Expense.query.filter(Expense.user_id == user_id).all()
+        if not expenses:
+            return make_response({'error':'Expense not found'}, 404)
+        expense_data = [expense.to_dict() for expense in expenses]
+        return make_response(expense_data, 200)
+    
+api.add_resource(ExpensesByUserId, '/expenses/<int:user_id>')
+
 class Stocks(Resource):
     def get(self):
         stocks = [stock.to_dict(rules=('-portfolios', '-users'))for stock in Stock.query.all()]
@@ -190,6 +200,16 @@ class Portfolios(Resource):
 
 
 api.add_resource(Portfolios, '/portfolios')
+
+class PortfolioByUserId(Resource):
+    def get(self, user_id=None):
+        portfolios = Portfolio.query.filter(Portfolio.user_id == user_id).all()
+        if not portfolios:
+            return make_response({'error':'Portfolio not found'}, 404)
+        portfolio_data = [portfolio.to_dict() for portfolio in portfolios]
+        return make_response(portfolio_data, 200)
+    
+api.add_resource(PortfolioByUserId, '/portfolios/<int:user_id>')
 
 class PortfolioById(Resource):
     

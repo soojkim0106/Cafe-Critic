@@ -9,6 +9,24 @@ import Button from '@mui/material/Button';
 const ExpenseList = ({ user, setUser }) => {
 	const [expenses, setExpenses] = useState([]);
 	const [editingExpense, setEditingExpense] = useState(null);
+	const [startingBudget, setStartingBudget] = useState(0);
+	const [endBudget, setEndBudget] = useState(0);
+
+	useEffect(() => {
+		if (Array.isArray(expenses) && expenses.length > 0) {
+			const totalExpenseCost = expenses.reduce(
+				(total, expense) => total + expense.cost,
+				0
+			);
+
+			// Calculate the remaining budget
+			setEndBudget((startingBudget - totalExpenseCost).toFixed(2));
+		}
+	}, [startingBudget, expenses]);
+
+	const handleBudgetChange = (event) => {
+		setStartingBudget(event.target.value);
+	};
 
 	const updateExpense = (expense, updatedExpense) => {
 		fetch(`/expenses/${expense.id}`, {
@@ -57,6 +75,12 @@ const ExpenseList = ({ user, setUser }) => {
 	});
 	const handleEditExpense = (expense) => {
 		setEditingExpense(expense);
+
+		formik.setValues({
+			name: expense.name,
+			description: expense.description,
+			cost: expense.cost,
+		});
 	};
 
 	function handleDelete(expenseToDelete) {
@@ -82,18 +106,12 @@ const ExpenseList = ({ user, setUser }) => {
 	};
 
 	useEffect(() => {
-		// fetch('/api/user')
-		// 	.then((response) => response.json())
-		// 	.then((userData) => {
-		// 		setUser(userData);
-		// 	});
-		if (user && user.id) {
-			fetch(`/expenses?user_id=${user.id}`)
-				.then((r) => r.json())
-				.then((expenses) => {
-					setExpenses(expenses);
-				});
-		}
+		fetch(`/expenses/${user.id}`)
+			.then((r) => r.json())
+			.then((expense) => {
+				setExpenses(expense);
+				console.log('Expenses', expenses);
+			});
 	}, []);
 
 	console.log('User', user);
@@ -101,58 +119,74 @@ const ExpenseList = ({ user, setUser }) => {
 	return (
 		<div>
 			<h1>Expense List</h1>
+			<TextField
+				label="Monthly Budget"
+				type="number"
+				value={startingBudget}
+				onChange={handleBudgetChange}
+			/>
+			<TextField
+				label="Remaining Budget"
+				type="number"
+				value={endBudget}
+				disabled
+			/>
 			<List>
-				{expenses.map((expense) => (
-					<ListItem key={expense.id}>
-						{editingExpense === expense ? (
-							<form onSubmit={formik.handleSubmit}>
-								<TextField
-									name="name"
-									label="Expense Name"
-									value={formik.values.name}
-									onChange={formik.handleChange}
-								/>
-								{formik.touched.name && formik.errors.name ? (
-									<div className="error">{formik.errors.name}</div>
-								) : null}
-								<TextField
-									name="description"
-									label="Expense description"
-									value={formik.values.description}
-									onChange={formik.handleChange}
-								/>
-								{formik.touched.description && formik.errors.description ? (
-									<div className="error">{formik.errors.description}</div>
-								) : null}
-								<TextField
-									name="cost"
-									label="Expense cost"
-									value={formik.values.cost}
-									onChange={formik.handleChange}
-									type="number"
-									inputProps={{ step: '0.01' }}
-								/>
-								{formik.touched.cost && formik.errors.cost ? (
-									<div className="error"> {formik.errors.cost}</div>
-								) : null}
-								<Button type="submit" variant="contained" color="primary">
-									Save
-								</Button>
-							</form>
-						) : (
-							<>
-								<ListItemText
-									primary={expense.name}
-									secondary={`${expense.description}, Cost: $${expense.cost}`}
-								/>
-								<Button onClick={() => deleteExpense(expense)}>Delete</Button>
-								<Button onClick={() => handleEditExpense(expense)}>
-									Edit Expense
-								</Button>
-							</>
-						)}
-					</ListItem>
-				))}
+				{Array.isArray(expenses) && expenses.length > 0 ? (
+					expenses.map((expense) => (
+						<ListItem key={expense.id}>
+							{editingExpense === expense ? (
+								<form onSubmit={formik.handleSubmit}>
+									<TextField
+										name="name"
+										label="Expense Name"
+										value={formik.values.name}
+										onChange={formik.handleChange}
+									/>
+									{formik.touched.name && formik.errors.name ? (
+										<div className="error">{formik.errors.name}</div>
+									) : null}
+									<TextField
+										name="description"
+										label="Expense description"
+										value={formik.values.description}
+										onChange={formik.handleChange}
+									/>
+									{formik.touched.description && formik.errors.description ? (
+										<div className="error">{formik.errors.description}</div>
+									) : null}
+									<TextField
+										name="cost"
+										label="Expense cost"
+										value={formik.values.cost}
+										onChange={formik.handleChange}
+										type="number"
+										inputProps={{ step: '0.01' }}
+									/>
+									{formik.touched.cost && formik.errors.cost ? (
+										<div className="error"> {formik.errors.cost}</div>
+									) : null}
+									<Button type="submit" variant="contained" color="primary">
+										Save
+									</Button>
+								</form>
+							) : (
+								<>
+									<ListItemText
+										primary={expense.name}
+										secondary={`${expense.description}, Cost: $${expense.cost}`}
+									/>
+									<Button onClick={() => deleteExpense(expense)}>Delete</Button>
+									<Button onClick={() => handleEditExpense(expense)}>
+										Edit Expense
+									</Button>
+								</>
+							)}
+						</ListItem>
+					))
+				) : (
+					<p>No expenses.</p>
+				)}
 			</List>
 			<AddExpense
 				setExpenses={setExpenses}

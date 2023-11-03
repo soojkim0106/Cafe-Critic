@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -9,6 +9,19 @@ const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [quantity, setQuantity] = useState(1);
 	const [stockName, setStockName] = useState(name);
+	const [stockValue, setStockValue] = useState(value);
+
+	const updateStockValue = () => {
+		const randomChange = Math.random() * (1.3 - 0.8) + 1;
+		const newValue = (stockValue * randomChange).toFixed(2);
+		setStockValue(newValue);
+	};
+
+	useEffect(() => {
+		const intervalId = setInterval(updateStockValue, 2000);
+		return () => clearInterval(intervalId);
+	}, []);
+
 	const openModal = () => {
 		setModalOpen(true);
 	};
@@ -36,7 +49,11 @@ const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
 			});
 			if (response.ok) {
 				const data = await response.json();
-				setUserPort([...userPort, data]);
+				if (Array.isArray(userPort)) {
+					setUserPort([...userPort, data]);
+				} else {
+					setUserPort([data]);
+				}
 				console.log('Portfolio added:', data);
 			} else {
 				console.error('Failed to add stock to portfolio');
@@ -52,7 +69,7 @@ const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
 				<Typography variant="h5" component="div">
 					{stockName}
 				</Typography>
-				<Typography variant="body2">Value: {value}</Typography>
+				<Typography variant="body2">Value: {stockValue}</Typography>
 				<Button onClick={openModal}>Buy</Button>
 				<Modal
 					isOpen={modalOpen}

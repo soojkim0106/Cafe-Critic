@@ -34,17 +34,21 @@ const YourPortfolio = ({ user, setUser, userPort, setUserPort }) => {
 		<div>
 			<h1>Your Portfolio</h1>
 			<List>
-				{userPort.map((port) => (
-					<>
-						<ListItem key={port.id}>
-							<ListItemText
-								primary={`${port.stock.name} Quantity: ${port.quantity} `}
-								secondary={`Purchase Price: ${port.purchase_value}`}
-							/>
-							<Button onClick={() => deletePortfolio(port)}>Sell!</Button>
-						</ListItem>
-					</>
-				))}
+				{Array.isArray(userPort) && userPort.length > 0 ? (
+					userPort.map((port) => (
+						<>
+							<ListItem key={port.id}>
+								<ListItemText
+									primary={`${port.stock.name} Quantity: ${port.quantity} `}
+									secondary={`Purchase Price: ${port.purchase_value}`}
+								/>
+								<Button onClick={() => deletePortfolio(port)}>Sell!</Button>
+							</ListItem>
+						</>
+					))
+				) : (
+					<p>No stocks in your portfolio.</p>
+				)}
 			</List>
 		</div>
 	);

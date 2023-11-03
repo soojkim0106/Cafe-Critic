@@ -5,8 +5,8 @@ import Login from './Login';
 import StockSimulator from './StockSimulator';
 import FinancialNews from './FinancialNews';
 import TrackExpenses from './TrackExpenses';
-import Logout from './Logout';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import Home from './Home';
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -48,11 +48,12 @@ function App() {
 	if (user) {
 		return (
 			<div>
-				<NavBar title={getTitleForLocation(location.pathname)} />
+				<NavBar
+					onLogout={handleLogout}
+					title={getTitleForLocation(location.pathname)}
+				/>
+				<Home />
 				<Switch>
-					{/* <Route exact path="/">
-						<Login onLogin={handleLogin} setUser={setUser} />
-					</Route> */}
 					<Route exact path="/stock_simulator">
 						<StockSimulator user={user} setUser={setUser} />
 					</Route>
@@ -61,9 +62,6 @@ function App() {
 					</Route>
 					<Route exact path="/track_expenses">
 						<TrackExpenses setUser={setUser} user={user} />
-					</Route>
-					<Route exact path="/logout">
-						<Logout onLogout={handleLogout} />
 					</Route>
 				</Switch>
 			</div>

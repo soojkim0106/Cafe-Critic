@@ -6,6 +6,7 @@ const StockSimulator = ({ user, setUser }) => {
 	const [currentStock, setCurrentStock] = useState(null);
 	const [stocks, setStocks] = useState([]);
 	const [userPort, setUserPort] = useState([]);
+	const user_id = user.id;
 
 	useEffect(() => {
 		fetch('/stocks')
@@ -17,7 +18,7 @@ const StockSimulator = ({ user, setUser }) => {
 	}, []);
 
 	useEffect(() => {
-		fetch('/portfolios')
+		fetch(`/portfolios/${user.id}`)
 			.then((r) => r.json())
 			.then((portfolio) => {
 				setUserPort(portfolio);
