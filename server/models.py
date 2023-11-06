@@ -13,6 +13,7 @@ class Stock(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     value = db.Column (db.Float)    
+    behavior = db.Column(db.String)
 
     portfolios = db.relationship('Portfolio', backref='stock', cascade='all, delete-orphan')
 
@@ -68,10 +69,12 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
+    stock_budget = db.Column(db.Float, default=30000.0)
 
     portfolios = db.relationship('Portfolio', backref='user', cascade='all, delete-orphan')
     total_expenses = db.relationship('TotalExpense', backref='user', cascade='all, delete-orphan')
     expenses = db.relationship('Expense', backref='user', cascade='all, delete-orphan')
+    
 
     serialize_rules = ('-portfolios.user', '-stocks.users', '-expenses.users')
 
@@ -114,6 +117,8 @@ class Portfolio(db.Model, SerializerMixin):
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), nullable=False)
     purchase_value = db.Column (db.Float)
     quantity = db.Column(db.Integer)
+    #current_value = db.Column(db.Integer)
+    
 
     serialize_rules = ('-user.portfolios', '-stock.portfolios')
 
@@ -135,6 +140,12 @@ class Portfolio(db.Model, SerializerMixin):
             raise ValueError('Stock must have a purchase_value.')
         return purchase_value
     
+    # @validates('current_value')
+    # def validates_value(self, key, current_value):
+    #     if not current_value:
+    #         raise ValueError('Stock must have a current value.')
+    #     return current_value
+
     @validates('quantity')
     def validates_quantity(self, key, quantity):
         if not quantity or quantity < 1:

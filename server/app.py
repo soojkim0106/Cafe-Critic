@@ -77,6 +77,28 @@ class GetCurrentUser(Resource):
 
 api.add_resource(GetCurrentUser, '/api/user')
 
+class UpdateBudget(Resource):
+    def patch(self):
+        data = request.get_json()
+        user_id = session.get('user_id')
+        if user_id: 
+            user = User.query.get(user_id)
+            if user:
+                new_budget = data.get('stock_budget')
+                if new_budget is not None:
+                    user.stock_budget = new_budget
+                    db.session.commit()
+                    return {'message':'User stock budget updated successfully'}, 202
+                else: 
+                    return {'error':'Missing or invalid stock budget'}, 400
+            else:
+                return {'error': 'User not found'}, 404
+        else:
+            return {'error':'User not authenticated'}, 401
+    
+api.add_resource(UpdateBudget, '/api/user')
+
+
 class Login(Resource):
     def post(self):
 
@@ -169,6 +191,29 @@ class Stocks(Resource):
 
 api.add_resource(Stocks, '/stocks')
 
+class StocksById(Resource):
+    def patch(self, id):
+        stock = Stock.query.filter(Stock.id==id).one_or_none()
+        if stock is None:
+            return make_response({'error':'Stock not found'}, 404)
+        
+        data = request.get_json()
+        for field, value in data.items():
+            if hasattr(stock, field):
+                setattr(stock, field, value)
+
+        db.session.commit()
+        return make_response(stock.to_dict(), 202)
+    
+    def get(self, id):
+        stock = Stock.query.filter(Stock.id == id).one_or_none()
+        if stock is None:
+            return make_response({'error':'stock not found'}, 404)
+        return make_response(stock.to_dict(), 200)
+        
+api.add_resource(StocksById, '/stocks/<int:id>')
+        
+
 class Portfolios(Resource):
     def post(self):
         fields = request.get_json()
@@ -179,6 +224,7 @@ class Portfolios(Resource):
                 user_id=fields['user_id'],
                 stock_id=fields['stock_id']
             )
+            
             db.session.add(portfolio)
             db.session.commit()
             return make_response(portfolio.to_dict(), 201)
@@ -221,8 +267,25 @@ class PortfolioById(Resource):
         db.session.commit()
         return make_response({}, 204)
     
+    # def patch(self, id):
+    #     portfolio = Portfolio.query.filter(Portfolio.id==id).one_or_none()
+    #     if portfolio is None:
+    #         return make_response({'error':'Portfolio not found'}, 404)
+        
+    #     data = request.get_json()
+    #     for field, value in data.items():
+    #         if hasattr(portfolio, field):
+    #             setattr(portfolio, field, value)
+
+    #     db.session.commit()
+    #     return make_response(portfolio.to_dict(), 202)
+    
         
 api.add_resource(PortfolioById, '/portfolios/<int:id>')
+
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

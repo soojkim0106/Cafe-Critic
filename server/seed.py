@@ -10,13 +10,16 @@ from faker import Faker
 from app import app
 from models import db, Stock
 
+behaviors = ['steadyUp', 'steadyDown', 'drastic', 'wild', 'moderate']
+
 def seed_stocks():
     fake = Faker()
     stocks = []
     for _ in range(10):
         s = Stock(
             name=fake.company(),
-            value= round(randint(1, 1000) + randint(0,99) / 100, 2)
+            value= round(randint(1, 1000) + randint(0,99) / 100, 2),
+            behavior=rc(behaviors)
         ) 
         stocks.append(s)
 
