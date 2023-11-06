@@ -1,4 +1,5 @@
-
+import { useState } from "react";
+import { useWeatherData } from "../WeatherContext";
 
 function Weather() {
 
@@ -9,7 +10,7 @@ function Weather() {
    
      // Define state variables for user input and weather data
      const [city, setCity] = useState("");
-     const [weatherData, setWeatherData] = useState(null);
+     const [weatherData, setWeatherData] = useWeatherData();
      const [error, setError] = useState(null);
    
      // Function to fetch weather data
@@ -17,13 +18,17 @@ function Weather() {
        try {
          const res = await fetch(apiUrl + city + `&appid=${apiKey}`);
          const data = await res.json();
+
          setWeatherData(data);
          setError(null);
          } catch (error) {
          setWeatherData(null);
          setError("Invalid city name");
-         }
-     }
+         console.log(weatherData)
+        }
+    }
+    console.log(weatherData)
+
 
     return(
 
@@ -36,7 +41,7 @@ function Weather() {
                 spellCheck="false"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-            />
+            /> 
             <button onClick={checkWeather}>
                 <img src="images/search.png" alt="Search" />
             </button>
@@ -51,7 +56,7 @@ function Weather() {
                 className="weather-icon"
                 alt="Weather"
             />
-            <h1 className="temp">{Math.round(weatherData?.main.temp)}°C</h1>
+            <h1 className="temp">{Math.round(weatherData?.main.temp*9/5+32)}°F</h1>
             <h2 className="city">{weatherData?.name}</h2>
     
             <div className="details">
