@@ -1,4 +1,4 @@
-const Test = ({ budget }) => {
+const StockBudget = ({ budget }) => {
 	return (
 		<div className="stockBudget">
 			<h1 className="budgetTitle">Remaining Budget</h1>
@@ -7,4 +7,4 @@ const Test = ({ budget }) => {
 	);
 };
 
-export default Test;
+export default StockBudget;

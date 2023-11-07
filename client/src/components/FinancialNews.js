@@ -21,8 +21,8 @@ const FinancialNews = () => {
 
 	return (
 		<div className="newsContainer">
-			<h1>Financial News</h1>
-			<List>
+			<h1 className="newsHeader">Financial News</h1>
+			<List className="newsList">
 				{news.map((item, index) => (
 					<ListItem key={index} className="newsItem">
 						<ListItemText
@@ -39,7 +39,7 @@ const FinancialNews = () => {
 							secondary={
 								<div>
 									<p className="newsSource">{item.source.name}</p>
-									<p>{item.description}</p>
+									<p className="newsDescription">{item.description}</p>
 								</div>
 							}
 						/>

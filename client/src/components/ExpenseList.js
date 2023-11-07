@@ -117,21 +117,25 @@ const ExpenseList = ({ user, setUser }) => {
 	console.log('User', user);
 
 	return (
-		<div>
+		<div className="expenseContainer">
+			<div className="budgetDisplay">
+				<TextField
+					className="startingExpense"
+					label="Monthly Budget"
+					type="number"
+					value={startingBudget}
+					onChange={handleBudgetChange}
+				/>
+				<TextField
+					className="remainingBudget"
+					label="Remaining Budget"
+					type="number"
+					value={endBudget}
+					disabled
+				/>
+			</div>
 			<h1>Expense List</h1>
-			<TextField
-				label="Monthly Budget"
-				type="number"
-				value={startingBudget}
-				onChange={handleBudgetChange}
-			/>
-			<TextField
-				label="Remaining Budget"
-				type="number"
-				value={endBudget}
-				disabled
-			/>
-			<List>
+			<List className="expenseList">
 				{Array.isArray(expenses) && expenses.length > 0 ? (
 					expenses.map((expense) => (
 						<ListItem key={expense.id}>

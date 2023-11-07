@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import StockCard from './StockCard';
 import YourPortfolio from './YourPortfolio';
 import Test from './Test';
+import StockBudget from './Test';
 
 const StockSimulator = ({ user, setUser }) => {
 	const [currentStock, setCurrentStock] = useState(null);
@@ -76,7 +77,7 @@ const StockSimulator = ({ user, setUser }) => {
 				<div className="stockCardList">{stockList}</div>
 			</div>
 			<div>
-				<Test budget={budget} setBudget={setBudget} />
+				<StockBudget budget={budget} setBudget={setBudget} />
 			</div>
 			<div>
 				<YourPortfolio

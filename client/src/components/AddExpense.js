@@ -50,8 +50,8 @@ const AddExpense = ({ expenses, setExpenses, user }) => {
 	}
 
 	return (
-		<div>
-			<h1>Add Expense</h1>
+		<div className="addExpenseContainer">
+			<h1 className="expenseTitle">Add Expense</h1>
 			<form onSubmit={formik.handleSubmit}>
 				<div>
 					<TextField
@@ -61,6 +61,7 @@ const AddExpense = ({ expenses, setExpenses, user }) => {
 						onBlur={formik.handleBlur}
 						required
 						name="name"
+						style={{ width: '400px', backgroundColor: 'lightgray' }}
 					/>
 					{formik.touched.name && formik.errors.name ? (
 						<div className="error">{formik.errors.name}</div>
@@ -74,6 +75,10 @@ const AddExpense = ({ expenses, setExpenses, user }) => {
 						onBlur={formik.handleBlur}
 						name="description"
 						required
+						style={{
+							width: '400px',
+							backgroundColor: 'lightgray',
+						}}
 					/>
 					{formik.touched.description && formik.errors.description ? (
 						<div className="error">{formik.errors.description}</div>
@@ -91,12 +96,22 @@ const AddExpense = ({ expenses, setExpenses, user }) => {
 							step: '0.01',
 						}}
 						required
+						style={{ width: '400px', backgroundColor: 'lightgray' }}
 					/>
 					{formik.touched.cost && formik.errors.cost ? (
 						<div className="error">{formik.errors.cost}</div>
 					) : null}
 				</div>
-				<Button type="submit" variant="contained" color="primary">
+				<Button
+					style={{
+						backgroundColor: 'rgb(31,182,34)',
+						width: '300px',
+						height: '45px',
+					}}
+					type="submit"
+					variant="contained"
+					color="primary"
+				>
 					Add
 				</Button>
 			</form>

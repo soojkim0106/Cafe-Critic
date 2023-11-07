@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import Login from './Login';
 import StockSimulator from './StockSimulator';
 import FinancialNews from './FinancialNews';
-import TrackExpenses from './TrackExpenses';
+import ExpenseList from './ExpenseList';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import Home from './Home';
 
@@ -69,7 +69,7 @@ function App() {
 						<FinancialNews />
 					</Route>
 					<Route exact path="/track_expenses">
-						<TrackExpenses setUser={setUser} user={user} />
+						<ExpenseList setUser={setUser} user={user} />
 					</Route>
 				</Switch>
 			</div>
