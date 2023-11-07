@@ -28,7 +28,7 @@ const NavBar = ({ title, onLogout }) => {
 
 	return (
 		<div>
-			<AppBar position="static">
+			<AppBar position="static" style={{ backgroundColor: 'rgb(31,182,34)' }}>
 				<Toolbar>
 					<IconButton
 						edge="start"

@@ -5,21 +5,102 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Modal from 'react-modal';
 
-const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
+const StockCard = ({
+	setStockValue,
+	value,
+	name,
+	user,
+	id,
+	userPort,
+	setUserPort,
+	behavior,
+	setStockBehavior,
+	budget,
+	setBudget,
+}) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [quantity, setQuantity] = useState(1);
-	const [stockName, setStockName] = useState(name);
-	const [stockValue, setStockValue] = useState(value);
+	function randomNum(min, max) {
+		return Math.random() * (max - min) + min;
+	}
+	useEffect(() => {
+		const updateStockValue = () => {
+			const behaviors = {
+				steadyUp: randomNum(0.995, 1.02),
+				wild: randomNum(0.97, 1.03),
+				moderate: randomNum(0.99, 1.05),
+				steadyDown: randomNum(0.98, 1.005),
+				drastic: randomNum(0.95, 0.97),
+			};
+			const randomChange = behaviors[behavior];
+			let newValue = value * randomChange;
+			if (!isNaN(newValue) && isFinite(newValue)) {
+				newValue = newValue.toFixed(2);
+				fetch(`/stocks/${id}`, {
+					method: 'PATCH',
+					headers: {
+						'Content-type': 'application/json',
+					},
+					body: JSON.stringify({ value: newValue }),
+				})
+					.then((r) => {
+						if (r.ok) {
+							// console.log('Value updated succesfully');
+							setStockValue(id, newValue);
+						} else {
+							console.error('Failed to update stock on server');
+						}
+					})
+					.catch((error) => {
+						console.error('Error updating the stock value:', error);
+					});
+			} else {
+				console.error('Invalid newValue:', newValue);
+			}
+		};
+		const intervalId = setInterval(updateStockValue, 1000);
+		return () => clearInterval(intervalId);
+	}, [behavior]);
 
-	const updateStockValue = () => {
-		const randomChange = Math.random() * (1.3 - 0.8) + 1;
-		const newValue = (stockValue * randomChange).toFixed(2);
-		setStockValue(newValue);
-	};
+	function changeBehavior() {
+		const behaviors = ['steadyUp', 'moderate', 'steadyDown', 'drastic', 'wild'];
+		const randomBehavior =
+			behaviors[Math.floor(Math.random() * behaviors.length)];
+
+		fetch(`/stocks/${id}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ behavior: randomBehavior }),
+		})
+			.then((r) => {
+				if (r.ok) {
+					setStockBehavior(id, randomBehavior);
+				} else {
+					console.error('Failed to update behavior on the server.');
+				}
+			})
+			.catch((error) => {
+				console.error('Error updating behavior:', error);
+			});
+	}
 
 	useEffect(() => {
-		const intervalId = setInterval(updateStockValue, 2000);
-		return () => clearInterval(intervalId);
+		function updateBehaviorPeriodically() {
+			const minInterval = 20000;
+			const maxInterval = 35000;
+			const randomInterval =
+				Math.floor(Math.random() * (maxInterval - minInterval + 1)) +
+				minInterval;
+
+			setTimeout(() => {
+				changeBehavior();
+				// console.log(id);
+				updateBehaviorPeriodically();
+			}, randomInterval);
+		}
+		updateBehaviorPeriodically();
 	}, []);
 
 	const openModal = () => {
@@ -28,7 +109,28 @@ const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
 
 	const closeModal = () => {
 		setModalOpen(false);
-		handleBuy(quantity, stockName);
+		handleBuy(quantity, name);
+		console.log('Quantity:', quantity);
+	};
+
+	const updateBudget = (newBudget) => {
+		fetch('/api/user', {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ stock_budget: newBudget }),
+		})
+			.then((r) => {
+				if (r.ok) {
+					console.log('Budget updated successfully');
+				} else {
+					console.error('Failed to update new budget');
+				}
+			})
+			.catch((error) => {
+				console.error('Error updating budget:', error);
+			});
 	};
 
 	const handleBuy = async (stock) => {
@@ -40,23 +142,37 @@ const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
 				quantity: parseInt(quantity),
 				purchase_value: value,
 			};
-			const response = await fetch('/portfolios', {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			});
-			if (response.ok) {
-				const data = await response.json();
-				if (Array.isArray(userPort)) {
-					setUserPort([...userPort, data]);
+
+			const cost = value * quantity;
+
+			if (budget >= cost) {
+				const newBudget = budget - cost; // Deduct cost from budget if affordable
+				setBudget(newBudget);
+				updateBudget(newBudget);
+
+				console.log('New Budget:', newBudget);
+
+				const response = await fetch('/portfolios', {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+
+				if (response.ok) {
+					const data = await response.json();
+					if (Array.isArray(userPort)) {
+						setUserPort([...userPort, data]);
+					} else {
+						setUserPort([data]);
+					}
+					console.log('Portfolio added:', data);
 				} else {
-					setUserPort([data]);
+					console.error('Failed to add stock to portfolio');
 				}
-				console.log('Portfolio added:', data);
 			} else {
-				console.error('Failed to add stock to portfolio');
+				console.error('Not enough budget to buy this stock');
 			}
 		} catch (error) {
 			console.error('Error adding stock:', error);
@@ -65,12 +181,19 @@ const StockCard = ({ value, name, user, id, userPort, setUserPort }) => {
 
 	return (
 		<Card className="stockCard">
-			<CardContent>
-				<Typography variant="h5" component="div">
-					{stockName}
+			<CardContent className="stockCardContent">
+				<Typography variant="h4" component="div">
+					{name}
 				</Typography>
-				<Typography variant="body2">Value: {stockValue}</Typography>
-				<Button onClick={openModal}>Buy</Button>
+				<Typography color="gray" variant="h5">
+					Value: {value}
+				</Typography>
+				<Button
+					style={{ backgroundColor: '#1fb622', color: 'white' }}
+					onClick={openModal}
+				>
+					Buy
+				</Button>
 				<Modal
 					isOpen={modalOpen}
 					onRequestClose={closeModal}

@@ -5,6 +5,12 @@
 	--text: hsla(0, 0%, 100%, 0.88);
 }
 
+body {
+	background-color: rgb(50, 50, 60);
+	color: white;
+	font-family: Arial;
+}
+
 .button {
 	background-color: green;
 }
@@ -52,4 +58,106 @@
 	height: 50%;
 	display: block;
 	overflow: scroll;
+}
+
+.stockCardList {
+	overflow: auto;
+	height: 650px;
+}
+
+.buyStocks {
+	width: 500px;
+	margin-left: 100px;
+	background-color: rgb(217, 250, 217);
+	border-radius: 16px;
+	overflow: hidden;
+	margin-top: 50px;
+}
+
+.buyStocks h1 {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 70px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.stockCardContent {
+	background-color: rgb(217, 250, 217);
+	text-align: center;
+}
+
+.stockCard {
+	margin: 2px;
+	margin-bottom: 2px;
+}
+
+.simulatorContainer {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.stockBudget {
+	text-align: center;
+	background-color: rgb(217, 250, 217);
+	height: 150px;
+	width: 350px;
+	border-radius: 15px;
+	margin-right: 100px;
+	margin-left: 100px;
+}
+
+.budgetTitle {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 60px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin-top: 50px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.budgetAmount {
+	color: rgb(31, 182, 34);
+	font-size: 40px;
+}
+
+.portfolio {
+	width: 500px;
+	margin-right: 10px;
+	background-color: rgb(217, 250, 217);
+	border-radius: 16px;
+	overflow: hidden;
+	margin-top: 50px;
+	margin-right: 100px;
+}
+
+.portfolioTitle {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 70px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.portfolioStocks {
+	color: black;
+	border-bottom: 1px;
+	margin-bottom: 0;
 }

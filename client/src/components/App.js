@@ -12,7 +12,11 @@ function App() {
 	const [user, setUser] = useState(null);
 	const history = useHistory();
 	const location = useLocation();
-	console.log(user);
+	// console.log(user);
+
+	const setBudget = (budget) => {
+		setUser((u) => ({ ...u, stock_budget: budget }));
+	};
 
 	// function handleLogin(user) {
 	// 	setUser(user);
@@ -55,7 +59,11 @@ function App() {
 				<Home />
 				<Switch>
 					<Route exact path="/stock_simulator">
-						<StockSimulator user={user} setUser={setUser} />
+						<StockSimulator
+							user={user}
+							setUser={setUser}
+							setBudget={setBudget}
+						/>
 					</Route>
 					<Route exact path="/financial_news">
 						<FinancialNews />
