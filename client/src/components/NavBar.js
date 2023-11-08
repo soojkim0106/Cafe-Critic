@@ -55,6 +55,9 @@ const NavBar = ({ title, onLogout }) => {
 
 			<Drawer open={drawerOpen} onClose={toggleDrawer}>
 				<List>
+					<ListItem button onClick={toggleDrawer} component={Link} to="/">
+						<ListItemText primary="Home" />
+					</ListItem>
 					<ListItem
 						button
 						onClick={toggleDrawer}

@@ -3,12 +3,27 @@ import { Typography } from '@mui/material';
 const Home = () => {
 	return (
 		<div>
-			{/* <Typography variant="h4" gutterBottom>
+			<Typography className="homeInfo" variant="h4" gutterBottom>
 				Welcome to website name, a site designed to help people understand
 				finances better. Learn to make better financial decisions on the
 				Financial News page, keep track of your budget in Track Expenses, or
 				practice buying and selling stocks with the Stock Simulator.
-			</Typography> */}
+			</Typography>
+
+			<div className="infoContainer">
+				<div className="sectionContainer">
+					<h1>Title and Link</h1>
+					<p>Information</p>
+				</div>
+				<div className="sectionContainer">
+					<h1>Title and Link</h1>
+					<p>Information</p>
+				</div>
+				<div className="sectionContainer">
+					<h1>Title and Link</h1>
+					<p>Information</p>
+				</div>
+			</div>
 		</div>
 	);
 };

@@ -446,3 +446,50 @@ body {
 	background-color: rgb(217, 250, 217);
 	border-bottom-left-radius: 15px;
 }
+
+.infoContainer {
+	margin-top: 10%;
+	display: flex;
+	flex-direction: row;
+	height: 75vh;
+	margin-left: 5%;
+}
+
+.sectionContainer {
+	margin-left: 7%;
+	background-color: rgb(217, 250, 217);
+	border-radius: 15px;
+	height: 350px;
+}
+
+.sectionContainer h1 {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 50px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+.sectionContainer p {
+	background-color: rgb(217, 250, 217);
+	margin-top: 0;
+	height: 300px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	color: rgb(31, 182, 34);
+	text-align: center;
+	margin-top: 3px;
+	font-size: 20px;
+}
+
+.homeInfo {
+	text-align: center;
+}

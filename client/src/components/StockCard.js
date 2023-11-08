@@ -26,11 +26,11 @@ const StockCard = ({
 	useEffect(() => {
 		const updateStockValue = () => {
 			const behaviors = {
-				steadyUp: randomNum(0.995, 1.02),
-				wild: randomNum(0.97, 1.03),
-				moderate: randomNum(0.99, 1.05),
+				steadyUp: randomNum(0.995, 1.03),
+				wild: randomNum(0.98, 1.02),
+				moderate: randomNum(0.99, 1.1),
 				steadyDown: randomNum(0.98, 1.005),
-				drastic: randomNum(0.95, 0.97),
+				drastic: randomNum(0.98, 0.99),
 			};
 			const randomChange = behaviors[behavior];
 			let newValue = value * randomChange;
@@ -146,8 +146,7 @@ const StockCard = ({
 			const cost = value * quantity;
 
 			if (budget >= cost) {
-				const newBudget = budget - cost; // Deduct cost from budget if affordable
-				setBudget(newBudget);
+				const newBudget = budget - cost;
 				updateBudget(newBudget);
 
 				console.log('New Budget:', newBudget);
@@ -172,7 +171,7 @@ const StockCard = ({
 					console.error('Failed to add stock to portfolio');
 				}
 			} else {
-				console.error('Not enough budget to buy this stock');
+				alert('Not enough budget to buy this stock');
 			}
 		} catch (error) {
 			console.error('Error adding stock:', error);

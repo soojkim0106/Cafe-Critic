@@ -56,7 +56,11 @@ function App() {
 					onLogout={handleLogout}
 					title={getTitleForLocation(location.pathname)}
 				/>
-				<Home />
+				<Switch>
+					<Route exact path="/">
+						<Home user={user} />
+					</Route>
+				</Switch>
 				<Switch>
 					<Route exact path="/stock_simulator">
 						<StockSimulator
