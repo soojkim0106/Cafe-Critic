@@ -38,9 +38,18 @@ const NavBar = ({ title, onLogout }) => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" style={{ flex: 1 }}>
+					<Typography variant="h6" style={{ flex: 1, fontSize: '24px' }}>
 						{title}
 					</Typography>
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						onClick={handleLogout}
+						style={{ backgroundColor: 'rgb(50,50,60' }}
+					>
+						Logout
+					</Button>
 				</Toolbar>
 			</AppBar>
 
@@ -70,14 +79,6 @@ const NavBar = ({ title, onLogout }) => {
 					>
 						<ListItemText primary="Track Expenses" />
 					</ListItem>
-					<Button
-						type="submit"
-						variant="contained"
-						color="primary"
-						onClick={handleLogout}
-					>
-						Logout
-					</Button>
 				</List>
 			</Drawer>
 		</div>

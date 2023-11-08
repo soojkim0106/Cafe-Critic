@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import StockCard from './StockCard';
 import YourPortfolio from './YourPortfolio';
-import Test from './Test';
-import StockBudget from './Test';
+import StockBudget from './StockBudget';
 
 const StockSimulator = ({ user, setUser }) => {
 	const [currentStock, setCurrentStock] = useState(null);

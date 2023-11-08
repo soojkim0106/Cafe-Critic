@@ -118,86 +118,127 @@ const ExpenseList = ({ user, setUser }) => {
 
 	return (
 		<div className="expenseContainer">
-			<div className="budgetDisplay">
-				<TextField
-					className="startingExpense"
-					label="Monthly Budget"
-					type="number"
-					value={startingBudget}
-					onChange={handleBudgetChange}
-				/>
-				<TextField
-					className="remainingBudget"
-					label="Remaining Budget"
-					type="number"
-					value={endBudget}
-					disabled
+			<div className="leftSide">
+				<div className="budgetDisplay">
+					<h1 className="monthlyBudgetTitle">Enter Monthly Budget</h1>
+					<TextField
+						className="startingExpense"
+						type="number"
+						value={startingBudget}
+						onChange={handleBudgetChange}
+						style={{ width: '400px' }}
+						InputProps={{
+							style: { color: 'rgb(31, 182, 34)' },
+						}}
+					/>
+					<h1 className="remainingTitle">Remaing Budget</h1>
+					<TextField
+						className="remainingBudget"
+						type="number"
+						value={endBudget}
+						disabled
+						style={{
+							width: '400px',
+							borderBottomLeftRadius: '15px',
+							borderBottomRightRadius: '15px',
+						}}
+						InputProps={{ style: { color: 'rgb(31, 182, 34)' } }}
+					/>
+				</div>
+				<AddExpense
+					setExpenses={setExpenses}
+					expenses={expenses}
+					user={user}
+					setUser={setUser}
 				/>
 			</div>
-			<h1>Expense List</h1>
-			<List className="expenseList">
-				{Array.isArray(expenses) && expenses.length > 0 ? (
-					expenses.map((expense) => (
-						<ListItem key={expense.id}>
-							{editingExpense === expense ? (
-								<form onSubmit={formik.handleSubmit}>
-									<TextField
-										name="name"
-										label="Expense Name"
-										value={formik.values.name}
-										onChange={formik.handleChange}
-									/>
-									{formik.touched.name && formik.errors.name ? (
-										<div className="error">{formik.errors.name}</div>
-									) : null}
-									<TextField
-										name="description"
-										label="Expense description"
-										value={formik.values.description}
-										onChange={formik.handleChange}
-									/>
-									{formik.touched.description && formik.errors.description ? (
-										<div className="error">{formik.errors.description}</div>
-									) : null}
-									<TextField
-										name="cost"
-										label="Expense cost"
-										value={formik.values.cost}
-										onChange={formik.handleChange}
-										type="number"
-										inputProps={{ step: '0.01' }}
-									/>
-									{formik.touched.cost && formik.errors.cost ? (
-										<div className="error"> {formik.errors.cost}</div>
-									) : null}
-									<Button type="submit" variant="contained" color="primary">
-										Save
-									</Button>
-								</form>
-							) : (
-								<>
-									<ListItemText
-										primary={expense.name}
-										secondary={`${expense.description}, Cost: $${expense.cost}`}
-									/>
-									<Button onClick={() => deleteExpense(expense)}>Delete</Button>
-									<Button onClick={() => handleEditExpense(expense)}>
-										Edit Expense
-									</Button>
-								</>
-							)}
-						</ListItem>
-					))
-				) : (
-					<p>No expenses.</p>
-				)}
-			</List>
-			<AddExpense
-				setExpenses={setExpenses}
-				expenses={expenses}
-				user={user}
-				setUser={setUser}
-			/>
+
+			<div className="listContainer">
+				<h1>Your Expenses</h1>
+
+				<List className="expenseList">
+					{Array.isArray(expenses) && expenses.length > 0 ? (
+						expenses.map((expense) => (
+							<ListItem key={expense.id}>
+								{editingExpense === expense ? (
+									<form onSubmit={formik.handleSubmit}>
+										<TextField
+											name="name"
+											label="Expense Name"
+											value={formik.values.name}
+											onChange={formik.handleChange}
+											style={{ height: '10px' }}
+										/>
+										{formik.touched.name && formik.errors.name ? (
+											<div className="error">{formik.errors.name}</div>
+										) : null}
+										<TextField
+											name="description"
+											label="Expense description"
+											value={formik.values.description}
+											onChange={formik.handleChange}
+										/>
+										{formik.touched.description && formik.errors.description ? (
+											<div className="error">{formik.errors.description}</div>
+										) : null}
+										<TextField
+											name="cost"
+											label="Expense cost"
+											value={formik.values.cost}
+											onChange={formik.handleChange}
+											type="number"
+											inputProps={{ step: '0.01' }}
+										/>
+										{formik.touched.cost && formik.errors.cost ? (
+											<div className="error"> {formik.errors.cost}</div>
+										) : null}
+										<Button
+											type="submit"
+											variant="contained"
+											color="primary"
+											style={{ marginLeft: '3px', height: '55px' }}
+										>
+											Save 💾
+										</Button>
+									</form>
+								) : (
+									<>
+										<div className="listItem">
+											<ListItemText
+												primary={`Cost: $${expense.cost}`}
+												secondary={`${expense.name}: ${expense.description}, `}
+												classes={{
+													primary: 'listPrimary',
+													secondary: 'listSecondary',
+												}}
+												style={{ borderBottom: '2px' }}
+											/>
+											<Button
+												onClick={() => deleteExpense(expense)}
+												style={{
+													backgroundColor: 'red',
+													color: 'white',
+													marginRight: '5px',
+												}}
+											>
+												Delete 🗑️
+											</Button>
+											<Button
+												onClick={() => handleEditExpense(expense)}
+												style={{ backgroundColor: 'blue', color: 'white' }}
+											>
+												Edit Expense ✏️
+											</Button>
+										</div>
+									</>
+								)}
+							</ListItem>
+						))
+					) : (
+						<p>No expenses.</p>
+					)}
+				</List>
+			</div>
 		</div>
 	);
 };

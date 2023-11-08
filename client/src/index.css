@@ -109,7 +109,7 @@ body {
 
 .stockCardList {
 	overflow: auto;
-	height: 650px;
+	max-height: 450px;
 }
 
 .buyStocks {
@@ -155,10 +155,10 @@ body {
 	text-align: center;
 	background-color: rgb(217, 250, 217);
 	height: 150px;
-	width: 350px;
+	width: 280px;
 	border-radius: 15px;
-	margin-right: 100px;
-	margin-left: 100px;
+	margin-right: 50px;
+	margin-left: 50px;
 }
 
 .budgetTitle {
@@ -173,6 +173,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	font-size: 28px;
 }
 .budgetAmount {
 	color: rgb(31, 182, 34);
@@ -180,13 +181,14 @@ body {
 }
 
 .portfolio {
-	width: 500px;
+	width: 400px;
 	margin-right: 10px;
 	background-color: rgb(217, 250, 217);
 	border-radius: 16px;
 	overflow: hidden;
 	margin-top: 50px;
 	margin-right: 100px;
+	max-height: 450px;
 }
 
 .portfolioTitle {
@@ -209,26 +211,9 @@ body {
 	margin-bottom: 0;
 }
 
-.expenseContainer {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.budgetDisplay {
-	margin-left: 50px;
-}
-
-.expenseList {
-	margin-right: 50px;
-}
-
 .addExpenseContainer {
-	margin-left: 50px;
-	margin-top: 30px;
+	margin-top: 0px;
 	width: 400px;
-	margin-right: 30px;
 }
 
 .expenseTitle {
@@ -243,4 +228,221 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+}
+.expenseContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.startingExpense {
+	background-color: white;
+	color: rgb(31, 182, 34);
+	border-radius: 5px;
+}
+
+.remainingBudget {
+	background-color: white;
+	color: rgb(31, 182, 34);
+	border-radius: 5px;
+}
+
+.monthlyBudgetTitle {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	height: 50px;
+	margin-top: 0px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	text-align: center;
+	margin-bottom: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+}
+.budgetDisplay {
+	color: rgb(31, 182, 34);
+	background-color: rgb(217, 250, 217);
+	border-radius: 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin-bottom: 50px;
+}
+
+.remainingTitle {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 50px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+}
+
+.leftSide {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	height: 75vh;
+	margin-top: 50px;
+	margin-left: 70px;
+}
+
+.expenseList {
+	background-color: rgb(217, 250, 217);
+	max-height: 450px;
+	overflow: auto;
+	width: 710px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+.listContainer h1 {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 80px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin-top: 0px;
+	margin-bottom: 0;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 710px;
+}
+
+.listContainer {
+	margin-right: 50px;
+	margin-right: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 710px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	background-color: rgb(217, 250, 217);
+	margin-top: 50px;
+	border-radius: 15px;
+
+	/* height: 200px; */
+}
+
+.listPrimary {
+	color: black;
+}
+
+.listItem {
+	border-bottom: 1px solid black;
+}
+
+.listItem:last-child {
+	border-bottom: none;
+}
+
+.loginSignupContainer {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 400px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	background-color: rgb(238, 238, 238);
+	margin-top: 50px;
+	border-radius: 15px;
+	text-align: center;
+}
+
+.loginHeader {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 50px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+.pageContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60vh;
+}
+
+.emptyPortfolio {
+	color: rgb(31, 182, 34);
+	margin-left: 10px;
+	font-size: 24px;
+	margin-top: 5px;
+	font-weight: 500;
+}
+
+.modal {
+	color: black;
+	position: absolute;
+	left: 10%;
+	top: 30%;
+	width: 300px;
+}
+
+.displayBox {
+	position: absolute;
+	background-color: rgb(31, 182, 34);
+	border-radius: 15px;
+	width: 300px;
+}
+
+.displayBox h2 {
+	background-color: black;
+	color: white;
+	margin-top: 0;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	text-align: center;
+	height: 70px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 0;
+}
+
+.confirmButton {
+	height: 55px;
+	width: 147px;
+	color: white;
+	background-color: rgb(31, 182, 34);
+	border: none;
+	margin: 0;
+	border-bottom-right-radius: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.quantityInput {
+	height: 53px;
+	margin-top: 0x;
+	border-radius: 3px;
+	background-color: rgb(217, 250, 217);
+	border-bottom-left-radius: 15px;
 }

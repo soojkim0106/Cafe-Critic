@@ -110,7 +110,7 @@ const YourPortfolio = ({
 						</>
 					))
 				) : (
-					<p>No stocks in your portfolio.</p>
+					<p className="emptyPortfolio">No stocks in your portfolio.</p>
 				)}
 			</List>
 		</div>

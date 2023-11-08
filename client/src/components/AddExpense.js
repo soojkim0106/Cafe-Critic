@@ -96,24 +96,35 @@ const AddExpense = ({ expenses, setExpenses, user }) => {
 							step: '0.01',
 						}}
 						required
-						style={{ width: '400px', backgroundColor: 'lightgray' }}
+						style={{
+							width: '400px',
+							backgroundColor: 'lightgray',
+							borderBottomLeftRadius: '10px',
+							borderBottomRightRadius: '10px',
+							marginBottom: '6px',
+						}}
 					/>
 					{formik.touched.cost && formik.errors.cost ? (
 						<div className="error">{formik.errors.cost}</div>
 					) : null}
 				</div>
-				<Button
-					style={{
-						backgroundColor: 'rgb(31,182,34)',
-						width: '300px',
-						height: '45px',
-					}}
-					type="submit"
-					variant="contained"
-					color="primary"
-				>
-					Add
-				</Button>
+				<div>
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						className="addExpenseButton"
+						style={{
+							backgroundColor: 'rgb(31, 182, 34)',
+							width: '400px',
+							height: '45px',
+
+							borderRadius: '20px',
+						}}
+					>
+						Add
+					</Button>
+				</div>
 			</form>
 		</div>
 	);

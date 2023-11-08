@@ -198,14 +198,22 @@ const StockCard = ({
 					isOpen={modalOpen}
 					onRequestClose={closeModal}
 					contentLabel="Buy Stock Modal"
+					className="modal"
+					overlayClassName="modalOverlay"
 				>
-					<h2>How many would you like to buy?</h2>
-					<input
-						type="number"
-						value={quantity}
-						onChange={(e) => setQuantity(e.target.value)}
-					/>
-					<button onClick={closeModal}> Confirm </button>
+					<div className="displayBox">
+						<h2>How many would you like to buy?</h2>
+						<input
+							className="quantityInput"
+							type="number"
+							value={quantity}
+							onChange={(e) => setQuantity(e.target.value)}
+						/>
+						<button className="confirmButton" onClick={closeModal}>
+							{' '}
+							Confirm{' '}
+						</button>
+					</div>
 				</Modal>
 			</CardContent>
 		</Card>

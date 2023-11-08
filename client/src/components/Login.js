@@ -49,66 +49,111 @@ const Login = ({ onLogin, setUser, user }) => {
 	}
 
 	return (
-		<div>
-			<h2>{isLogin ? 'Login' : 'Create Account'}</h2>
-			<form onSubmit={isLogin ? handleLoginSubmit : handleSignupSubmit}>
-				{isLogin ? (
-					<>
-						<div style={{ display: 'block' }}>
-							<TextField
-								label="Username"
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-								required
-							/>
-						</div>
-						<div style={{ display: 'block' }}>
-							<TextField
-								label="Password"
-								value={password}
-								type="password"
-								onChange={(e) => setPassword(e.target.value)}
-								required
-							/>
-						</div>
-					</>
-				) : (
-					<>
-						<div style={{ display: 'block' }}>
-							<TextField
-								label="Create Username"
-								value={newUsername}
-								onChange={(e) => setNewUsername(e.target.value)}
-								required
-							/>
-						</div>
-						<div style={{ display: 'block' }}>
-							<TextField
-								label="Create Password"
-								value={newPassword}
-								type="password"
-								onChange={(e) => setNewPassword(e.target.value)}
-								required
-							/>
-						</div>
-						<div style={{ display: 'block' }}>
-							<TextField
-								label="Confirm Password"
-								value={passwordConfirmation}
-								type="password"
-								onChange={(e) => setPasswordConfirmation(e.target.value)}
-								required
-							/>
-						</div>
-					</>
-				)}
-				<Button type="submit" variant="contained" color="primary">
-					{isLogin ? 'Login' : 'Create Account'}
+		<div className="pageContainer">
+			<div className="loginSignupContainer">
+				<h2 className="loginHeader">{isLogin ? 'Login' : 'Create Account'}</h2>
+				<form onSubmit={isLogin ? handleLoginSubmit : handleSignupSubmit}>
+					{isLogin ? (
+						<>
+							<div style={{ display: 'block' }}>
+								<TextField
+									label="Username"
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
+									required
+									style={{
+										width: '400px',
+										backgroundColor: 'lightgray',
+										borderBottomLeftRadius: '10px',
+										borderBottomRightRadius: '10px',
+									}}
+								/>
+							</div>
+							<div style={{ display: 'block' }}>
+								<TextField
+									label="Password"
+									value={password}
+									type="password"
+									onChange={(e) => setPassword(e.target.value)}
+									required
+									style={{
+										width: '400px',
+										backgroundColor: 'lightgray',
+										borderBottomLeftRadius: '10px',
+										borderBottomRightRadius: '10px',
+										marginBottom: '6px',
+									}}
+								/>
+							</div>
+						</>
+					) : (
+						<>
+							<div style={{ display: 'block' }}>
+								<TextField
+									label="Create Username"
+									value={newUsername}
+									onChange={(e) => setNewUsername(e.target.value)}
+									required
+									style={{
+										width: '400px',
+										backgroundColor: 'lightgray',
+										borderBottomLeftRadius: '10px',
+										borderBottomRightRadius: '10px',
+									}}
+								/>
+							</div>
+							<div style={{ display: 'block' }}>
+								<TextField
+									label="Create Password"
+									value={newPassword}
+									type="password"
+									onChange={(e) => setNewPassword(e.target.value)}
+									required
+									style={{
+										width: '400px',
+										backgroundColor: 'lightgray',
+										borderBottomLeftRadius: '10px',
+										borderBottomRightRadius: '10px',
+									}}
+								/>
+							</div>
+							<div style={{ display: 'block' }}>
+								<TextField
+									label="Confirm Password"
+									value={passwordConfirmation}
+									type="password"
+									onChange={(e) => setPasswordConfirmation(e.target.value)}
+									required
+									style={{
+										width: '400px',
+										backgroundColor: 'lightgray',
+										borderBottomLeftRadius: '10px',
+										borderBottomRightRadius: '10px',
+										marginBottom: '6px',
+									}}
+								/>
+							</div>
+						</>
+					)}
+					<Button
+						style={{
+							backgroundColor: 'rgb(31, 182, 34)',
+							width: '200px',
+							height: '45px',
+
+							borderRadius: '20px',
+						}}
+						type="submit"
+						variant="contained"
+						color="primary"
+					>
+						{isLogin ? 'Login' : 'Create Account'}
+					</Button>
+				</form>
+				<Button onClick={toggleForm}>
+					{isLogin ? 'Create Account' : 'Have an account? Login!'}
 				</Button>
-			</form>
-			<Button onClick={toggleForm}>
-				{isLogin ? 'Create Account' : 'Have an account? Login!'}
-			</Button>
+			</div>
 		</div>
 	);
 };
