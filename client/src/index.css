@@ -459,7 +459,8 @@ body {
 	margin-left: 7%;
 	background-color: rgb(217, 250, 217);
 	border-radius: 15px;
-	height: 350px;
+	height: 250px;
+	width: 400px;
 }
 
 .sectionContainer h1 {
@@ -481,15 +482,26 @@ body {
 .sectionContainer p {
 	background-color: rgb(217, 250, 217);
 	margin-top: 0;
-	height: 300px;
+	height: 150px;
 	border-bottom-left-radius: 15px;
 	border-bottom-right-radius: 15px;
 	color: rgb(31, 182, 34);
 	text-align: center;
 	margin-top: 3px;
 	font-size: 20px;
+	width: 400;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 8px;
+	margin-right: 8px;
 }
 
 .homeInfo {
 	text-align: center;
+	color: white;
+}
+.homeContainer {
+	margin: 20px;
+	margin-bottom: 0px;
 }
