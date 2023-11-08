@@ -235,7 +235,7 @@ const ExpenseList = ({ user, setUser }) => {
 							</ListItem>
 						))
 					) : (
-						<p>No expenses.</p>
+						<p className="noExpenses">No expenses.</p>
 					)}
 				</List>
 			</div>

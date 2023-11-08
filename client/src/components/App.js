@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { Switch, Route, Link, useHistory } from 'react-router-dom';
 import NavBar from './NavBar';
 import Login from './Login';
@@ -7,6 +7,7 @@ import FinancialNews from './FinancialNews';
 import ExpenseList from './ExpenseList';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import Home from './Home';
+import { UserContext } from './UserContext';
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -52,25 +53,26 @@ function App() {
 	if (user) {
 		return (
 			<div>
-				<NavBar
-					onLogout={handleLogout}
-					title={getTitleForLocation(location.pathname)}
-				/>
+				<UserContext.Provider value={user.username}>
+					<NavBar
+						onLogout={handleLogout}
+						title={getTitleForLocation(location.pathname)}
+					/>
+				</UserContext.Provider>
+
 				<Switch>
 					<Route exact path="/">
 						<Home user={user} />
 					</Route>
-				</Switch>
-				<Switch>
+					<Route exact path="/financial_news">
+						<FinancialNews />
+					</Route>
 					<Route exact path="/stock_simulator">
 						<StockSimulator
 							user={user}
 							setUser={setUser}
 							setBudget={setBudget}
 						/>
-					</Route>
-					<Route exact path="/financial_news">
-						<FinancialNews />
 					</Route>
 					<Route exact path="/track_expenses">
 						<ExpenseList setUser={setUser} user={user} />

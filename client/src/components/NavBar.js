@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -10,9 +10,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { UserContext } from './UserContext';
 
 const NavBar = ({ title, onLogout }) => {
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const username = useContext(UserContext);
 
 	const toggleDrawer = () => {
 		setDrawerOpen(!drawerOpen);
@@ -41,15 +43,20 @@ const NavBar = ({ title, onLogout }) => {
 					<Typography variant="h6" style={{ flex: 1, fontSize: '24px' }}>
 						{title}
 					</Typography>
-					<Button
-						type="submit"
-						variant="contained"
-						color="primary"
-						onClick={handleLogout}
-						style={{ backgroundColor: 'rgb(50,50,60' }}
-					>
-						Logout
-					</Button>
+					<div className="navUser">
+						<Typography variant="h6" style={{ flex: 1, fontSize: '24px' }}>
+							{username}
+						</Typography>
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+							onClick={handleLogout}
+							style={{ backgroundColor: 'rgb(50,50,60', marginLeft: '5px' }}
+						>
+							Logout
+						</Button>
+					</div>
 				</Toolbar>
 			</AppBar>
 
