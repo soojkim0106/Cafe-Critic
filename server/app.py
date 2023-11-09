@@ -267,18 +267,6 @@ class PortfolioById(Resource):
         db.session.commit()
         return make_response({}, 204)
     
-    # def patch(self, id):
-    #     portfolio = Portfolio.query.filter(Portfolio.id==id).one_or_none()
-    #     if portfolio is None:
-    #         return make_response({'error':'Portfolio not found'}, 404)
-        
-    #     data = request.get_json()
-    #     for field, value in data.items():
-    #         if hasattr(portfolio, field):
-    #             setattr(portfolio, field, value)
-
-    #     db.session.commit()
-    #     return make_response(portfolio.to_dict(), 202)
     
         
 api.add_resource(PortfolioById, '/portfolios/<int:id>')
