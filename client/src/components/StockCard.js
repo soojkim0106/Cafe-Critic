@@ -148,6 +148,7 @@ const StockCard = ({
 			if (budget >= cost) {
 				const newBudget = budget - cost;
 				updateBudget(newBudget);
+				setBudget(newBudget);
 
 				console.log('New Budget:', newBudget);
 
@@ -185,7 +186,7 @@ const StockCard = ({
 					{name}
 				</Typography>
 				<Typography color="gray" variant="h5">
-					Value: {value}
+					Value: ${value}
 				</Typography>
 				<Button
 					style={{ backgroundColor: '#1fb622', color: 'white' }}

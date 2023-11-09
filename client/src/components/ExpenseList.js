@@ -196,7 +196,11 @@ const ExpenseList = ({ user, setUser }) => {
 											type="submit"
 											variant="contained"
 											color="primary"
-											style={{ marginLeft: '3px', height: '55px' }}
+											style={{
+												marginLeft: '3px',
+												height: '55px',
+												width: '30px',
+											}}
 										>
 											Save 💾
 										</Button>
@@ -206,7 +210,7 @@ const ExpenseList = ({ user, setUser }) => {
 										<div className="listItem">
 											<ListItemText
 												primary={`Cost: $${expense.cost}`}
-												secondary={`${expense.name}: ${expense.description}, `}
+												secondary={`${expense.name}: ${expense.description} `}
 												classes={{
 													primary: 'listPrimary',
 													secondary: 'listSecondary',

@@ -204,6 +204,10 @@ body {
 	align-items: center;
 	justify-content: center;
 }
+.portfolioList {
+	overflow: auto;
+	max-height: 330px;
+}
 
 .portfolioStocks {
 	color: black;

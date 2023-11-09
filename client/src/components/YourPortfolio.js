@@ -85,7 +85,7 @@ const YourPortfolio = ({
 			<div className="portfolioTitle">
 				<h1>Your Portfolio</h1>
 			</div>
-			<List>
+			<List className="portfolioList">
 				{Array.isArray(userPort) && userPort.length > 0 ? (
 					userPort.map((port) => (
 						<>
