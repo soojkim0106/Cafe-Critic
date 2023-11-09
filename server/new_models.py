@@ -51,3 +51,11 @@ class Closet(db.Model):
 
     item_object = db.relationship("ClothingItem", back_populates="items_selected_by_user")
     user_object = db.relationship("User", back_populates="user_that_selected_the_item")
+    
+    def to_dict(self):
+        return{
+            "id": self.id,
+            "item_id": self.item_id,
+            "user_id": self.user_id,
+            "item_object": self.item_object.to_dict()
+        }

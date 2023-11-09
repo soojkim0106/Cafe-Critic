@@ -36,24 +36,79 @@ if __name__ == "__main__":
 
         clothing_items_list = [
             # Tops
-            ClothingItem(name="Long Sleeve", image_url="URL", category="Tops", tags="cold"),
-            ClothingItem(name="T-Shirt", image_url="URL", category="Tops", tags="hot"),
-            ClothingItem(name="Blouse", image_url="URL", category="Tops", tags="comfortable"),
+            ClothingItem(name="Long Sleeve", 
+                         image_url="/images/clothes/longsleeve.jpg", 
+                         category="Tops", 
+                         tags="cold"
+                         ),
+            
+            ClothingItem(name="T-Shirt", 
+                         image_url="/images/clothes/tshirt.jpg", 
+                         category="Tops", 
+                         tags= "hot"
+                         ),
+            
+            ClothingItem(name="Blouse", 
+                         image_url="/images/clothes/blouse.jpg", 
+                         category="Tops", 
+                         tags="comfortable"
+                         ),
 
             # Bottoms
-            ClothingItem(name="Jeans", image_url="URL", category="Bottoms", tags="cold"),
-            ClothingItem(name="Shorts", image_url="URL", category="Bottoms", tags="hot"),
-            ClothingItem(name="Long Skirt", image_url="URL", category="Bottoms", tags="comfortable"),
+            ClothingItem(name="Jeans", 
+                         image_url="/images/clothes/jeans.jpg", 
+                         category="Bottoms", 
+                         tags="cold"
+                         ),
+            
+            ClothingItem(name="Shorts", 
+                         image_url="/images/clothes/shorts.jpg", 
+                         category="Bottoms", 
+                         tags="hot"
+                         ),
+            
+            ClothingItem(name="Long Skirt", 
+                         image_url="/images/clothes/longskirt.jpg", 
+                         category="Bottoms", 
+                         tags="comfortable"
+                         ),
 
             # Footwear
-            ClothingItem(name="Boots", image_url="URL", category="Footwear", tags="cold"),
-            ClothingItem(name="Sneakers", image_url="URL", category="Footwear", tags="comfortable"),
-            ClothingItem(name="Flats", image_url="URL", category="Footwear", tags="hot"),
+            ClothingItem(name="Boots", 
+                         image_url="/images/clothes/boots.jpg", 
+                         category="Footwear", 
+                         tags="cold"
+                         ),
+            ClothingItem(name="Sneakers", 
+                         image_url="/images/clothes/sneakers.jpg", 
+                         category="Footwear", 
+                         tags="hot"
+                         ),
+
+            ClothingItem(name="Mules", 
+                         image_url="/images/clothes/mules.jpg", 
+                         category="Footwear", 
+                         tags="comfortable"
+                         ),
 
             # Outerwear
-            ClothingItem(name="Cardigan", image_url="URL", category="Outerwear", tags="comfortable"),
-            ClothingItem(name="Sweater", image_url="URL", category="Outerwear", tags="cold"),
-            ClothingItem(name="Puffer Jacket", image_url="URL", category="Outerwear", tags="cold"),
+            # ClothingItem(name="Cardigan", 
+            #              image_url="/images/clothes/cardigan.jpg", 
+            #              category="Outerwear", 
+            #              tags="comfortable"
+            #              ),
+            
+            ClothingItem(name="Sweater", 
+                         image_url="/images/clothes/sweater.jpg", 
+                         category="Outerwear", 
+                         tags="cold"
+                         ),
+            
+            ClothingItem(name="Jacket", 
+                         image_url="/images/clothes/jacket.jpg", 
+                         category="Outerwear", 
+                         tags="cold"
+                         ),
         ]
 
 # Add clothing items to your database (you need to implement this part)

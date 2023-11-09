@@ -40,7 +40,7 @@ def get_clothingitems():
 
 # ----------------GET CLOTHING ITEM BY ID----------------
 
-@app.get('/collection')
+@app.get('/collection/<int:id>')
 def get_clothingitems_by_id(id):
     try:
         clothingitem = ClothingItem.query.filter(ClothingItem.id == id).first()
@@ -52,25 +52,18 @@ def get_clothingitems_by_id(id):
 
 @app.post('/collection')
 def post_closet():
-    
-        # creating a python object inside of the request
-        # create a new closet object
+
+        # create a new closet object inside of the request
         # give the closet object the attributes from the incoming json request ; closet object not clothing object
+        
         # closet obj has 2 attributes: item id and user id
                 # "item_id": 7,
                 # "user_id": 3
+   
         # take that information and create new python instance/obj with 
-        # nature of the foreignkeys creates the relationship
+        # nature of the foreign keys creates the relationship
         
-       
-    #    closet_object = Closet({ 
-    #                 "item_id": 7,
-    #                 "user_id": 3
-    #             })
-    
-    
         data = request.json
-        # print(data['user_id'])
     
         closet_object = Closet(
                         item_id = data['item_id'],
@@ -81,28 +74,28 @@ def post_closet():
         db.session.commit()
 
         return jsonify({'message': 'Clothing item added successfully'}), 201
+       
+    #    closet_object = Closet({ 
+    #                 "item_id": 7,
+    #                 "user_id": 3
+    #             })
+    
+    
+@app.delete('/collection/<int:id>')
+def delete_from_closet(id):
+    pass
+    
+    closet_item = Closet.query.filter(Closet.id == id).first()
+    
+    # author = Author.query.filter(Author.id == id).first()
+    
+    if closet_item:      
+        db.session.delete(closet_item)
+        db.session.commit()
+        return jsonify({'message': 'Item removed from closet successfully'}), 200
+    else:
+        return jsonify({'error': 'Item not found in the closet'}), 404
 
-    
-    
-
-# @app.post('/cars')
-# def create_cars():
-    
-#     data = request.json
-    
-    # owner = Owner.query.filter(Owner.id == data['owner_id']).first
-    # dealership = Dealership.query.filter(Dealership.id == data['dealership_id']).first
-    
-#     new_car = Car(make = data['make'], 
-#                   data_sold = data['date_sold'], 
-#                   model = data['model'], 
-#                   owner = owner, 
-#                   dealership = dealership)
-    
-#     db.session.add_all(new_car)
-#     db.session.commit()
-    
-#     return new_car.to_dict(), 201
     
 # ----------------GET CLOSET(favourited items) BY USER ID----------------
 
@@ -122,43 +115,46 @@ def get_closet(user_id):
     
     # Check if any favorited items were found
     if items_in_closet:
-        result = [item.item_object.to_dict() for item in items_in_closet]
+        result = [item.to_dict() for item in items_in_closet]
         return jsonify(result), 200
     else:
         return {'error': 'No favourited items found for this user.'}, 404
     
+    
+    
+    
 # ----------------PROTOTYPE PATCH CLOSET----------------
 
-@app.patch('/closet/<int:id>')
-def patch_closet(id):
+# @app.patch('/closet/<int:id>')
+# def patch_closet(id):
     
-    req = request.json
+#     req = request.json
     
-    user_id = request.json['user_id']
-    item_id = request.json['item_id']
+#     user_id = request.json['user_id']
+#     item_id = request.json['item_id']
     
-    print("REQUEST:", req)
-    print("USER:", user_id)
-    print("ITEM:", item_id)
-    """ Prototyping Route to Add Item to Closet """
-    # IDs for Parsing Association to Add to Closet
-    # TODO: Change it so it takes in a item ID and user ID from the frontend 
-    #       and sets these two values to whatever those IDs are.
-    #       Will need `request.data` or `request.json` or some shit.
-    # item_id_to_add, user_id_to_add = 6, 2
+#     print("REQUEST:", req)
+#     print("USER:", user_id)
+#     print("ITEM:", item_id)
+#     """ Prototyping Route to Add Item to Closet """
+#     # IDs for Parsing Association to Add to Closet
+#     # TODO: Change it so it takes in a item ID and user ID from the frontend 
+#     #       and sets these two values to whatever those IDs are.
+#     #       Will need `request.data` or `request.json` or some shit.
+#     # item_id_to_add, user_id_to_add = 6, 2
 
-    # # Filter All Associations by Item and User IDs
-    ITEM_ID_MATCH = Closet.item_id == item_id
-    USER_ID_MATCH = Closet.user_id == user_id
-    matching_association = Closet.query.filter(ITEM_ID_MATCH, USER_ID_MATCH).first()
-    # print("\n\n")
-    print(matching_association.id)
-    setattr(matching_association, "favourited", True) 
-    # `matching_association.favourited = True`
-    db.session.add(matching_association)
-    db.session.commit()
-    # print("\n\n")
-    return '<h1>WE DID IIIIIIT</h1>'
+#     # # Filter All Associations by Item and User IDs
+#     ITEM_ID_MATCH = Closet.item_id == item_id
+#     USER_ID_MATCH = Closet.user_id == user_id
+#     matching_association = Closet.query.filter(ITEM_ID_MATCH, USER_ID_MATCH).first()
+#     # print("\n\n")
+#     print(matching_association.id)
+#     setattr(matching_association, "favourited", True) 
+#     # `matching_association.favourited = True`
+#     db.session.add(matching_association)
+#     db.session.commit()
+#     # print("\n\n")
+#     return '<h1>WE DID IIIIIIT</h1>'
 
        
     
