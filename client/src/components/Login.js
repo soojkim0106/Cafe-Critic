@@ -9,6 +9,7 @@ const Login = ({ onLogin, setUser, user }) => {
 	const [newUsername, setNewUsername] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
+	const [error, setError] = useState(null);
 
 	const toggleForm = () => {
 		setIsLogin(!isLogin);
@@ -25,12 +26,24 @@ const Login = ({ onLogin, setUser, user }) => {
 		}).then((r) => {
 			if (r.ok) {
 				r.json().then((user) => onLogin(user));
+			} else {
+				if (r.status === 500) {
+					setError('Username not found');
+				} else {
+					if (r.status === 401) {
+						setError('Username and password do not match');
+					}
+				}
 			}
 		});
 	}
 
 	function handleSignupSubmit(e) {
 		e.preventDefault();
+		if (newPassword !== passwordConfirmation) {
+			setError('Passwords do not match.');
+			return;
+		}
 		fetch('/signup', {
 			method: 'POST',
 			headers: {
@@ -44,9 +57,18 @@ const Login = ({ onLogin, setUser, user }) => {
 		}).then((r) => {
 			if (r.ok) {
 				setIsLogin(!isLogin);
+				setError('Account created successfully!');
+			} else {
+				if (r.status === 500) {
+					setError('Username already taken.');
+				}
 			}
 		});
 	}
+
+	const clearError = () => {
+		setError(null);
+	};
 
 	return (
 		<div className="pageContainer">
@@ -84,6 +106,9 @@ const Login = ({ onLogin, setUser, user }) => {
 										marginBottom: '6px',
 									}}
 								/>
+								{error && (
+									<div style={{ color: 'red', margin: '5px' }}>{error} </div>
+								)}
 							</div>
 						</>
 					) : (
@@ -132,13 +157,16 @@ const Login = ({ onLogin, setUser, user }) => {
 										marginBottom: '6px',
 									}}
 								/>
+								{error && (
+									<div style={{ color: 'red', margin: '5px' }}>{error} </div>
+								)}
 							</div>
 						</>
 					)}
 					<Button
 						style={{
 							backgroundColor: 'rgb(31, 182, 34)',
-							width: '200px',
+							width: isLogin ? '100px' : '200px',
 							height: '45px',
 
 							borderRadius: '20px',
@@ -150,7 +178,12 @@ const Login = ({ onLogin, setUser, user }) => {
 						{isLogin ? 'Login' : 'Create Account'}
 					</Button>
 				</form>
-				<Button onClick={toggleForm}>
+				<Button
+					onClick={() => {
+						toggleForm();
+						clearError();
+					}}
+				>
 					{isLogin ? 'Create Account' : 'Have an account? Login!'}
 				</Button>
 			</div>

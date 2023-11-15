@@ -5,10 +5,10 @@ const Home = () => {
 		<div>
 			<div className="homeContainer">
 				<Typography className="homeInfo" variant="h4" gutterBottom>
-					Welcome to FinEd, a website designed to help people understand better
-					understand finances. Learn to make better financial decisions on the
-					Financial News page, keep track of your budget in Track Expenses, or
-					practice buying and selling stocks with the Stock Simulator.
+					Welcome to FinEd, a website designed to help people better understand
+					finances. Learn to make better financial decisions on the Financial
+					News page, keep track of your budget in Track Expenses, or practice
+					buying and selling stocks with the Stock Simulator.
 				</Typography>
 			</div>
 

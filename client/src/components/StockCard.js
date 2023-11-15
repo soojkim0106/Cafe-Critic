@@ -45,7 +45,6 @@ const StockCard = ({
 				})
 					.then((r) => {
 						if (r.ok) {
-							// console.log('Value updated succesfully');
 							setStockValue(id, newValue);
 						} else {
 							console.error('Failed to update stock on server');
@@ -96,7 +95,6 @@ const StockCard = ({
 
 			setTimeout(() => {
 				changeBehavior();
-				// console.log(id);
 				updateBehaviorPeriodically();
 			}, randomInterval);
 		}
