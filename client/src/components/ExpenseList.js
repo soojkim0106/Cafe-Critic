@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 const ExpenseList = ({ user, setUser }) => {
 	const [expenses, setExpenses] = useState([]);
 	const [editingExpense, setEditingExpense] = useState(null);
-	const [startingBudget, setStartingBudget] = useState(0);
+	const [startingBudget, setStartingBudget] = useState(user.expense_budget);
 	const [endBudget, setEndBudget] = useState(0);
 
 	useEffect(() => {
@@ -18,14 +18,35 @@ const ExpenseList = ({ user, setUser }) => {
 				(total, expense) => total + expense.cost,
 				0
 			);
-
-			// Calculate the remaining budget
 			setEndBudget((startingBudget - totalExpenseCost).toFixed(2));
 		}
 	}, [startingBudget, expenses]);
 
 	const handleBudgetChange = (event) => {
-		setStartingBudget(event.target.value);
+		const newBudget = event.target.value;
+		console.log(newBudget);
+		setStartingBudget(newBudget);
+		updateExpenseBudget(newBudget);
+	};
+
+	const updateExpenseBudget = (newBudget) => {
+		fetch('api/user/expense', {
+			method: 'PATCH',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify({ expense_budget: newBudget }),
+		})
+			.then((r) => {
+				if (r.ok) {
+					console.log('Updated expense budget successfully.');
+				} else {
+					console.log('Failed to update Budget');
+				}
+			})
+			.catch((error) => {
+				console.error('Error updating expense budget:', error);
+			});
 	};
 
 	const updateExpense = (expense, updatedExpense) => {

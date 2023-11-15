@@ -70,6 +70,7 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
     stock_budget = db.Column(db.Float, default=30000.0)
+    expense_budget = db.Column(db.Float, default=3000.0)
 
     portfolios = db.relationship('Portfolio', backref='user', cascade='all, delete-orphan')
     total_expenses = db.relationship('TotalExpense', backref='user', cascade='all, delete-orphan')

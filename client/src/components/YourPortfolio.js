@@ -11,8 +11,6 @@ const YourPortfolio = ({
 	setBudget,
 	budget,
 }) => {
-	// console.log('User', user);
-
 	const updateBudget = (newBudget) => {
 		fetch('/api/user', {
 			method: 'PATCH',
@@ -40,9 +38,8 @@ const YourPortfolio = ({
 			);
 			setUserPort(updatedPortfolio);
 
-			// Fetch the current stock value from your backend using the stock's ID
 			const stockId = portfolioToDelete.stock.id;
-			const response = await fetch(`/stocks/${stockId}`); // Adjust the API endpoint as needed
+			const response = await fetch(`/stocks/${stockId}`);
 			if (response.ok) {
 				const stockData = await response.json();
 				const stockValue = stockData.value;

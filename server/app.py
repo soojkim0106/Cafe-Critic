@@ -77,7 +77,7 @@ class GetCurrentUser(Resource):
 
 api.add_resource(GetCurrentUser, '/api/user')
 
-class UpdateBudget(Resource):
+class UpdateStockBudget(Resource):
     def patch(self):
         data = request.get_json()
         user_id = session.get('user_id')
@@ -96,7 +96,28 @@ class UpdateBudget(Resource):
         else:
             return {'error':'User not authenticated'}, 401
     
-api.add_resource(UpdateBudget, '/api/user')
+api.add_resource(UpdateStockBudget, '/api/user')
+
+class UpdateExpenseBudget(Resource):
+    def patch(self):
+        data = request.get_json()
+        user_id = session.get('user_id')
+        if user_id: 
+            user = User.query.get(user_id)
+            if user:
+                new_budget = data.get('expense_budget')
+                if new_budget is not None:
+                    user.expense_budget = new_budget
+                    db.session.commit()
+                    return {'message':'User expense budget updated successfully'}, 202
+                else: 
+                    return {'error':'Missing or invalid expense budget'}, 400
+            else:
+                return {'error': 'User not found'}, 404
+        else:
+            return {'error':'User not authenticated'}, 401
+    
+api.add_resource(UpdateExpenseBudget, '/api/user/expense')
 
 
 class Login(Resource):
