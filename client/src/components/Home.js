@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 
 const Home = () => {
 	return (
-		<div>
+		<div className="fullHome">
 			<div className="homeContainer">
 				<Typography className="homeInfo" variant="h4" gutterBottom>
 					Welcome to FinEd, a website designed to help people better understand

@@ -20,7 +20,7 @@ const FinancialNews = () => {
 	}, []);
 
 	return (
-		<div className="newsContainer">
+		<div className="newsContainer container">
 			<h1 className="newsHeader">Financial News</h1>
 			<List className="newsList">
 				{news.map((item, index) => (
