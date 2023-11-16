@@ -11,6 +11,7 @@ const ExpenseList = ({ user, setUser }) => {
 	const [editingExpense, setEditingExpense] = useState(null);
 	const [startingBudget, setStartingBudget] = useState(user.expense_budget);
 	const [endBudget, setEndBudget] = useState(0);
+	const [openList, setOpenList] = useState(false);
 
 	useEffect(() => {
 		if (Array.isArray(expenses) && expenses.length > 0) {
@@ -27,6 +28,14 @@ const ExpenseList = ({ user, setUser }) => {
 		console.log(newBudget);
 		setStartingBudget(newBudget);
 		updateExpenseBudget(newBudget);
+	};
+	const listFalse = () => {
+		setOpenList(false);
+		console.log(openList);
+	};
+	const listTrue = () => {
+		setOpenList(true);
+		console.log(openList);
 	};
 
 	const updateExpenseBudget = (newBudget) => {
@@ -174,15 +183,15 @@ const ExpenseList = ({ user, setUser }) => {
 				/>
 			</div>
 
-			<div className="listContainer">
+			<div className={openList ? 'listContainer' : 'closedList'}>
 				<h1>Your Expenses</h1>
 
-				<List className="expenseList">
+				<List className={openList ? 'expenseList' : 'closedExpenseList'}>
 					{Array.isArray(expenses) && expenses.length > 0 ? (
 						expenses.map((expense) => (
 							<ListItem key={expense.id}>
 								{editingExpense === expense ? (
-									<form onSubmit={formik.handleSubmit}>
+									<form onSubmit={formik.handleSubmit} className="openList">
 										<TextField
 											name="name"
 											label="Expense Name"
@@ -222,6 +231,9 @@ const ExpenseList = ({ user, setUser }) => {
 												height: '55px',
 												width: '30px',
 											}}
+											onClick={() => {
+												listFalse();
+											}}
 										>
 											Save 💾
 										</Button>
@@ -249,7 +261,10 @@ const ExpenseList = ({ user, setUser }) => {
 												Delete 🗑️
 											</Button>
 											<Button
-												onClick={() => handleEditExpense(expense)}
+												onClick={() => {
+													handleEditExpense(expense);
+													listTrue();
+												}}
 												style={{ backgroundColor: 'blue', color: 'white' }}
 											>
 												Edit Expense ✏️

@@ -240,6 +240,8 @@ body {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	margin-left: 15%;
+	margin-right: 15%;
 }
 
 .startingExpense {
@@ -301,6 +303,7 @@ body {
 	flex-direction: column;
 	height: 75vh;
 	margin-top: 50px;
+	margin-right: 70px;
 	margin-left: 70px;
 }
 
@@ -311,6 +314,7 @@ body {
 	width: 710px;
 	border-bottom-left-radius: 15px;
 	border-bottom-right-radius: 15px;
+	margin-left: 30px;
 }
 
 .listContainer h1 {
@@ -331,7 +335,6 @@ body {
 
 .listContainer {
 	margin-right: 50px;
-	margin-right: 50px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -342,10 +345,49 @@ body {
 	background-color: rgb(217, 250, 217);
 	margin-top: 50px;
 	border-radius: 15px;
-
-	/* height: 200px; */
 }
 
+.closedList {
+	margin-right: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 410px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	background-color: rgb(217, 250, 217);
+	margin-top: 50px;
+	border-radius: 15px;
+}
+
+.closedList h1 {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 80px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin-top: 0px;
+	margin-bottom: 0;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 410px;
+}
+
+.closedExpenseList {
+	background-color: rgb(217, 250, 217);
+	max-height: 450px;
+	overflow: auto;
+	width: 410px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	margin-left: 30px;
+	text-align: center;
+	align-items: center;
+}
 .listPrimary {
 	color: black;
 }
@@ -482,7 +524,6 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	/* width: 400px; */
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
 }
