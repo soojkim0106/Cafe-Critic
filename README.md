@@ -21,7 +21,7 @@ FinEd is an App I created to demonstrate skills in Python, Javascript, React, an
 
 ## Login
 
-Users are taken to this page when they first load the app and cannot move on until they enter a valid username and password. They also have the opportunity to create an account here if they need one. The homepage is loaded immediately after the user enters a valid login.
+Users are taken to this page when they first load the app and cannot move on until they enter a valid username and password, which are encrypted with Bcrypt. Appropriate error messages are displayed if the user enters a username not found in the system or an incorrect password. User also has the opportunity to create an account here if they need one. Appropriate error messages are displayed if the username is already taken or the passwords do not match. The homepage is loaded immediately after the user enters a valid login.
 
 ## Homepage
 
@@ -55,7 +55,7 @@ Highest level component under Index.js, holds components for all other pages as 
 
 ### ExpenseList.js
 
-Retrieves all expenses from the server where the user_id matches the current user then displays them as a Materials UI list. Each expense can be edited or deleted, which will send a patch or delete request to the server. The budget element allows users to enter a number for a monthly budget then automatically deducts expenses from the users monthly budget and displays the value. When a stock is deleted, the budget expense is updated to reflect this. Also displays the AddExpense Component.
+Retrieves all expenses from the server where the user_id matches the current user then displays them as a Materials UI list. Each expense can be edited or deleted, which will send a patch or delete request to the server. The budget element allows users to enter a number for a monthly budget which is saved to the User model, then automatically deducts expenses from the users monthly budget and displays the value. When a stock is deleted, the budget expense is updated to reflect this. Also displays the AddExpense Component.
 
 ### FinancialNews.js
 

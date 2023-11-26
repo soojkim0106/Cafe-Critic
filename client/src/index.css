@@ -303,8 +303,8 @@ body {
 	flex-direction: column;
 	height: 75vh;
 	margin-top: 50px;
-	margin-right: 70px;
-	margin-left: 70px;
+	/* margin-right: 70px;
+	margin-left: 70px; */
 }
 
 .expenseList {
