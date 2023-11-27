@@ -1,4 +1,5 @@
-# Phase 4 Full-Stack Application Project Template
+# Parks Passport App
+Created by [Haylee Rees](github.com/sassy85), [Lizz Klein](github.com/5lizzerin), and [Kevin J Stafford](github.com/kevinjstafford).
 
 ## Learning Goals
 
