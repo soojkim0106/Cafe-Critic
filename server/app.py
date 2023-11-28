@@ -31,7 +31,10 @@ def trainers():
 
 @app.route('/trainers/<int:id>', Method='GET')
 def trainers(id):
-    
+    trainer_Id=Trainer.query.filter_by(id = id).first()
+    if not trainer_Id:
+        return make_response({'error':'Trainer does not exist'}, 404)
+    return make_response(trainer_Id.to_dict(), 200)
 
 # Views go here!
 
