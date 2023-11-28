@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
+
 class User(db.Model,SerializerMixin):
     __tablename__='users'
 
@@ -11,9 +12,9 @@ class User(db.Model,SerializerMixin):
 
     reviews=db.relationship(
     'Reviews', 
-    back_populates='user', 
+    back_populates='users', 
     cascade='all, delete-orphan')
-    reviews_gymLo=association_proxy('gym_location', 'reviews')
+    reviews_gymLo=association_proxy('gym_locations', 'reviews')
 
 
 class GymLocation(db.Model,SerializerMixin):
@@ -25,7 +26,7 @@ class GymLocation(db.Model,SerializerMixin):
     #relationships a gym location has many reviews
     reviews=db.relationship(
     'Reviews', 
-    back_populates='gym_location', 
+    back_populates='gym_locations', 
     cascade='all, delete-orphan')
     reviews_user=association_proxy('user', 'reviews')
 
