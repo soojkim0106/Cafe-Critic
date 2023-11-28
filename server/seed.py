@@ -63,12 +63,12 @@ if __name__ == '__main__':
         reviews=[r1,r2,r3,r4]
 
         print('printing machines')
-        m1=Machines(machine_type='Free weights, Sqaut racks, 5 cable towers, cardio, tires, any many more')
-        m2=Machines(machine_type='Free weights, green turf, many squat racks, many bench press any many more')
+        m1=Machines(machine_name='Free weights, Sqaut racks, 5 cable towers, cardio, tires, any many more')
+        m2=Machines(machine_name='Free weights, green turf, many squat racks, many bench press any many more')
         machines=[m1, m2]
 
         print('printing trainers')
-        t1=Trainer(name=fake.name()[1,10])
+        t1=Trainer(name=fake.name())
         trainer=[t1]
         
 

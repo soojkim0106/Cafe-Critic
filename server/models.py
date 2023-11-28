@@ -1,5 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
+
 
 from config import db
 
@@ -27,8 +29,8 @@ class GymLocation(db.Model,SerializerMixin):
     reviews=db.relationship('Reviews', back_populates='gym_locations', cascade='all, delete-orphan')
     reviews_user=association_proxy('user', 'reviews')
 
-    machines=db.relationship('Machines', backpopulates='gym_location')
-    trainers=db.relationship('Trainers', backpopulates='gym_location')
+    machines=db.relationship('Machines', back_populates='gym_location')
+    trainers=db.relationship('Trainers', back_populates='gym_location')
 
 class Exercise(db.Model,SerializerMixin):
     __tablename__='exercises'
@@ -62,29 +64,29 @@ class Review(db.Model, SerializerMixin):
     created_at=db.Column(db.DateTime, server_default=db.func.now())
     updated_at=db.Column(db.DateTime, onupdate=db.func.now())
 
-    user_id=db.Column(db.Integer, db.ForgeinKey('users.id'))
-    gym_locations=db.Column(db.Integer, db.ForgeinKey('gym_locations.id'))
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
+    gym_locations_id=db.Column(db.Integer,db.ForeignKey('gym_locations.id'))
     # relationships
     user=db.relationship('User', back_populates='reviews')
     gym_location=db.relationship('GymLocation', back_populates='reviews')
 
 class Machines(db.Model, SerializerMixin):
     __tablename__= 'machines'
-    id=db.Column(db.Integer)
-    machine_type=db.Column(db.String)
+    id=db.Column(db.Integer, primary_key=True)
+    machine_name=db.Column(db.String)
 
-    gym_locations=db.Column(db.Integer, db.ForgeinKey('gym_locations.id'))
+    gym_locations_id=db.Column(db.Integer, db.ForeignKey('gym_locations.id'))
 
     #relationship A Gym location has many machines
-    gym_location=db.relationships('GymLocation', backpopulates='machines') 
+    gym_location=db.relationship('GymLocation', back_populates='machines') 
 
 
 class Trainer(db.Model, SerializerMixin):
     __tablename__= 'trainers'
-    id=db.Column(db.Integer)
+    id=db.Column(db.Integer, primary_key=True)
     names=db.Column(db.String)
 
-    gym_locations=db.Column(db.Integer, db.ForgeinKey('gym_locations.id'))
+    gym_locations_id=db.Column(db.Integer, db.ForeignKey('gym_locations.id'))
 
     #relationship A Gym location has many trainers
-    gym_location=db.relationships('GymLocation', backpopulates='trainers') 
+    gym_location=db.relationship('GymLocation', back_populates='trainers') 
