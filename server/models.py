@@ -14,3 +14,12 @@ class Park(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Park {self.name}>'
+
+class Neighborhood(db.Model, SerializerMixin):
+    __tablename__ = "neighborhoods"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Neighborhood {self.name}>'
