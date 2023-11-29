@@ -56,10 +56,10 @@ if __name__ == '__main__':
         assignments=[a1,a2,a3,a4]
 
         print('making reviews')
-        r1=Review(user_id=1,body='Very nice gym!',created_at=fake.date(),updated_at=None)
-        r2=Review(user_id=2,body='Staff is awesome!',created_at=fake.date(),updated_at=fake.date())
-        r3=Review(user_id=3,body='Its eh',created_at=fake.date(),updated_at=None)
-        r4=Review(user_id=4,body='4 stars',created_at=fake.date(),updated_at=None)
+        r1=Review(user_id=1,body='Very nice gym!')#,created_at=fake.date(),gym_location_id= 3)
+        r2=Review(user_id=2,body='Staff is awesome!')#,created_at=fake.date(),gym_location_id= 4)
+        r3=Review(user_id=3,body='Its eh')#,created_at=fake.date(),gym_location_id= 2)
+        r4=Review(user_id=4,body='4 stars')#,created_at=fake.date(),gym_location_id= 1)
         reviews=[r1,r2,r3,r4]
 
         print('printing machines')
@@ -69,6 +69,14 @@ if __name__ == '__main__':
 
         print('printing trainers')
         t1=Trainer(name=fake.name())
+        # t2=Trainer(name=fake.name())
+        # t3=Trainer(name=fake.name())
+        # t1=Trainer(name=fake.name())
+        # t1=Trainer(name=fake.name())
+        # t1=Trainer(name=fake.name())
+        # t1=Trainer(name=fake.name())
+        # t1=Trainer(name=fake.name())
+        # t1=Trainer(name=fake.name())
         trainer=[t1]
         
 

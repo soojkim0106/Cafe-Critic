@@ -13,24 +13,25 @@ class User(db.Model,SerializerMixin):
     name=db.Column(db.String)
     membership_type=db.Column(db.String)
     goal=db.Column(db.String)
+    
     #add relationships
     assignments=db.relationship('Assignment', back_populates='user')
     exercise=association_proxy('assignments','exercise')
-    reviews=db.relationship('Reviews', back_populates='users', cascade='all, delete-orphan')
+    reviews=db.relationship('Review', back_populates='users', cascade='all, delete-orphan')
     reviews_gymLo=association_proxy('gym_locations', 'reviews')
 
 class GymLocation(db.Model,SerializerMixin):
-    __tablename__='gym_locations'
+    __tablename__='gym locations'
 
     id=db.Column(db.Integer, primary_key=True)
-    Location=db.Column(db.String, nullable=False)
+    location=db.Column(db.String, nullable=False)
     number_of_machines=db.Column(db.Integer)
     #relationships a gym location has many reviews
-    reviews=db.relationship('Reviews', back_populates='gym_locations', cascade='all, delete-orphan')
+    reviews=db.relationship('Review', back_populates='gym_locations', cascade='all, delete-orphan')
     reviews_user=association_proxy('user', 'reviews')
 
     machines=db.relationship('Machines', back_populates='gym_location')
-    trainers=db.relationship('Trainers', back_populates='gym_location')
+    trainers=db.relationship('Trainer', back_populates='gym_location')
 
 class Exercise(db.Model,SerializerMixin):
     __tablename__='exercises'
@@ -62,20 +63,20 @@ class Review(db.Model, SerializerMixin):
     id=db.Column(db.Integer, primary_key=True)
     body=db.Column(db.String)
     created_at=db.Column(db.DateTime, server_default=db.func.now())
-    updated_at=db.Column(db.DateTime, onupdate=db.func.now())
+    updated_at=db.Column(db.DateTime, onupdate=db.func.now(), nullable=True)
 
     user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
-    gym_locations_id=db.Column(db.Integer,db.ForeignKey('gym_locations.id'))
+    gym_location_id=db.Column(db.Integer,db.ForeignKey('gym locations.id'))
     # relationships
-    user=db.relationship('User', back_populates='reviews')
-    gym_location=db.relationship('GymLocation', back_populates='reviews')
+    users=db.relationship('User', back_populates='reviews')
+    gym_locations=db.relationship('GymLocation', back_populates='reviews')
 
 class Machines(db.Model, SerializerMixin):
     __tablename__= 'machines'
     id=db.Column(db.Integer, primary_key=True)
     machine_name=db.Column(db.String)
 
-    gym_locations_id=db.Column(db.Integer, db.ForeignKey('gym_locations.id'))
+    gym_locations_id=db.Column(db.Integer, db.ForeignKey('gym locations.id'))
 
     #relationship A Gym location has many machines
     gym_location=db.relationship('GymLocation', back_populates='machines') 
@@ -84,9 +85,9 @@ class Machines(db.Model, SerializerMixin):
 class Trainer(db.Model, SerializerMixin):
     __tablename__= 'trainers'
     id=db.Column(db.Integer, primary_key=True)
-    names=db.Column(db.String)
+    name=db.Column(db.String)
 
-    gym_locations_id=db.Column(db.Integer, db.ForeignKey('gym_locations.id'))
+    gym_locations_id=db.Column(db.Integer, db.ForeignKey('gym locations.id'))
 
     #relationship A Gym location has many trainers
     gym_location=db.relationship('GymLocation', back_populates='trainers') 

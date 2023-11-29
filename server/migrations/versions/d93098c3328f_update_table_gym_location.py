@@ -1,8 +1,8 @@
-"""Initial migration.
+"""Update table gym location
 
-Revision ID: 03da5af2e9db
+Revision ID: d93098c3328f
 Revises: 
-Create Date: 2023-11-28 16:23:23.243037
+Create Date: 2023-11-29 09:05:42.426582
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '03da5af2e9db'
+revision = 'd93098c3328f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,9 +24,9 @@ def upgrade():
     sa.Column('exercise', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('gym_locations',
+    op.create_table('gym locations',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('Location', sa.String(), nullable=False),
+    sa.Column('location', sa.String(), nullable=False),
     sa.Column('number_of_machines', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -50,7 +50,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('machine_name', sa.String(), nullable=True),
     sa.Column('gym_locations_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['gym_locations_id'], ['gym_locations.id'], name=op.f('fk_machines_gym_locations_id_gym_locations')),
+    sa.ForeignKeyConstraint(['gym_locations_id'], ['gym locations.id'], name=op.f('fk_machines_gym_locations_id_gym locations')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
@@ -59,16 +59,16 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('gym_locations_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['gym_locations_id'], ['gym_locations.id'], name=op.f('fk_reviews_gym_locations_id_gym_locations')),
+    sa.Column('gym_location_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['gym_location_id'], ['gym locations.id'], name=op.f('fk_reviews_gym_location_id_gym locations')),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_reviews_user_id_users')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('trainers',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('names', sa.String(), nullable=True),
+    sa.Column('name', sa.String(), nullable=True),
     sa.Column('gym_locations_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['gym_locations_id'], ['gym_locations.id'], name=op.f('fk_trainers_gym_locations_id_gym_locations')),
+    sa.ForeignKeyConstraint(['gym_locations_id'], ['gym locations.id'], name=op.f('fk_trainers_gym_locations_id_gym locations')),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
@@ -81,6 +81,6 @@ def downgrade():
     op.drop_table('machines')
     op.drop_table('assignments')
     op.drop_table('users')
-    op.drop_table('gym_locations')
+    op.drop_table('gym locations')
     op.drop_table('exercises')
     # ### end Alembic commands ###
