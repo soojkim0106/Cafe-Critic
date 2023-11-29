@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import {Link, Switch, Route } from "react-router-dom";
+import Header from "./Header"
+import CheckIn from "./CheckIn";
+import Reviews from "./Reviews"
+import WorkoutSchedule from "./WorkoutSchedule";
+import Home from "./Home"
+
 
 function App() {
   return (
-  <div className="homepage-container">
-    <div className="title">The Gym</div>
-    <hr class="solid"></hr>
-    <div className="content">
-      <h1 className="homepage-reviews">Reviews</h1>
-      <h1 className="homepage-checkin">Check in</h1>
-      <h1 className="homepage-workout">Workout Schedule</h1>
+      <div className="app">
+        <Header />
+        <Home />
+        <Reviews />
+        <CheckIn />
+        <WorkoutSchedule />
     </div>
-  </div>
   )
 }
 

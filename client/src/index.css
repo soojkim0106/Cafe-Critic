@@ -1,8 +1,27 @@
-:root {
+/* :root {
   --bg: #282c34;
   --header: #fff;
   --link: #61dafb;
   --text: hsla(0, 0%, 100%, 0.88);
+}  */
+
+header h1 {
+  font-size: 2.5em;
+  font-weight: 900;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+button {
+  padding: 0.25rem 1rem;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+.logo {
+  font-size: 1.25em;
+  padding-left: 0.5rem;
+  color: transparent;
+  text-shadow: 0 0 0 var(--green);
 }
 .title {
 
@@ -16,19 +35,11 @@
   position:relative; top: 20px; left: 20px; margin: left 10px;; margin-right:0px
 
 } 
-.homepage-container{
-  justify-content: center;
-}
+
+
+
+/* 
 hr.solid{
   border-top:10px solid #bbb;
   border-radius: 10px;
-}
-.homepage-reviews{
-  position: relative; top:20px; left:20px;
-}
-.homepage-checkin{
-  position: relative;top:2px; left:200px;
-}
-.homepage-workout{
-  position: relative;bottom:16px;left:400px
-}
+} */
