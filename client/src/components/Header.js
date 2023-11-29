@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CheckIn from "./CheckIn";
 
 function Header(){
     return (
         <header>
             <h1>
             The Gym
-            <span className="logo" role="img"></span>
             </h1>
-            <h2>Sign In</h2>
+            <CheckIn></CheckIn>
+            <h3>Sign In</h3>
             <h3>Register / Sign Up</h3>
             <h3>Sign Out</h3>
         </header>
