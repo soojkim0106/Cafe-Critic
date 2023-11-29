@@ -4,4 +4,31 @@
   --link: #61dafb;
   --text: hsla(0, 0%, 100%, 0.88);
 }
+.title {
 
+  color: #dc2525;
+  height: 10rem;
+  width: 75%;
+  font-size: 100px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  margin: 5%;
+  text-align: center;
+  position:relative; top: 20px; left: 20px; margin: left 10px;; margin-right:0px
+
+} 
+.homepage-container{
+  justify-content: center;
+}
+hr.solid{
+  border-top:10px solid #bbb;
+  border-radius: 10px;
+}
+.homepage-reviews{
+  position: relative; top:20px; left:20px;
+}
+.homepage-checkin{
+  position: relative;top:2px; left:200px;
+}
+.homepage-workout{
+  position: relative;bottom:16px;left:400px
+}
