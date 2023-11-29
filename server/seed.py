@@ -56,28 +56,31 @@ if __name__ == '__main__':
         assignments=[a1,a2,a3,a4]
 
         print('making reviews')
-        r1=Review(user_id=1,body='Very nice gym!')#,created_at=fake.date(),gym_location_id= 3)
-        r2=Review(user_id=2,body='Staff is awesome!')#,created_at=fake.date(),gym_location_id= 4)
-        r3=Review(user_id=3,body='Its eh')#,created_at=fake.date(),gym_location_id= 2)
-        r4=Review(user_id=4,body='4 stars')#,created_at=fake.date(),gym_location_id= 1)
+        r1=Review(user_id=1,body='Very nice gym!', gym_location_id=1)#,created_at=fake.date(),gym_location_id= 3)
+        r2=Review(user_id=2,body='Staff is awesome!', gym_location_id=2)#,created_at=fake.date(),gym_location_id= 4)
+        r3=Review(user_id=3,body='Its eh',gym_location_id=3)#,created_at=fake.date(),gym_location_id= 2)
+        r4=Review(user_id=4,body='4 stars', gym_location_id=4)#,created_at=fake.date(),gym_location_id= 1)
         reviews=[r1,r2,r3,r4]
 
         print('printing machines')
-        m1=Machines(machine_name='Free weights, Sqaut racks, 5 cable towers, cardio, tires, any many more')
-        m2=Machines(machine_name='Free weights, green turf, many squat racks, many bench press any many more')
-        machines=[m1, m2]
+        m1=Machines(machine_name='Bench press, Tread Mills, Squat racks, Smith Machine, Dumb Bells', gym_locations_id=1 )
+        m2=Machines(machine_name='Bench press, Tread Mills, Squat racks, Smith Machine, Dumb Bells', gym_locations_id=2 )
+        m3=Machines(machine_name='Bench press, Tread Mills, Squat racks, Smith Machine, Dumb Bells', gym_locations_id=3 )
+        m4=Machines(machine_name='Bench press, Tread Mills, Squat racks, Smith Machine, Dumb Bells', gym_locations_id=4 )
+        machines=[m1, m2, m3, m4]
 
         print('printing trainers')
-        t1=Trainer(name=fake.name())
-        # t2=Trainer(name=fake.name())
-        # t3=Trainer(name=fake.name())
-        # t1=Trainer(name=fake.name())
-        # t1=Trainer(name=fake.name())
-        # t1=Trainer(name=fake.name())
-        # t1=Trainer(name=fake.name())
-        # t1=Trainer(name=fake.name())
-        # t1=Trainer(name=fake.name())
-        trainer=[t1]
+        t1=Trainer(name=fake.name(), gym_locations_id=1)
+        t2=Trainer(name=fake.name(), gym_locations_id=1)
+        t3=Trainer(name=fake.name(), gym_locations_id=1)
+        t4=Trainer(name=fake.name(), gym_locations_id=2)
+        t5=Trainer(name=fake.name(), gym_locations_id=2)
+        t6=Trainer(name=fake.name(), gym_locations_id=3)
+        t7=Trainer(name=fake.name(), gym_locations_id=3)
+        t8=Trainer(name=fake.name(), gym_locations_id=4)
+        t9=Trainer(name=fake.name(), gym_locations_id=4)
+        t10=Trainer(name=fake.name(), gym_locations_id=4)
+        trainer=[t1, t2, t3, t4, t5, t6, t7, t8, t9, t10]
         
 
         db.session.add_all(assignments)
@@ -86,6 +89,7 @@ if __name__ == '__main__':
         db.session.add_all(users)
         db.session.add_all(reviews)
         db.session.add_all(machines)
+        db.session.add_all(trainer)
         db.session.commit()
 
 
