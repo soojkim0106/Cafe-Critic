@@ -1,7 +1,10 @@
-/* container */
+.body{
+  background-color: black;
+}
+
 .flex-container {
   width: 100%;
-  height: 715px;
+  height: 770px;
   display:flex;
 }
 /* columns */
@@ -9,13 +12,15 @@
   width: calc(100% / 3);
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  margin: 9px;
+  padding: 15px;
+  margin: 7px;
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: large;
 }
 
 .flex-box1 {
-background-color: rgb(42, 75, 129);
+background-color: rgba(26, 51, 91, 0.905);
 border: 1px solid black;
 border-radius: 10px;
 -moz-border-radius:10px;
@@ -23,30 +28,25 @@ text-align: center;
 }
 
 .flex-box2 {
-  background-color: rgb(38, 121, 119);
+  background-color: rgb(72, 149, 145);
   border: 1px solid black;
   border-radius: 10px;
  -moz-border-radius:10px;
 }
 .flex-box3 {
-  background-color: rgb(33, 140, 102);
+  background-color: rgb(45, 127, 98);
   border: 1px solid black;
   border-radius: 10px;
  -moz-border-radius:10px;
+ 
 }
 
-.background{
-  color: black
-}
-
-
-
-/* .button {
+.button {
   padding: 0.25rem 1rem;
   font-family: inherit;
   border: none;
   cursor: pointer;
-}  */
+} 
 
 /* CSS graveyard */
 /* .title {
