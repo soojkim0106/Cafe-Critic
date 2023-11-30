@@ -9,9 +9,7 @@ function Header(){
             The Gym
             </h1>
             <CheckIn></CheckIn>
-            <h3 style={{fontSize: 17}}>Sign In</h3>
             <h3 style={{fontSize: 17}}>Register / Sign Up</h3>
-            <h3 style={{fontSize: 17}}>Sign Out</h3>
         </header>
     )
 }
