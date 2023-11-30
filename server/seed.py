@@ -8,19 +8,23 @@ from faker import Faker
 
 # Local imports
 from app import app
+
 from models import db, User, GymLocation, Exercise, Assignment, Review, Machines, Trainer
+
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Deleting date...")
         User.query.delete()
+
         GymLocation.query.delete()
         Exercise.query.delete()
         Assignment.query.delete()
         Review.query.delete()
         Trainer.query.delete()
         Machines.query.delete()
+
 
         print("Starting seed...")
         # Seed code goes here!
@@ -45,6 +49,7 @@ if __name__ == '__main__':
         e2=Exercise(exercise_type="Cardio",exercise='Jump Rope')
         e3=Exercise(exercise_type="Strength",exercise='Weight lifting')
         e4=Exercise(exercise_type="Power",exercise='delayed lifts')
+
         exer=[e1,e2,e3,e4]
 
         print('making assignments')
@@ -94,3 +99,4 @@ if __name__ == '__main__':
 
 
         print('seeding done!')
+
