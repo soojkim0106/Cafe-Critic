@@ -87,8 +87,8 @@ def create_user_connections(users):
             receiver_id int,
             status varchar(255) DEFAULT 'pending',
             reason mediumtext,
-            FOREIGN KEY (sender_id) REFERENCES users(userID),
-            FOREIGN KEY (receiver_id) REFERENCES users(userID)
+            FOREIGN KEY (sender_id) REFERENCES users(sender_id),
+            FOREIGN KEY (receiver_id) REFERENCES users(receiver_id)
             );
         ''')
 

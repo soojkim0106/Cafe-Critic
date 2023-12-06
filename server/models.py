@@ -4,6 +4,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from config import db, flask_bcrypt, metadata
@@ -46,8 +47,7 @@ class User(db.Model, SerializerMixin):
         'Comment', back_populates="user", cascade='all, delete-orphan')
 
     # Relationship mapping user to related posts
-    posts = db.relationship(
-        'Post', uselist=False, back_populates='user', cascade='all, delete-orphan')
+    posts = association_proxy('comments', 'post')
 
     
     serialize_rules = (
@@ -93,8 +93,8 @@ class Post(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # Relationship mapping post to related user
-    user = db.relationship('User', back_populates='posts')
     comments = db.relationship('Comment', back_populates='post')
+    users = association_proxy('comments', 'user')
 
     serialize_rules = ('-user.posts', '-comments.post')
 
