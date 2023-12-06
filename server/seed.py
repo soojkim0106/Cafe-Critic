@@ -1,10 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+import sqlite3
+import sys
+sys.path.append('.')
+connection = sqlite3.connect("instance/app.db")
+cursor = connection.cursor()
 
 # Standard library imports
 from random import randint, choice as rc
 
 # Remote library imports
 from faker import Faker
+from sqlalchemy import insert
 
 # Local imports
 from config import app, db
@@ -12,6 +18,7 @@ from config import app, db
 from models import User
 from models import Post
 from models import Comment
+from models import user_connections
 
 
 
@@ -20,16 +27,15 @@ fake = Faker()
 def create_users():
     users = []
     for _ in range(10):
-        # pw_hash = flask_bcrypt.generate_password_hash("password").decode("utf-8")
+
         c = User(
             first_name=fake.first_name(),
-            # last_name=fake.last_name(),
-            # email=fake.email(),
-            # phone_number=fake.phone_number(),
-            # address=fake.address(),
-            # is_employee=fake.boolean(chance_of_getting_true=20),
+            last_name=fake.last_name(),
+            email=fake.email(),
         )
-        # c.password = "password"
+
+        c.password = "password"
+
         users.append(c)
 
     return users
@@ -41,7 +47,9 @@ def create_posts(users):
     for _ in range(20):
         p = Post(
             user_id=rc([user.id for user in users]),
-            description = fake.sentence()
+            description = fake.sentence(),
+            image = fake.image_url(),
+            # status = fake.sentence()
         )
         posts.append(p)
 
@@ -56,11 +64,48 @@ def create_comments(users, posts):
         c = Comment(
             user_id=rc([user.id for user in users]),
             post_id=rc([post.id for post in posts]),
-            comment = fake.sentence()
+            comment = fake.sentence(),
+            created_at = fake.date_time()
         )
         comments.append(c)
 
     return comments
+
+def create_user_connections(users):
+
+
+    #! Delete tables if they exist, recreate them for fresh data
+    with connection:
+        cursor.execute(f'''DROP TABLE IF EXISTS {user_connections}''')
+        connection.commit()
+                
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS user_connections (
+            id INTEGER PRIMARY KEY,
+            sender_id int,
+            receiver_id int,
+            status varchar(255) DEFAULT 'pending',
+            reason mediumtext,
+            FOREIGN KEY (sender_id) REFERENCES users(userID),
+            FOREIGN KEY (receiver_id) REFERENCES users(userID)
+            );
+        ''')
+
+
+    u_cs = []
+
+    for _ in range(8):
+        sender_id=rc([user.id for user in users])
+        receiver_id=rc([user.id for user in users])
+        reason = fake.sentence()
+        print(f"")
+        cursor.execute(
+            '''INSERT INTO user_connections (sender_id, receiver_id, reason)VALUES (?, ?, ?);''',
+            (sender_id, receiver_id, reason))
+        connection.commit()
+
+    return u_cs
 
 
 
@@ -68,9 +113,9 @@ if __name__ == '__main__':
 
     with app.app_context():
         print("Clearing db...")
-        # User.query.delete()
-        # Post.query.delete()
-        # Comment.query.delete()
+        User.query.delete()
+        Post.query.delete()
+        Comment.query.delete()
         
         print("Creating tables...")
         db.create_all()
@@ -88,6 +133,11 @@ if __name__ == '__main__':
         print("Seeding comments...")
         comments = create_comments(users, posts)
         db.session.add_all(comments)
+        db.session.commit()
+
+        print("Seeding user_connections...")
+        user_connections = create_user_connections(users)
+        db.session.add_all(user_connections)
         db.session.commit()
 
         print("Seeding complete!!!")
