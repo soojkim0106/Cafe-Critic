@@ -4,7 +4,6 @@
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask import Flask, make_response, jsonify, request, session, render_template
-import requests
 from flask_cors import CORS
 import os
 from models import User, Stock, Portfolio, Expense, TotalExpense
