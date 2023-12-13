@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import StockCard from './StockCard';
 import YourPortfolio from './YourPortfolio';
 import StockBudget from './StockBudget';
-import { UserContext } from './UserContext';
 
 const StockSimulator = ({ user, setUser }) => {
-	const [currentStock, setCurrentStock] = useState(null);
 	const [stocks, setStocks] = useState([]);
 	const [userPort, setUserPort] = useState([]);
 	const [budget, setBudget] = useState(user.stock_budget);
