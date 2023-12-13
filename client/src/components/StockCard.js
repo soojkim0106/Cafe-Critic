@@ -59,7 +59,7 @@ const StockCard = ({
 		};
 		const intervalId = setInterval(updateStockValue, 1000);
 		return () => clearInterval(intervalId);
-	}, [behavior]);
+	}, [behavior, value, id]);
 
 	function changeBehavior() {
 		const behaviors = ['steadyUp', 'moderate', 'steadyDown', 'drastic', 'wild'];
@@ -99,7 +99,7 @@ const StockCard = ({
 			}, randomInterval);
 		}
 		updateBehaviorPeriodically();
-	}, []);
+	}, [changeBehavior]);
 
 	const openModal = () => {
 		setModalOpen(true);
