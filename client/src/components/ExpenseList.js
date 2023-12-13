@@ -142,7 +142,7 @@ const ExpenseList = ({ user, setUser }) => {
 				setExpenses(expense);
 				console.log('Expenses', expenses);
 			});
-	}, [user.id]);
+	}, [user.id, expenses]);
 
 	console.log('User', user);
 

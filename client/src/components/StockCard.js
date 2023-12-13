@@ -59,33 +59,38 @@ const StockCard = ({
 		};
 		const intervalId = setInterval(updateStockValue, 1000);
 		return () => clearInterval(intervalId);
-	}, [behavior, value, id]);
-
-	function changeBehavior() {
-		const behaviors = ['steadyUp', 'moderate', 'steadyDown', 'drastic', 'wild'];
-		const randomBehavior =
-			behaviors[Math.floor(Math.random() * behaviors.length)];
-
-		fetch(`/stocks/${id}`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ behavior: randomBehavior }),
-		})
-			.then((r) => {
-				if (r.ok) {
-					setStockBehavior(id, randomBehavior);
-				} else {
-					console.error('Failed to update behavior on the server.');
-				}
-			})
-			.catch((error) => {
-				console.error('Error updating behavior:', error);
-			});
-	}
+	}, [behavior, value, id, setStockValue]);
 
 	useEffect(() => {
+		function changeBehavior() {
+			const behaviors = [
+				'steadyUp',
+				'moderate',
+				'steadyDown',
+				'drastic',
+				'wild',
+			];
+			const randomBehavior =
+				behaviors[Math.floor(Math.random() * behaviors.length)];
+
+			fetch(`/stocks/${id}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ behavior: randomBehavior }),
+			})
+				.then((r) => {
+					if (r.ok) {
+						setStockBehavior(id, randomBehavior);
+					} else {
+						console.error('Failed to update behavior on the server.');
+					}
+				})
+				.catch((error) => {
+					console.error('Error updating behavior:', error);
+				});
+		}
 		function updateBehaviorPeriodically() {
 			const minInterval = 20000;
 			const maxInterval = 35000;

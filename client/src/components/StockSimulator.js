@@ -24,7 +24,7 @@ const StockSimulator = ({ user, setUser }) => {
 				setUserPort(portfolio);
 				console.log('Portfolio', userPort);
 			});
-	}, [user.id]);
+	}, [user.id, userPort]);
 
 	const setStockValue = (id, value) => {
 		setStocks((prevStocks) => {
