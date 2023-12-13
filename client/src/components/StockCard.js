@@ -104,7 +104,7 @@ const StockCard = ({
 			}, randomInterval);
 		}
 		updateBehaviorPeriodically();
-	}, [changeBehavior]);
+	}, [id, setStockBehavior]);
 
 	const openModal = () => {
 		setModalOpen(true);
