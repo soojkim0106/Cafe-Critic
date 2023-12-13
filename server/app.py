@@ -6,8 +6,10 @@ from flask_migrate import Migrate
 from flask import Flask, make_response, jsonify, request, session, render_template
 from flask_cors import CORS
 import os
-from models import User, Stock, Portfolio, Expense, TotalExpense
+from models import User, Stock, Portfolio, Expense
 from config import app, db, api
+from dotenv import load_dotenv
+load_dotenv()
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
