@@ -1,5 +1,5 @@
-import React, { useEffect, useState, createContext } from 'react';
-import { Switch, Route, Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import NavBar from './NavBar';
 import Login from './Login';
 import StockSimulator from './StockSimulator';
@@ -13,15 +13,10 @@ function App() {
 	const [user, setUser] = useState(null);
 	const history = useHistory();
 	const location = useLocation();
-	// console.log(user);
 
 	const setBudget = (budget) => {
 		setUser((u) => ({ ...u, stock_budget: budget }));
 	};
-
-	// function handleLogin(user) {
-	// 	setUser(user);
-	// }
 
 	function handleLogout() {
 		setUser(null);

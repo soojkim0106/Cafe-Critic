@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import { ListItem, ListItemText, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -75,7 +74,6 @@ const YourPortfolio = ({
 				console.error('Network error:', error);
 			});
 	};
-	// console.log(budget);
 
 	return (
 		<div className="portfolio">
