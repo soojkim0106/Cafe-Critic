@@ -82,7 +82,7 @@ const StockCard = ({
 		return () => {
 			clearInterval(updateInterval);
 		};
-	}, []);
+	}, [batchUpdateStocks]);
 
 	useEffect(() => {
 		let behaviorTimer;
@@ -137,7 +137,7 @@ const StockCard = ({
 		updateBehaviorPeriodically();
 
 		return () => clearTimeout(behaviorTimer);
-	}, [id, setStockBehavior]);
+	}, [id, setStockBehavior, updatedStockValues]);
 
 	const openModal = () => {
 		setModalOpen(true);
