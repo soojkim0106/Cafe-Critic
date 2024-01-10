@@ -260,14 +260,6 @@ class Portfolios(Resource):
         except ValueError as e:
             return make_response({'error': e.__str__()}, 400)
         
-    # def get(self):
-    #     if 'user_id' in session:
-    #         user_id = session['user_id']
-    #         portfolios = [portfolio.to_dict(rules=('-users'))for portfolio in Portfolio.query.filter(Portfolio.user_id==user_id)]
-    #         return make_response(portfolios, 200)
-    #     else:
-    #         return make_response({'error':'Not allowed'}, 401)
-
     def get(self):
         portfolios = [portfolio.to_dict(rules=('-users', '-stocks')) for portfolio in Portfolio.query.all()]
         return make_response(portfolios, 200)
@@ -300,8 +292,30 @@ class PortfolioById(Resource):
         
 api.add_resource(PortfolioById, '/portfolios/<int:id>')
 
+class BatchUpdateStocks(Resource):
+    def patch(self):
+        data = request.get_json()
+        if 'stocks' in data:
+            try: 
+                for stock in data['stocks']:
+                    stock_id = stock.get('id')
+                    new_value = stock.get('value')
+                    new_behavior = stock.get('behavior')
 
+                    stock = Stock.query.get(stock_id)
+                    if stock:
+                        stock.update_value(new_value)
+                        stock.update_behavior(new_behavior)
 
+                db.session.commit()
+                return {'message': 'Stocks updated successfully'}, 200
+            except Exception as e:
+                db.session.rollback()
+                return {'error':f'Failed to update stocks: {e}'}, 500
+        else: 
+            return {'error': 'No stocks provided for update'}, 400
+        
+api.add_resource(BatchUpdateStocks, '/stocks/batch-update')
 
 
 if __name__ == '__main__':

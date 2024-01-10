@@ -20,9 +20,11 @@ const StockCard = ({
 }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [quantity, setQuantity] = useState(1);
+
 	function randomNum(min, max) {
 		return Math.random() * (max - min) + min;
 	}
+
 	useEffect(() => {
 		const updateStockValue = () => {
 			const behaviors = {
@@ -36,23 +38,7 @@ const StockCard = ({
 			let newValue = value * randomChange;
 			if (!isNaN(newValue) && isFinite(newValue)) {
 				newValue = newValue.toFixed(2);
-				fetch(`/stocks/${id}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-type': 'application/json',
-					},
-					body: JSON.stringify({ value: newValue }),
-				})
-					.then((r) => {
-						if (r.ok) {
-							setStockValue(id, newValue);
-						} else {
-							console.error('Failed to update stock on server');
-						}
-					})
-					.catch((error) => {
-						console.error('Error updating the stock value:', error);
-					});
+				setStockValue(id, newValue);
 			} else {
 				console.error('Invalid newValue:', newValue);
 			}
@@ -61,7 +47,46 @@ const StockCard = ({
 		return () => clearInterval(intervalId);
 	}, [behavior, value, id, setStockValue]);
 
+	let updatedStockValues = {};
+
+	const batchUpdateStocks = () => {
+		const updatedStockList = Object.keys(updatedStockValues).map((id) => {
+			return {
+				id,
+				value: updatedStockValues[id].value,
+				behavior: updatedStockValues[id].behavior,
+			};
+		});
+
+		fetch('/stocks/batch-update', {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ stocks: updatedStockList }),
+		})
+			.then((r) => {
+				if (r.ok) {
+					updatedStockValues = {};
+				} else {
+					console.error('Failed to updated stock values on server.');
+				}
+			})
+			.catch((error) => {
+				console.error('Error updating stock values:', error);
+			});
+	};
+
 	useEffect(() => {
+		const updateInterval = setInterval(batchUpdateStocks, 60000);
+		return () => {
+			clearInterval(updateInterval);
+		};
+	}, []);
+
+	useEffect(() => {
+		let behaviorTimer;
+
 		function changeBehavior() {
 			const behaviors = [
 				'steadyUp',
@@ -83,6 +108,10 @@ const StockCard = ({
 				.then((r) => {
 					if (r.ok) {
 						setStockBehavior(id, randomBehavior);
+						updatedStockValues[id] = {
+							value,
+							behavior: randomBehavior,
+						};
 					} else {
 						console.error('Failed to update behavior on the server.');
 					}
@@ -91,6 +120,7 @@ const StockCard = ({
 					console.error('Error updating behavior:', error);
 				});
 		}
+
 		function updateBehaviorPeriodically() {
 			const minInterval = 20000;
 			const maxInterval = 35000;
@@ -98,12 +128,15 @@ const StockCard = ({
 				Math.floor(Math.random() * (maxInterval - minInterval + 1)) +
 				minInterval;
 
-			setTimeout(() => {
+			behaviorTimer = setTimeout(() => {
 				changeBehavior();
 				updateBehaviorPeriodically();
 			}, randomInterval);
 		}
+
 		updateBehaviorPeriodically();
+
+		return () => clearTimeout(behaviorTimer);
 	}, [id, setStockBehavior]);
 
 	const openModal = () => {
@@ -113,7 +146,6 @@ const StockCard = ({
 	const closeModal = () => {
 		setModalOpen(false);
 		handleBuy(quantity, name);
-		console.log('Quantity:', quantity);
 	};
 
 	const updateBudget = (newBudget) => {

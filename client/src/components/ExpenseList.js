@@ -140,11 +140,8 @@ const ExpenseList = ({ user, setUser }) => {
 			.then((r) => r.json())
 			.then((expense) => {
 				setExpenses(expense);
-				console.log('Expenses', expenses);
 			});
 	}, [user.id, expenses]);
-
-	console.log('User', user);
 
 	return (
 		<div className="expenseContainer">
