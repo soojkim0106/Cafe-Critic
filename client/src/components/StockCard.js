@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+	useState,
+	useEffect,
+	useCallback,
+	useRef,
+	useMemo,
+} from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -47,16 +53,20 @@ const StockCard = ({
 		return () => clearInterval(intervalId);
 	}, [behavior, value, id, setStockValue]);
 
-	let updatedStockValues = {};
+	const updatedStockValues = useMemo(() => ({}), []);
+
+	const updatedStockValuesRef = useRef(updatedStockValues);
 
 	const batchUpdateStocks = useCallback(() => {
-		const updatedStockList = Object.keys(updatedStockValues).map((id) => {
-			return {
-				id,
-				value: updatedStockValues[id].value,
-				behavior: updatedStockValues[id].behavior,
-			};
-		});
+		const updatedStockList = Object.keys(updatedStockValuesRef.current).map(
+			(id) => {
+				return {
+					id,
+					value: updatedStockValuesRef.current[id].value,
+					behavior: updatedStockValuesRef.current[id].behavior,
+				};
+			}
+		);
 
 		fetch('/stocks/batch-update', {
 			method: 'PATCH',
@@ -67,7 +77,7 @@ const StockCard = ({
 		})
 			.then((r) => {
 				if (r.ok) {
-					updatedStockValues = {};
+					updatedStockValuesRef.current = {}; // Update the ref value
 				} else {
 					console.error('Failed to updated stock values on server.');
 				}
@@ -75,7 +85,14 @@ const StockCard = ({
 			.catch((error) => {
 				console.error('Error updating stock values:', error);
 			});
-	}, [updatedStockValues]);
+	}, []);
+
+	useEffect(() => {
+		const updateInterval = setInterval(batchUpdateStocks, 60000);
+		return () => {
+			clearInterval(updateInterval);
+		};
+	}, [batchUpdateStocks]);
 
 	useEffect(() => {
 		const updateInterval = setInterval(batchUpdateStocks, 60000);
