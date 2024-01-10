@@ -1,357 +1,135 @@
-# Phase 4 Full-Stack Application Project Template
+### FinEd
 
-## Learning Goals
+---
 
-- Discuss the basic directory structure of a full-stack Flask/React application.
-- Carry out the first steps in creating your Phase 4 project.
+## Author
+
+### Spencer Eklund
+
+- Linkedin https://www.linkedin.com/in/spencer-eklund/
+- Github https://github.com/eklspe12
 
 ---
 
 ## Introduction
 
-Fork and clone this lesson for a template for your full-stack application. Take
-a look at the directory structure before we begin (NOTE: node_modules will be
-generated in a subsequent step):
-
-```console
-$ tree -L 2
-$ # the -L argument limits the depth at which we look into the directory structure
-.
-├── CONTRIBUTING.md
-├── LICENSE.md
-├── Pipfile
-├── README.md
-├── client
-│   ├── README.md
-│   ├── package.json
-│   ├── public
-│   └── src
-└── server
-    ├── app.py
-    ├── config.py
-    ├── models.py
-    └── seed.py
-```
-
-A `migrations` folder will be added to the `server` directory in a later step.
-
-The `client` folder contains a basic React application, while the `server`
-folder contains a basic Flask application. You will adapt both folders to
-implement the code for your project .
-
-NOTE: If you did not previously install `tree` in your environment setup, MacOS
-users can install this with the command `brew install tree`. WSL and Linux users
-can run `sudo apt-get install tree` to download it as well.
-
-## Where Do I Start?
-
-Just as with your Phase 3 Project, this will likely be one of the biggest
-projects you've undertaken so far. Your first task should be creating a Git
-repository to keep track of your work and roll back any undesired changes.
-
-### Removing Existing Git Configuration
-
-If you're using this template, start off by removing the existing metadata for
-Github and Canvas. Run the following command to carry this out:
-
-```console
-$ rm -rf .git .canvas
-```
-
-The `rm` command removes files from your computer's memory. The `-r` flag tells
-the console to remove _recursively_, which allows the command to remove
-directories and the files within them. `-f` removes them permanently.
-
-`.git` contains this directory's configuration to track changes and push to
-Github (you want to track and push _your own_ changes instead), and `.canvas`
-contains the metadata to create a Canvas page from your Git repo. You don't have
-the permissions to edit our Canvas course, so it's not worth keeping around.
-
-### Creating Your Own Git Repo
-
-First things first- rename this directory! Once you have an idea for a name,
-move one level up with `cd ..` and run
-`mv python-p4-project-template <new-directory-name>` to change its name (replace
-<new-directory-name> with an appropriate project directory name).
-
-> **Note: If you typed the `mv` command in a terminal within VS Code, you should
-> close VS Code then reopen it.**
-
-> **Note: `mv` actually stands for "move", but your computer interprets this
-> rename as a move from a directory with the old name to a directory with a new
-> name.**
-
-`cd` back into your new directory and run `git init` to create a local git
-repository. Add all of your local files to version control with `git add --all`,
-then commit them with `git commit -m'initial commit'`. (You can change the
-message here- this one is just a common choice.)
-
-Navigate to [GitHub](https://github.com). In the upper-right corner of the page,
-click on the "+" dropdown menu, then select "New repository". Enter the name of
-your local repo, choose whether you would like it to be public or private, make
-sure "Initialize this repository with a README" is unchecked (you already have
-one), then click "Create repository".
-
-Head back to the command line and enter
-`git remote add origin git@github.com:github-username/new-repository-name.git`.
-NOTE: Replace `github-username` with your github username, and
-`new-repository-name` with the name of your new repository. This command will
-map the remote repository to your local repository. Finally, push your first
-commit with `git push -u origin main`.
-
-Your project is now version-controlled locally and online. This will allow you
-to create different versions of your project and pick up your work on a
-different machine if the need arises.
+FinEd is an App I created to demonstrate skills in Python, Javascript, React, and SQL Alchemy. On this app users can learn more about finances by practicing buying/selling stocks, reading financial articles, and Tracking their budget.
 
 ---
 
-## Setup
+# Pages
 
-### `server/`
+## Login
 
-The `server/` directory contains all of your backend code.
+Users are taken to this page when they first load the app and cannot move on until they enter a valid username and password, which are encrypted with Bcrypt. Appropriate error messages are displayed if the user enters a username not found in the system or an incorrect password. User also has the opportunity to create an account here if they need one. Appropriate error messages are displayed if the username is already taken or the passwords do not match. The homepage is loaded immediately after the user enters a valid login.
 
-`app.py` is your Flask application. You'll want to use Flask to build a simple
-API backend like we have in previous modules. You should use Flask-RESTful for
-your routes. You should be familiar with `models.py` and `seed.py` by now, but
-remember that you will need to use Flask-SQLAlchemy, Flask-Migrate, and
-SQLAlchemy-Serializer instead of SQLAlchemy and Alembic in your models.
+## Homepage
 
-The project contains a default `Pipfile` with some basic dependencies. You may
-adapt the `Pipfile` if there are additional dependencies you want to add for
-your project.
+This page provides information about the purpose of the website and its pages. Modules explaining each page are near the bottom, with a link to each page in their header.
 
-To download the dependencies for the backend server, run:
+## Stock Simulator
 
-```console
-pipenv install
-pipenv shell
-```
+Allows users to practice buying and selling stocks with 10 fabricated stocks that follow different behavior patterns to replicate the real stock market. When users buy or sell stocks, they can see an immediate update to their remaining budget.
 
-You can run your Flask API on [`localhost:5555`](http://localhost:5555) by
-running:
+## Financial News
 
-```console
-python server/app.py
-```
+This page pulls the most recent financial news articles from the alpha advantage api, and then displays the title, image, source, and a short description for each article.
 
-Check that your server serves the default route `http://localhost:5555`. You
-should see a web page with the heading "Project Server".
+## Track Expenses
 
-### `client/`
-
-The `client/` directory contains all of your frontend code. The file
-`package.json` has been configured with common React application dependencies,
-include `react-router-dom`. The file also sets the `proxy` field to forward
-requests to `"http://localhost:5555". Feel free to change this to another port-
-just remember to configure your Flask app to use another port as well!
-
-To download the dependencies for the frontend client, run:
-
-```console
-npm install --prefix client
-```
-
-You can run your React app on [`localhost:3000`](http://localhost:3000) by
-running:
-
-```sh
-npm start --prefix client
-```
-
-Check that your the React client displays a default page
-`http://localhost:3000`. You should see a web page with the heading "Project
-Client".
-
-## Generating Your Database
-
-NOTE: The initial project directory structure does not contain the `instance` or
-`migrations` folders. Change into the `server` directory:
-
-```console
-cd server
-```
-
-Then enter the commands to create the `instance` and `migrations` folders and
-the database `app.db` file:
-
-```
-flask db init
-flask db upgrade head
-```
-
-Type `tree -L 2` within the `server` folder to confirm the new directory
-structure:
-
-```console
-.
-├── app.py
-├── config.py
-├── instance
-│   └── app.db
-├── migrations
-│   ├── README
-│   ├── __pycache__
-│   ├── alembic.ini
-│   ├── env.py
-│   ├── script.py.mako
-│   └── versions
-├── models.py
-└── seed.py
-```
-
-Edit `models.py` and start creating your models. Import your models as needed in
-other modules, i.e. `from models import ...`.
-
-Remember to regularly run
-`flask db revision --autogenerate -m'<descriptive message>'`, replacing
-`<descriptive message>` with an appropriate message, and `flask db upgrade head`
-to track your modifications to the database and create checkpoints in case you
-ever need to roll those modifications back.
-
-> **Tip: It's always a good idea to start with an empty revision! This allows
-> you to roll all the way back while still holding onto your database. You can
-> create this empty revision with `flask db revision -m'Create DB'`.**
-
-If you want to seed your database, now would be a great time to write out your
-`seed.py` script and run it to generate some test data. Faker has been included
-in the Pipfile if you'd like to use that library.
+This page helps users plan out a monthly budget by entering their income and expenses. Cost of expenses is automatically deducted, and all aspects of expenses can be modified at a later point.
 
 ---
 
-#### `config.py`
+# Files
 
-When developing a large Python application, you might run into a common issue:
-_circular imports_. A circular import occurs when two modules import from one
-another, such as `app.py` and `models.py`. When you create a circular import and
-attempt to run your app, you'll see the following error:
+## Client
 
-```console
-ImportError: cannot import name
-```
+### AddExpense.js
 
-If you're going to need an object in multiple modules like `app` or `db`,
-creating a _third_ module to instantiate these objects can save you a great deal
-of circular grief. Here's a good start to a Flask config file (you may need more
-if you intend to include features like authentication and passwords):
+Component for the "Add Expense" form found on Track Expenses. Utilizes formik to control input and validation on client side. Text field and button created using Materials UI. On submit, sends a post request to the backend, then verifies positive response before rerendering expense list.
 
-```py
-# Standard library imports
+### App.js
 
-# Remote library imports
-from flask import Flask
-from flask_cors import CORS
-from flask_migrate import Migrate
-from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
+Highest level component under Index.js, holds components for all other pages as well as NavBar and associated routes. Also contains functions for retrieving and setting the user. If there is not a user, only the login component will be displayed, otherwise the rest of the app is available.
 
-# Local imports
+### ExpenseList.js
 
-# Instantiate app, set attributes
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
+Retrieves all expenses from the server where the user_id matches the current user then displays them as a Materials UI list. Each expense can be edited or deleted, which will send a patch or delete request to the server. The budget element allows users to enter a number for a monthly budget which is saved to the User model, then automatically deducts expenses from the users monthly budget and displays the value. When a stock is deleted, the budget expense is updated to reflect this. Also displays the AddExpense Component.
 
-# Define metadata, instantiate db
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
-db = SQLAlchemy(metadata=metadata)
-migrate = Migrate(app, db)
-db.init_app(app)
+### FinancialNews.js
 
-# Instantiate REST API
-api = Api(app)
+Receives data from aplhaadvantage api then maps it to display financial news articles with links, descriptions, and sources.
 
-# Instantiate CORS
-CORS(app)
+### Home.js
 
-```
+Contains general information about the app as well as detailed information about each route with links.
 
-Now let's review that last line...
+### Login.js
 
-#### CORS
+Contains either the login form or the create account form, depending on the isLogin class which is toggles by the "Create Account / Have an account?" button. On submit of the login form, the data is posted to the server and the current user is set. The create account form checks that the username is available and the passwords match before sending a post request and returning the user to the login form.
 
-CORS (Cross-Origin Resource Sharing) is a system that uses HTTP headers to
-determine whether resources from different servers-of-origin can be accessed. If
-you're using the fetch API to connect your frontend to your Flask backend, you
-need to configure CORS on your Flask application instance. Lucky for us, that
-only takes one line:
+### NavBar.js
 
-```py
-CORS(app)
+Displays the current page, the user's username, and the logout button. Opening the drawer on the left will display other routes.
 
-```
+### StockBudget.js
 
-By default, Flask-CORS enables CORS on all routes in your application with all
-fetching servers. You can also specify the resources that allow CORS. The
-following specifies that routes beginning with `api/` allow CORS from any
-originating server:
+Receives users current budget as a prop and displays it.
 
-```py
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+### StockCard.js
 
-```
+Receives a single stock instance and displays its properties and a buy button. Stock values are automatically changed and patched with useEffect function that assigns each stock a random behavior that controls the range of change for each stock. The changeBehavior function gives each stock a new behavior after a random interval, simulating unpredictability. When a stock is bought, a modal opens to ask for a quantity to buy. On clicking confirm, if the user has enough funds for the stock it will be added to their portfolio with a post request. If the user doesn't have the necessary funds, they will be given an alert instead informing them of the issue.
 
-You can also set this up resource-by-resource by importing and using the
-`@cross_origin` decorator:
+### StockSimulator.js
 
-```py
-@app.route("/")
-@cross_origin()
-def howdy():
-  return "Howdy partner!"
+Retrieves all stock instances from the backend, as well as all portfolio instances matching the current user user_id, then assigns their value to the stocks state and userPort state. Each stock in the stock state is mapped to create their own Stock Card using the StockCard component. Also contains StockBudget and YourPortfolio components.
 
-```
+### UserContext.js
+
+Exports UserContext constant made with react CreateContent to be used later by the NavBar.
+
+### YourPortfolio.js
+
+Receives users purchased stock information and then displays them as a list. Also contains function to sell stocks in the users portfolio. When sold, a delete request is sent to the server, then the current value of the stock that matches the stock_id as the stock being sold is added back to the total budget.
+
+### Index.js
+
+Imports react Browser Router then wraps App component with Browser Router to make its features accessible.
 
 ---
 
-## Updating Your README.md
+## Server
 
-`README.md` is a Markdown file that describes your project. These files can be
-used in many different ways- you may have noticed that we use them to generate
-entire Canvas lessons- but they're most commonly used as homepages for online
-Git repositories. **When you develop something that you want other people to
-use, you need to have a README.**
+### app.db
 
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this lesson's resources for a basic guide to Markdown.
+Database that stores information for each instance of User, Stocks, Expenses, and Portfolios.
 
-### What Goes into a README?
+### app.py
 
-This README should serve as a template for your own- go through the important
-files in your project and describe what they do. Each file that you edit (you
-can ignore your migration files) should get at least a paragraph. Each function
-should get a small blurb.
+Holds all backend routes and functions. Purpose of each route found below.
 
-You should descibe your application first, and with a good level of detail. The
-rest should be ordered by importance to the user. (Probably routes next, then
-models.)
+-Clear Session: Sets user back to None on logout.
+-Signup: Posts new users to User table on app.db.
+-CheckSession: Used to return information for the current user.
+-UpdateBudget: Updates stock budget after client buys or sells a stock.
+-Login: Retrieves user that matches username and password.
+-Expenses: Retrieves expenses tied to current user. Can also post expenses to the Expense data table.
+-ExpenseById: Used when editing specific expenses so the client knows which expense to update.
+-ExpenseByUserId: Retrieves all expenses associated with the current user user_id.
+-Stocks: Retrieves stocks from database.
+-StocksByID: Used to update value of stocks periodically.
+-Portfolios: Retrieves stocks associated with the current user. Also adds stocks for the associated user when bought.
+-PortfolioById: Identifies which stock in portfolio will be deleted then deletes the stock when sold.
 
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
+### config.py
 
----
+Holds imports for Flask and SQL to be used on the back-end. Also instantiates database and API.
 
-## Conclusion
+### models.py
 
-A lot of work goes into a full-stack application, but it all relies on concepts
-that you've practiced thoroughly throughout this phase. Hopefully this template
-and guide will get you off to a good start with your Phase 4 Project.
+Holds relationships and validations for each model and determines attributes for each model.
 
-Happy coding!
+### seed.py
 
----
-
-## Resources
-
-- [Setting up a respository - Atlassian](https://www.atlassian.com/git/tutorials/setting-up-a-repository)
-- [Create a repo- GitHub Docs](https://docs.github.com/en/get-started/quickstart/create-a-repo)
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
-- [Python Circular Imports - StackAbuse](https://stackabuse.com/python-circular-imports/)
-- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/)
+Contains functions that utilize Faker to generate stock instances then uses separate functions to save these instances to the database on app.py.

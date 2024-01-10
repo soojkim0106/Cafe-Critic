@@ -1,7 +1,579 @@
 :root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+	--bg: #282c34;
+	--header: #fff;
+	--link: #61dafb;
+	--text: hsla(0, 0%, 100%, 0.88);
 }
 
+body {
+	background-color: rgb(50, 50, 60);
+	color: white;
+	font-family: Arial;
+}
+
+.button {
+	background-color: green;
+}
+
+.newsItem {
+	align-items: center;
+	text-align: center;
+	border-top: 1px dashed;
+	border-color: black;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.newsContainer {
+	align-items: center;
+	text-align: center;
+	width: 40%;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	height: 800px;
+	margin-top: 30px;
+	border: 5px solid;
+	border-radius: 20px;
+	border-color: rgb(31, 182, 34);
+	background-color: rgb(217, 250, 217);
+	overflow: hidden;
+	min-width: 600px;
+}
+
+.newsList {
+	align-items: center;
+	text-align: center;
+	overflow: scroll;
+	display: block;
+	margin-right: auto;
+	height: 730px;
+	margin-left: auto;
+	margin-top: 30px;
+	border-radius: 20px;
+	border-color: lightgray;
+}
+
+.newsImage {
+	height: 200px;
+	display: block;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40%;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.newsTitle {
+	align-items: center;
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.newsHeader {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 70px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.newsSource {
+	font-size: 24px;
+	text-align: center;
+	color: rgb(31, 182, 34);
+	font-weight: 600;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.newsDescription {
+	font-size: 18px;
+	font-weight: 500;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.stockList {
+	height: 50%;
+	display: block;
+	overflow: scroll;
+}
+
+.stockCardList {
+	overflow: auto;
+	max-height: 450px;
+}
+
+.buyStocks {
+	width: 500px;
+	margin-left: 100px;
+	background-color: rgb(217, 250, 217);
+	border-radius: 16px;
+	overflow: hidden;
+	margin-top: 50px;
+	min-width: 400px;
+}
+
+.buyStocks h1 {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 70px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.stockCardContent {
+	background-color: rgb(217, 250, 217);
+	text-align: center;
+}
+
+.stockCard {
+	margin: 2px;
+	margin-bottom: 2px;
+}
+
+.simulatorContainer {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.stockBudget {
+	text-align: center;
+	background-color: rgb(217, 250, 217);
+	height: 150px;
+	width: 280px;
+	border-radius: 15px;
+	margin-right: 50px;
+	margin-left: 50px;
+}
+
+.budgetTitle {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 60px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin-top: 50px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 28px;
+}
+.budgetAmount {
+	color: rgb(31, 182, 34);
+	font-size: 40px;
+}
+
+.portfolio {
+	width: 400px;
+	margin-right: 10px;
+	background-color: rgb(217, 250, 217);
+	border-radius: 16px;
+	overflow: hidden;
+	margin-top: 50px;
+	margin-right: 100px;
+	max-height: 450px;
+}
+
+.portfolioTitle {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 70px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.portfolioList {
+	overflow: auto;
+	max-height: 330px;
+}
+
+.portfolioStocks {
+	color: black;
+	border-bottom: 1px;
+	margin-bottom: 0;
+}
+
+.addExpenseContainer {
+	margin-top: 0px;
+	overflow: auto;
+}
+
+.expenseTitle {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 70px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.expenseContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.startingExpense {
+	background-color: white;
+	color: rgb(31, 182, 34);
+	border-radius: 5px;
+}
+
+.remainingBudget {
+	background-color: white;
+	color: rgb(31, 182, 34);
+	border-radius: 5px;
+}
+
+.monthlyBudgetTitle {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	height: 50px;
+	margin-top: 0px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	text-align: center;
+	margin-bottom: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+}
+.budgetDisplay {
+	color: rgb(31, 182, 34);
+	background-color: rgb(217, 250, 217);
+	border-radius: 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin-bottom: 50px;
+}
+
+.remainingTitle {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 50px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+}
+
+.leftSide {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	height: 75vh;
+	margin-top: 50px;
+	/* margin-right: 70px;
+	margin-left: 70px; */
+}
+
+.expenseList {
+	background-color: rgb(217, 250, 217);
+	max-height: 450px;
+	overflow: auto;
+	width: 710px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	margin-left: 30px;
+}
+
+.listContainer h1 {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 80px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin-top: 0px;
+	margin-bottom: 0;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 710px;
+}
+
+.listContainer {
+	margin-right: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 710px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	background-color: rgb(217, 250, 217);
+	margin-top: 50px;
+	border-radius: 15px;
+}
+
+.closedList {
+	margin-right: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 410px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	background-color: rgb(217, 250, 217);
+	margin-top: 50px;
+	border-radius: 15px;
+}
+
+.closedList h1 {
+	text-align: center;
+	background-color: rgb(31, 182, 34);
+	height: 80px;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	margin-top: 0px;
+	margin-bottom: 0;
+	padding: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 410px;
+}
+
+.closedExpenseList {
+	background-color: rgb(217, 250, 217);
+	max-height: 450px;
+	overflow: auto;
+	width: 410px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	margin-left: 30px;
+	text-align: center;
+	align-items: center;
+}
+.listPrimary {
+	color: black;
+}
+
+.listItem {
+	border-bottom: 1px solid black;
+}
+
+.listItem:last-child {
+	border-bottom: none;
+}
+
+.loginSignupContainer {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 400px;
+	background-color: rgb(238, 238, 238);
+	margin-top: 50px;
+	border-radius: 15px;
+	text-align: center;
+	border: 3px solid rgb(31, 182, 34);
+}
+
+.loginHeader {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 50px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 400px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.pageContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60vh;
+}
+
+.emptyPortfolio {
+	color: rgb(31, 182, 34);
+	margin-left: 10px;
+	font-size: 24px;
+	margin-top: 5px;
+	font-weight: 500;
+}
+
+.modal {
+	color: black;
+	position: absolute;
+	left: 10%;
+	top: 30%;
+	width: 300px;
+}
+
+.displayBox {
+	position: absolute;
+	background-color: rgb(31, 182, 34);
+	border-radius: 15px;
+	width: 300px;
+}
+
+.displayBox h2 {
+	background-color: black;
+	color: white;
+	margin-top: 0;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	text-align: center;
+	height: 70px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 0;
+}
+
+.confirmButton {
+	height: 55px;
+	width: 147px;
+	color: white;
+	background-color: rgb(31, 182, 34);
+	border: none;
+	margin: 0;
+	border-bottom-right-radius: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.quantityInput {
+	height: 53px;
+	margin-top: 0x;
+	border-radius: 3px;
+	background-color: rgb(217, 250, 217);
+	border-bottom-left-radius: 15px;
+}
+
+.infoContainer {
+	margin-top: 10%;
+	display: flex;
+	flex-direction: row;
+	height: 75vh;
+	width: 100%;
+	justify-content: center;
+}
+
+.sectionContainer {
+	margin-left: 7%;
+	background-color: rgb(217, 250, 217);
+	border-radius: 15px;
+	height: fit-content;
+	max-height: 400px;
+	width: 300px;
+	min-width: 300px;
+}
+
+.sectionContainer h1 {
+	font-size: 22px;
+	background-color: rgb(31, 182, 34);
+	color: white;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 50px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+.sectionContainer p {
+	background-color: rgb(217, 250, 217);
+	margin-top: 0;
+	height: 150px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	color: rgb(31, 182, 34);
+	text-align: center;
+	margin-top: 18px;
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.homeInfo {
+	text-align: center;
+	color: white;
+	align-items: center;
+}
+.fullHome {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+	width: 90%;
+	min-width: 900px;
+	margin: auto;
+}
+.homeContainer {
+	margin: 20px;
+	margin-bottom: 0px;
+	width: 100%;
+}
+
+.navUser {
+	display: flex;
+	flex-direction: row;
+}
+
+.noExpenses {
+	color: rgb(31, 182, 34);
+	margin-left: 10px;
+	font-size: 24px;
+	margin-top: 5px;
+	font-weight: 500;
+}
