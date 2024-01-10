@@ -79,14 +79,14 @@ const NavBar = ({ title, onLogout }) => {
 					>
 						<ListItemText primary="Stock Simulator" />
 					</ListItem>
-					<ListItem
+					{/* <ListItem
 						button
 						onClick={toggleDrawer}
 						component={Link}
 						to="/financial_news"
 					>
 						<ListItemText primary="Financial News" />
-					</ListItem>
+					</ListItem> */}
 					<ListItem
 						button
 						onClick={toggleDrawer}

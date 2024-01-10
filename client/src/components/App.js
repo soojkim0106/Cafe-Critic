@@ -59,9 +59,9 @@ function App() {
 					<Route exact path="/">
 						<Home user={user} />
 					</Route>
-					<Route exact path="/financial_news">
+					{/* <Route exact path="/financial_news">
 						<FinancialNews />
-					</Route>
+					</Route> */}
 					<Route exact path="/stock_simulator">
 						<StockSimulator
 							user={user}
