@@ -77,7 +77,7 @@ const StockCard = ({
 		})
 			.then((r) => {
 				if (r.ok) {
-					updatedStockValuesRef.current = {}; // Update the ref value
+					updatedStockValuesRef.current = {};
 				} else {
 					console.error('Failed to updated stock values on server.');
 				}

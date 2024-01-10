@@ -3,7 +3,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import NavBar from './NavBar';
 import Login from './Login';
 import StockSimulator from './StockSimulator';
-import FinancialNews from './FinancialNews';
+// import FinancialNews from './FinancialNews';
 import ExpenseList from './ExpenseList';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import Home from './Home';
