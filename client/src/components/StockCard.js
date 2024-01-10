@@ -49,7 +49,7 @@ const StockCard = ({
 
 	let updatedStockValues = {};
 
-	const batchUpdateStocks = () => {
+	const batchUpdateStocks = useCallback(() => {
 		const updatedStockList = Object.keys(updatedStockValues).map((id) => {
 			return {
 				id,
@@ -75,7 +75,7 @@ const StockCard = ({
 			.catch((error) => {
 				console.error('Error updating stock values:', error);
 			});
-	};
+	}, [updatedStockValues]);
 
 	useEffect(() => {
 		const updateInterval = setInterval(batchUpdateStocks, 60000);
@@ -137,7 +137,7 @@ const StockCard = ({
 		updateBehaviorPeriodically();
 
 		return () => clearTimeout(behaviorTimer);
-	}, [id, setStockBehavior, updatedStockValues]);
+	}, [id, setStockBehavior, updatedStockValues, value]);
 
 	const openModal = () => {
 		setModalOpen(true);
