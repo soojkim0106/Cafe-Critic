@@ -10,6 +10,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
+    isAdmin = db.Column(db.Integer, default=False)
     _password_hash = db.Column(db.String, nullable=False)
     interest = (db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())

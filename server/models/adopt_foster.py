@@ -11,8 +11,8 @@ class AdoptFoster(db.Model, SerializerMixin):
     __tablename__ = "adopt_fosters"
     
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Integer, db.ForeignKey("users.id")
-    cat_id = db.Integer, db.ForeignKey("cats.id")
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    cat_id = db.Column(db.Integer, db.ForeignKey("cats.id"))
     adoption_fee = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
