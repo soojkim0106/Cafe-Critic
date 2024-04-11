@@ -13,12 +13,21 @@ from models.user import User
 from models.cat import Cat
 from models.adopt_foster import AdoptFoster
 
-from schemas.user_schema import UserSchema
-from schemas.cat_schema import CatSchema
-from schemas.adopt_foster_schema import AdoptFosterSchema
+from schemas.user_schema import user_schema, users_schema
+from schemas.cat_schema import cat_schema, cats_schema
+from schemas.adopt_foster_schema import adopt_foster_schema, adopt_fosters_schema
 
 
 # Views go here!
+
+@app.before_request
+def before_request():
+    path_dict = {"userbyid": User, "catbyid": Cat}
+    if request.endpoint in path_dict:
+        id = request.view.arg.get("id")
+        record = db.session.get(path_dict.get(request.endpoint), id)
+        key_name = "user" if request.endpoint == "uerbyid" else "cat"
+        setattr(g, key_name, record)
 
 @app.route('/')
 def index():
@@ -27,8 +36,9 @@ def index():
 class Cats(Resource):
     def get(self):
         try:
-            cats = [cat.to_dict() for cat in Cat.query]
-            return cats, 200
+            # cats = [cat.to_dict() for cat in Cat.query]
+            serialized_cats = cats_schema.dump(Cat.query)
+            return serialized_cats, 200
         
         except Exception as e:
             return {"error": str(e)}, 400    
@@ -36,18 +46,18 @@ class Cats(Resource):
 class CatById(Resource):
     def get(self,id):
         try:
-            cat = db.session.get(Cat, id)
+            # cat = db.session.get(Cat, id)
             
-            return cat.to_dict(), 200
+            # return cat.to_dict(), 200
+            return cat_schema.dump(g.cat), 200
         
         except Exception as e:
             return {"error": str(e)}, 400
 
-# class User(Resource):
+# class Users(Resource):
 #     #! For ADMIN to look
 #     def get(self):
 #         pass
-
 
 # class UserById(Resource):
 #     def get(self,id):
@@ -55,7 +65,7 @@ class CatById(Resource):
     
 #     def patch(self,id):
 #         pass
-    
+
 #     def delete(self,id):
 #         pass
 
