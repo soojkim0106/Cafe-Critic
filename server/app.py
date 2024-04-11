@@ -54,20 +54,46 @@ class CatById(Resource):
         except Exception as e:
             return {"error": str(e)}, 400
 
-# class Users(Resource):
-#     #! For ADMIN to look
-#     def get(self):
-#         pass
+    #! For ADMIN to look
+class Users(Resource):
+    def get(self):
+        try:
+            users = [user.to_dict() for user in User.query]
+            return users, 200
+        except Exception as e:
+            return {"error": str(e)}, 400
 
-# class UserById(Resource):
-#     def get(self,id):
-#         pass
+
+class UserById(Resource):
+    def get(self,id):
+        try:
+            user = db.session.get(User, id)
+            return user.to_dict(), 200
+        except Exception as e:
+            return {"error": str(e)}, 400
     
-#     def patch(self,id):
-#         pass
-
-#     def delete(self,id):
-#         pass
+    def patch(self,id):
+        if user := db.session.get(User, id):
+            try:
+                data = request.json
+                for attr, value in data.items():
+                    setattr(user, attr, value)
+                db.session.commit()
+                return user.to_dict(), 202
+            except Exception as e:
+                db.session.rollback()
+                return {"error": str(e)}, 400
+        else:
+            return {"error": "User not found"}, 404
+    
+    def delete(self,id):
+        try:
+            user = db.session.get(User, id)
+            db.session.delete(user)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 404
 
 # @app.route("/signup", method=["POST"])
 # def signup():
@@ -87,8 +113,8 @@ class CatById(Resource):
 
 api.add_resource(Cats, "/cats")
 api.add_resource(CatById, "/cats/<int:id>")
-# api.add_resource(User, "/users")
-# api.add_resource(UserById, "/users/<int:id>")
+api.add_resource(Users, "/users")
+api.add_resource(UserById, "/users/<int:id>")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
