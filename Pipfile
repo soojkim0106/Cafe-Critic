@@ -13,6 +13,10 @@ sqlalchemy-serializer = "*"
 flask-restful = "*"
 flask-cors = "*"
 faker = "*"
+flask-marshmallow = "*"
+flask-session = "*"
+flask-bcrypt = "*"
+marshmallow-sqlalchemy = "*"
 
 [requires]
 python_full_version = "3.8.13"
