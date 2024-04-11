@@ -24,9 +24,9 @@ from schemas.adopt_foster_schema import adopt_foster_schema, adopt_fosters_schem
 def before_request():
     path_dict = {"userbyid": User, "catbyid": Cat}
     if request.endpoint in path_dict:
-        id = request.view.arg.get("id")
+        id = request.view_args.get("id")
         record = db.session.get(path_dict.get(request.endpoint), id)
-        key_name = "user" if request.endpoint == "uerbyid" else "cat"
+        key_name = "user" if request.endpoint == "userbyid" else "cat"
         setattr(g, key_name, record)
 
 @app.route('/')
@@ -53,13 +53,43 @@ class CatById(Resource):
         
         except Exception as e:
             return {"error": str(e)}, 400
+    
+    def patch(self,id):
+        if g.cat:
+            try:
+                data = (request.json)
+                
+                updated_cat = cat_schema.load(data, instance=g.cat, partial=True)
+                db.session.commit()
+                return cat_schema.dump(updated_cat), 200
+            except Exception as e:
+                    db.session.rollback()
+                    return {"error": str(e)}, 400
+        else:
+                return {"error": f"Cat not {id} found"}, 404
+    
+    def delete(self, id):
+        try:
+            if g.cat:
+                db.session.delete(g.cat)
+                db.session.commit()
+                return {}, 204
+        except Exception as e:
+            db.session.rollback()
+            return {"error": str(e)}, 404
+
+        
 
     #! For ADMIN to look
 class Users(Resource):
     def get(self):
         try:
-            users = [user.to_dict() for user in User.query]
-            return users, 200
+            # users = [user.to_dict() for user in User.query]
+            # return users, 200
+            
+            serialized_users = users_schema.dump(User.query)
+            return serialized_users, 200
+        
         except Exception as e:
             return {"error": str(e)}, 400
 
@@ -67,30 +97,31 @@ class Users(Resource):
 class UserById(Resource):
     def get(self,id):
         try:
-            user = db.session.get(User, id)
-            return user.to_dict(), 200
+            if g.user:
+                return user_schema.dump(g.user), 200
         except Exception as e:
             return {"error": str(e)}, 400
     
     def patch(self,id):
-        if user := db.session.get(User, id):
+        if g.user:
             try:
-                data = request.json
-                for attr, value in data.items():
-                    setattr(user, attr, value)
+                data = (request.json)
+                
+                updated_user = user_schema.load(data, instance=g.user, partial=True)
                 db.session.commit()
-                return user.to_dict(), 202
+                return user_schema.dump(updated_user), 200
             except Exception as e:
-                db.session.rollback()
-                return {"error": str(e)}, 400
+                    db.session.rollback()
+                    return {"error": str(e)}, 400
         else:
-            return {"error": "User not found"}, 404
+                return {"error": f"User not {id} found"}, 404
     
     def delete(self,id):
         try:
-            user = db.session.get(User, id)
-            db.session.delete(user)
-            db.session.commit()
+            if g.user:
+                db.session.delete(g.user)
+                db.session.commit()
+                return {}, 204
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 404
