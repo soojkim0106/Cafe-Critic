@@ -51,6 +51,21 @@ class Cats(Resource):
         
         except Exception as e:
             return {"error": str(e)}, 400    
+    
+    def post(self):
+        try:
+            data = (
+                request.get_json()
+            )
+            cat = cat_schema.load(
+                data
+            )
+            db.session.add(cat)
+            db.session.commit()  
+            return cat_schema.dump(cat), 201
+        except Exception as e:
+            db.session.rollback()
+            return {"message": str(e)}, 422
         
 class CatById(Resource):
     @login_required
@@ -63,7 +78,7 @@ class CatById(Resource):
         
         except Exception as e:
             return {"error": str(e)}, 400
-    
+        
     def patch(self,id):
         if g.cat:
             try:
@@ -102,9 +117,25 @@ class Users(Resource):
         
         except Exception as e:
             return {"error": str(e)}, 400
+    
+    def post(self):
+        try:
+            data = (
+                request.get_json()
+            )
+            user = user_schema.load(
+                data
+            )
+            db.session.add(user)
+            db.session.commit()  
+            return user_schema.dump(user), 201
+        except Exception as e:
+            db.session.rollback()
+            return {"message": str(e)}, 422
 
 
 class UserById(Resource):
+    @login_required
     def get(self,id):
         try:
             if g.user:
@@ -140,7 +171,7 @@ class UserById(Resource):
 def signup():
     try: 
         data = request.json
-        user = User(username=data.get("username"), email=data.get("email"))
+        user = user_schema.load({"username":data.get("username"), "email":data.get("email")})
         user.password_hash = data.get("password")
         db.session.add(user)
         db.session.commit()
