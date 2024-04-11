@@ -14,8 +14,9 @@ flask-restful = "*"
 marshmallow-sqlalchemy = "*"
 flask-marshmallow = "*"
 flask-cors = "*"
-flask-session = "*"
 flask-bcrypt = "*"
+flask-session = "*"
+
 cryptography = "*"
 requests = "*"
 

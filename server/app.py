@@ -24,6 +24,7 @@ from schemas.adopt_foster_schema import adopt_foster_schema, adopt_fosters_schem
 def before_request():
     path_dict = {"userbyid": User, "catbyid": Cat}
     if request.endpoint in path_dict:
+
         id = request.view_args.get("id")
         record = db.session.get(path_dict.get(request.endpoint), id)
         key_name = "user" if request.endpoint == "userbyid" else "cat"
