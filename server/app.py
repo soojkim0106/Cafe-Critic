@@ -5,6 +5,7 @@
 # Remote library imports
 from flask import request, g, session
 from flask_restful import Resource
+from functools import wraps
 
 # Local imports
 from config import app, db, api
@@ -29,6 +30,14 @@ def before_request():
         record = db.session.get(path_dict.get(request.endpoint), id)
         key_name = "user" if request.endpoint == "userbyid" else "cat"
         setattr(g, key_name, record)
+        
+def login_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return {"message": "You must be logged in!"}, 422
+        return func(*args, **kwargs)
+    return decorated_function
 
 @app.route('/')
 def index():
@@ -37,7 +46,6 @@ def index():
 class Cats(Resource):
     def get(self):
         try:
-            # cats = [cat.to_dict() for cat in Cat.query]
             serialized_cats = cats_schema.dump(Cat.query)
             return serialized_cats, 200
         
@@ -45,6 +53,7 @@ class Cats(Resource):
             return {"error": str(e)}, 400    
         
 class CatById(Resource):
+    @login_required
     def get(self,id):
         try:
             # cat = db.session.get(Cat, id)
@@ -127,21 +136,54 @@ class UserById(Resource):
             db.session.rollback()
             return {"error": str(e)}, 404
 
-# @app.route("/signup", method=["POST"])
-# def signup():
-#     pass
+@app.route("/signup", methods=["POST"])
+def signup():
+    try: 
+        data = request.json
+        user = User(username=data.get("username"), email=data.get("email"))
+        user.password_hash = data.get("password")
+        db.session.add(user)
+        db.session.commit()
+        session["user_id"] = user.id
+        return user.to_dict(), 201
+    
+    except Exception as e:
+        db.session.rollback()
+        return {"message": str(e)}, 422
 
-# @app.route("/login", method=["POST"])
-# def login():
-#     pass
+@app.route("/login", methods=["POST"])
+def login():
+    try:
+        data = request.json
+        user = User.query.filter_by(username=data.get("username")).first()
+        if user and user.authenticate(data.get("password")):
+            session["user_id"] = user.id
+            return user.to_dict(), 200
+        else:
+            return {"message": "You have the wrong username or password"}, 422
+        
+    except Exception as e:
+        return {"error": str(e)}, 422
 
-# @app.route("/logout", method=["DELETE"])
-# def logout():
-#     pass
+@app.route("/logout", methods=["DELETE"])
+def logout():
+    try:
+        if "user_id" in session:
+            del session["user_id"]
+        return {}, 204
+    except Exception as e:
+        raise e
 
-# @app.route("/me", method=["GET"])
-# def check_session():
-#     pass
+@app.route("/me", methods=["GET"])
+def check_session():
+    try:
+        if "user_id" in session:
+            user = db.session.get(User, session.get("user_id"))
+            return user.to_dict(), 200
+        else:
+            return {"message": "Please log in first!"}, 400
+    except Exception as e:
+        return {"error": str(e)}
 
 api.add_resource(Cats, "/cats")
 api.add_resource(CatById, "/cats/<int:id>")

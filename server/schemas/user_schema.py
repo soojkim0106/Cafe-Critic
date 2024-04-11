@@ -26,7 +26,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
             email = data.get("email")
             
             if db.session.get(User, email).count():
-                raise ValidationError("Email {email} already exists.")
+                raise ValidationError(f"Email {email} already exists.")
         
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
