@@ -8,14 +8,14 @@ class AdoptFosterSchema(ma.SQLAlchemyAutoSchema):
         model = AdoptFoster
         load_instance = True
         
-        cats = fields.Nested(
+        cat = fields.Nested(
             "CatSchema",
             only=("id", "name"),
             exclude=("user",),
             many=True,
         )
         
-        users = fields.Nested(
+        user = fields.Nested(
             "UserSchema",
             only=("id", "username", "email"),
             exclude=("cat",),
@@ -23,6 +23,8 @@ class AdoptFosterSchema(ma.SQLAlchemyAutoSchema):
         )
         
         adoption_fee = fields.Integer(validate=validate.Range(min=0, max=250))
+        user_id = fields.Integer(required=True)
+        cat_id = fields.Integer(required=True)
         
 adopt_foster_schema = AdoptFosterSchema()
         

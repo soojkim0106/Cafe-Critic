@@ -33,6 +33,9 @@ class User(db.Model, SerializerMixin):
     
     @password_hash.setter
     def password_hash(self, new_password):
+        #! Validate
+        if len(new_password) < 5:
+            raise ValueError("Password is not long enough")
         hashed_password = flask_bcrypt.generate_password_hash(new_password).decode('utf-8')
         self._password_hash = hashed_password
 

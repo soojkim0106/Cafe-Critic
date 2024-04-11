@@ -46,6 +46,14 @@ class Cat(db.Model, SerializerMixin):
     def validate_name(self, _, name):
         if not isinstance(name, str):
             raise TypeError("Name must be a string!")
-        elif len(name) > 15:
-            raise ValueError("Name must be less than 15 characters")
+        elif not (2 < len(name) < 15):
+            raise ValueError("Name must be at least 2 characters and less than 15 characters")
         return name
+
+    @validates("age")
+    def validate_name(self, _, age):
+        if not isinstance(age, int):
+            raise TypeError("Age must be an integer!")
+        elif not (age < 20):
+            raise ValueError("Age must be below 20")
+        return age
