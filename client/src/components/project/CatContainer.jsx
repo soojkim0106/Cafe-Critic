@@ -1,0 +1,1 @@
+//should do what cat card is doing, but show cat image and name and make image clickable - to a new page(/cat/:catId)
