@@ -54,7 +54,7 @@ const CatForm = () => {
       })
         .then((resp) => {
           if (resp.ok) {
-            navigate("/cats");
+            navigate("/");
           } else {
             return resp.json().then((error) => {
               toast.error(error.message);
