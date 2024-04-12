@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom'
-import App from '../components/App'
 import Home from '../components/pages/Home'
 import Error from '../components/errors/Error'
 import Registration from '../components/auth/Registration'
@@ -10,31 +9,28 @@ import UserCard from '../components/project/UserCard'
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: "/",
+    element: <Home />,
     errorElement: <Error />,
-    children: [
-      {
-        path: '/',
-        index: true,
-        element: <Home />
-      },
-      {
-        path: 'registration',
-        element: <Registration />
-      },
-      {
-        path: 'cats/:catId',
-        element: <CatDetail />
-      },
-      {
-        path: 'adopt_foster',
-        element: <CatForm />
-      },
-      {
-        path: 'users/:userId',
-        element: <UserCard />
-      }
-    ]
-  }
-])
+  },
+  {
+    path: "/registration",
+    element: <Registration />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/cats/:catId",
+    element: <CatDetail />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/cats",
+    element: <CatForm />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/users/:userId", //make a /profile and this could be linked to admin
+    element: <UserCard />,
+    errorElement: <Error />,
+  },
+]);
