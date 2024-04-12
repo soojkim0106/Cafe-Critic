@@ -146,7 +146,7 @@ const CatForm = () => {
           checked={formik.values.good_with_children}
         />
 
-        <label>Good with Animal</label>
+        <label>Good with Animals</label>
         <input
           type="checkbox"
           name="good_with_animal"

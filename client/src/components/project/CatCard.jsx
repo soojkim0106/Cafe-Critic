@@ -1,28 +1,27 @@
-// import
+import { useState, useEffect } from "react";
+import CatDetail from "./CatDetail";
 
-import { Link } from "react-router-dom"
 
-function CatCard({cat}) {
-  const {name, age, gender, breed, temperment, image, availability, fixed, id } = cat
+function CatCard() {
+  const [cats, setCats] = useState([]);
 
-  
+  useEffect(() => {
+    fetch('/cats')
+      .then((response) => response.json())
+      .then((data) => setCats(data))
+      .catch((error) => console.error("Error fetching cats:", error));
+  }, []);
 
   return (
-    <li id={id}>
-      <Link to={`/cats/${id}`}>
-        <img src={image} alt={name}/>
-        <>
-          <h2>{name}</h2>
-          <p>Age: {age}</p>
-          <p>Gender: {gender}</p>
-          <p>Breed: {breed}</p>
-          <p>Temperment: {temperment}</p>
-          <p>Availability: {availability}</p>
-          <p>Fixed: {fixed}</p>
-        </>
-      </Link>
-    </li>
-  )
+  <div>
+    <h1>Cats</h1>
+    <ul>
+      {cats.map((cat) => (
+        <CatDetail key={cat.id} cat={cat} />
+      ))}
+    </ul>
+  </div>
+);
 }
 
 export default CatCard
