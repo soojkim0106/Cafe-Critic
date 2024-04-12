@@ -1,24 +1,22 @@
-// AuthContext.js
 import React, { createContext, useState } from 'react';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = (userData) => {
-    // Your login logic here
-    setUser(userData);
-  };
-
-  const logout = () => {
-    // Your logout logic here
-    setUser(null);
+  const register = async (formData) => {
+    // Implement your registration logic here
+    // This function should handle registration logic, such as making API requests
+    // to your backend server to register the user
+    console.log('Registering user:', formData);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, register }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export { AuthContext, AuthProvider };
