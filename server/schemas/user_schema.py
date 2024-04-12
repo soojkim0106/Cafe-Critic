@@ -23,7 +23,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     
     username = fields.String(required=True, validate=validate.Length(min=2,max=20))
     email = fields.String(required=True, validate=[validate.Email()])
-    # _password_hash = fields.String(validate=validate.Length(min=5, max=10))
+    password_hash = fields.String(required=True, validate=validate.Length(min=5), load_only=True)
     # interest = fields.String(required=False)
     
     @validates_schema
@@ -31,8 +31,16 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         email = data.get("email")
         
         if User.query.filter_by(email=email).first():
-            raise ValidationError(f"Email {email} already exists.")
+            raise ValidationError(f"Email {email} already exists.") #! EXTRACT ONLY THE STRING
     
+    def load(self, data, instance=None, *, partial=False, **kwargs):
+        loaded_instance = super().load(
+            data, instance=instance, partial=partial, **kwargs
+        )
+        
+        for key, value in data.items():
+            setattr(loaded_instance, key, value)
+        return loaded_instance
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)

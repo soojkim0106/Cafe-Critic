@@ -171,12 +171,13 @@ class UserById(Resource):
 def signup():
     try: 
         data = request.json
-        user = user_schema.load({"username":data.get("username"), "email":data.get("email")})
-        user.password_hash = data.get("password")
+        # user = user_schema.load({"username":data.get("username"), "email":data.get("email")})
+        user = user_schema.load(data, partial=True)
+        # user.password_hash = data.get("password_hash")
         db.session.add(user)
         db.session.commit()
         session["user_id"] = user.id
-        return user.to_dict(), 201
+        return user_schema.dump(user), 201
     
     except Exception as e:
         db.session.rollback()
