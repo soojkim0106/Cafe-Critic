@@ -11,7 +11,7 @@ function Home() {
           Our Basic Plan Is Free, Forever!<br />
           (No Credit Card Required)
         </h1>
-        <Link to="/signup" className="button">Use it for free</Link>
+        <Link to="/register" className="button">Use it for free</Link>
       </div>
       <div className="image-container">
         <img

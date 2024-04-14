@@ -1,18 +1,43 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { AuthContext } from './AuthContext';
 
 const Register = () => {
   const { register } = useContext(AuthContext);
+  const history = useHistory();
+  const [roles, setRoles] = useState([]);
+  const [departments, setDepartments] = useState([]);
+
+  // Fetch roles and departments on component mount
+  useEffect(() => {
+    const fetchRolesAndDepartments = async () => {
+      try {
+        // Fetch roles
+        const rolesResponse = await fetch('/roles');
+        const rolesData = await rolesResponse.json();
+        setRoles(rolesData.roles);
+
+        // Fetch departments
+        const departmentsResponse = await fetch('/departments');
+        const departmentsData = await departmentsResponse.json();
+        setDepartments(departmentsData.departments);
+      } catch (error) {
+        console.error('Error fetching roles and departments:', error);
+      }
+    };
+        
+    fetchRolesAndDepartments();
+  }, []);
 
   // Define validation schema using Yup
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    role_id: Yup.number().required('Role ID is required'),
-    department_id: Yup.number().required('Department ID is required'),
+    role_id: Yup.number().required('Role is required'),
+    department_id: Yup.number().required('Department is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -25,10 +50,15 @@ const Register = () => {
     password: '',
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Call the register function from the AuthContext
-    register(values);
-    setSubmitting(false);
+  const handleRegistration = async (values, { setSubmitting }) => {
+    try {
+      await register(values);
+      history.push('/Login'); // Redirect to time log after successful registration
+    } catch (error) {
+      console.error('Registration error:', error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -37,7 +67,7 @@ const Register = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleRegistration}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -54,11 +84,27 @@ const Register = () => {
               <ErrorMessage name="email" component="div" />
             </div>
             <div>
-              <Field type="number" name="role_id" placeholder="Role ID" />
+              <label htmlFor="role_id">Role:</label>
+              <Field as="select" name="role_id">
+                <option value="" disabled>
+                  Select Role
+                </option>
+                {roles.map(role => (
+                  <option key={role.id} value={role.id}>{role.name}</option>
+                ))}
+              </Field>
               <ErrorMessage name="role_id" component="div" />
             </div>
             <div>
-              <Field type="number" name="department_id" placeholder="Department ID" />
+              <label htmlFor="department_id">Department:</label>
+              <Field as="select" name="department_id">
+                <option value="" disabled>
+                  Select Department
+                </option>
+                {departments.map(department => (
+                  <option key={department.id} value={department.id}>{department.name}</option>
+                ))}
+              </Field>
               <ErrorMessage name="department_id" component="div" />
             </div>
             <div>

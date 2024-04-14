@@ -15,10 +15,27 @@ const AuthProvider = ({ children }) => {
   };
 
   const register = async (formData) => {
-    // Implement your registration logic here
-    // This function should handle registration logic, such as making API requests
-    // to your backend server to register the user
-    console.log('Registering user:', formData);
+    console.log(formData)
+    try {
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Registration failed');
+      }
+  
+      // Registration successful
+      console.log('User registered successfully');
+      // Optionally, you can handle the response from the server here
+    } catch (error) {
+      console.error('Error registering user:', error);
+      // Optionally, you can handle errors here, such as displaying an error message to the user
+    }
   };
 
   const logout = async () => {
