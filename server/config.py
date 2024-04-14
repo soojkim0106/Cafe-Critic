@@ -1,7 +1,5 @@
-# config.py
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_cors import CORS
@@ -14,7 +12,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this in production!
 
 db = SQLAlchemy(app)
-ma = Marshmallow(app)
 api = Api(app)
 migrate = Migrate(app, db)
 CORS(app)

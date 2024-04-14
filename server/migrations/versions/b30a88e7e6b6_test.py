@@ -1,8 +1,8 @@
-"""initial migration
+"""test
 
-Revision ID: c019f36a48b0
+Revision ID: b30a88e7e6b6
 Revises: 
-Create Date: 2024-04-12 07:30:43.883749
+Create Date: 2024-04-14 10:03:17.455719
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c019f36a48b0'
+revision = 'b30a88e7e6b6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,13 +21,15 @@ def upgrade():
     op.create_table('department',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     op.create_table('role',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -57,9 +59,11 @@ def upgrade():
     op.create_table('user_time_log',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('timelog_id', sa.Integer(), nullable=False),
+    sa.Column('department_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['department_id'], ['department.id'], ),
     sa.ForeignKeyConstraint(['timelog_id'], ['time_log.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('user_id', 'timelog_id')
+    sa.PrimaryKeyConstraint('user_id', 'timelog_id', 'department_id')
     )
     # ### end Alembic commands ###
 

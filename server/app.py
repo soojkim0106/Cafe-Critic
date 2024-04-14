@@ -1,9 +1,8 @@
-from config import app, api, db, ma, bcrypt, jwt
+from config import app, api, db, bcrypt, jwt
 from flask_restful import Resource
 from flask import request, jsonify
-from marshmallow import fields, ValidationError, EXCLUDE
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from models import User, TimeLog, Role
+from models import User, TimeLog, Role, Department
 
 # Global Error Handling
 @app.errorhandler(404)
@@ -14,34 +13,25 @@ def resource_not_found(e):
 def internal_server_error(e):
     return jsonify(error=str(e)), 500
 
-# Define Marshmallow Schemas
-class UserSchema(ma.Schema):
-    id = fields.Int(dump_only=True)
-    username = fields.Str(required=True, validate=lambda s: len(s) >= 3)
-    name = fields.Str(required=True)
-    email = fields.Email(required=True)
-    role_id = fields.Int(required=True)
-    department_id = fields.Int(required=True)
-    password_hash = fields.Str(load_only=True, required=True, validate=lambda s: len(s) >= 6)
+# Fetch roles from the database
+@app.route('/roles')
+def get_roles():
+    roles = Role.query.all()
+    role_data = [{'id': role.id, 'name': role.name} for role in roles]
+    return jsonify({'roles': role_data})
 
-    class Meta:
-        unknown = EXCLUDE
+# Fetch departments from the database
+@app.route('/departments')
+def get_departments():
+    departments = Department.query.all()
+    department_data = [{'id': department.id, 'name': department.name} for department in departments]
+    return jsonify({'departments': department_data})
 
-class TimeLogSchema(ma.Schema):
-    id = fields.Int(dump_only=True)
-    user_id = fields.Int(required=True)
-    clock_in_time = fields.DateTime(required=True)
-    clock_out_time = fields.DateTime()
-
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
-timelog_schema = TimeLogSchema()
+# No Marshmallow Schemas
 
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
-
-
 
 # Authentication Endpoints
 @app.route('/login', methods=['POST'])
@@ -57,36 +47,49 @@ def login():
 @app.route('/register', methods=['POST'])
 def register():
     try:
-        data = user_schema.load(request.get_json())
+        data = request.get_json()
+        
+        # Validate that the password field is present and non-empty
+        if 'password' not in data or not data['password']:
+            return jsonify(message="Password is required"), 400
+
+        # Check if the username already exists
         if User.query.filter_by(username=data['username']).first():
             return jsonify(message="User already exists"), 409
+        
+        # Generate password hash
         data['password_hash'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+        
+        # Create user object and add to database
         user = User(**data)
         db.session.add(user)
         db.session.commit()
+        
         return jsonify(message="User created successfully"), 201
-    except ValidationError as err:
-        return jsonify(err.messages), 400
+    except Exception as err:
+        return jsonify(error=str(err)), 500
 
 # Resource Classes with Validation and Admin Controls
 class UserResource(Resource):
     @jwt_required()
     def get(self, user_id):
         user = User.query.get_or_404(user_id)
-        return user_schema.dump(user)
+        # No Marshmallow dumping
+        return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, role_id=user.role_id, department_id=user.department_id)
 
     @jwt_required()
     def put(self, user_id):
         user = User.query.get_or_404(user_id)
         try:
-            data = user_schema.load(request.get_json(), partial=True)
+            # No Marshmallow loading
+            data = request.get_json()
             data.pop('password_hash', None)  # Ignore password_hash if it's part of the request
             for key, value in data.items():
                 setattr(user, key, value)
             db.session.commit()
-            return user_schema.dump(user)
-        except ValidationError as err:
-            return {'errors': err.messages}, 400
+            return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, role_id=user.role_id, department_id=user.department_id)
+        except Exception as err:
+            return {'errors': 'err.messages'}, 400
 
     @jwt_required()
     def delete(self, user_id):
@@ -99,7 +102,9 @@ class UserListResource(Resource):
     @jwt_required()
     def get(self):
         users = User.query.all()
-        return users_schema.dump(users)
+        # No Marshmallow dumping
+        user_list = [{'id': user.id, 'username': user.username, 'name': user.name, 'email': user.email, 'role_id': user.role_id, 'department_id': user.department_id} for user in users]
+        return jsonify(users=user_list)
 
 class TimeLogResource(Resource):
     @jwt_required()
@@ -108,19 +113,25 @@ class TimeLogResource(Resource):
         user = User.query.filter_by(username=current_user).first()
         if user.role.name == 'Admin' or not user_id:
             time_logs = TimeLog.query.all() if not user_id else TimeLog.query.filter_by(user_id=user_id).all()
-            return {'time_logs': [timelog_schema.dump(tl) for tl in time_logs]}
+            # No Marshmallow dumping
+            time_logs_list = [{'id': tl.id, 'user_id': tl.user_id, 'clock_in_time': tl.clock_in_time, 'clock_out_time': tl.clock_out_time} for tl in time_logs]
+            return {'time_logs': time_logs_list}
         else:
             time_logs = TimeLog.query.filter_by(user_id=user.id).all()
-            return {'time_logs': [timelog_schema.dump(tl) for tl in time_logs]}
+            # No Marshmallow dumping
+            time_logs_list = [{'id': tl.id, 'user_id': tl.user_id, 'clock_in_time': tl.clock_in_time, 'clock_out_time': tl.clock_out_time} for tl in time_logs]
+            return {'time_logs': time_logs_list}
 
     @jwt_required()
     def post(self, user_id=None):
-        data = timelog_schema.load(request.get_json())
+        # No Marshmallow loading
+        data = request.get_json()
         user_id = user_id or get_jwt_identity()
         time_log = TimeLog(user_id=user_id, **data)
         db.session.add(time_log)
         db.session.commit()
-        return timelog_schema.dump(time_log), 201
+        # No Marshmallow dumping
+        return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 201
 
     @jwt_required()
     def put(self, time_log_id):
@@ -129,11 +140,13 @@ class TimeLogResource(Resource):
         time_log = TimeLog.query.get_or_404(time_log_id)
         
         if user.role.name == 'Admin' or time_log.user_id == user.id:
-            data = timelog_schema.load(request.get_json(), partial=True)
+            # No Marshmallow loading
+            data = request.get_json()
             for key, value in data.items():
                 setattr(time_log, key, value)
             db.session.commit()
-            return timelog_schema.dump(time_log), 200
+            # No Marshmallow dumping
+            return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 200
         return {'message': 'Unauthorized'}, 403
 
     @jwt_required()
@@ -153,5 +166,31 @@ api.add_resource(UserListResource, '/users')
 api.add_resource(UserResource, '/users/<int:user_id>')
 api.add_resource(TimeLogResource, '/timelogs', '/timelogs/<int:time_log_id>')
 
+# def populate_roles_departments():
+#     # Check if roles and departments exist, if not, add them
+#     role_employee = Role.query.filter_by(name='employee').first()
+#     if not role_employee:
+#         role_employee = Role(name='employee', description='Employee role')
+#         db.session.add(role_employee)
+    
+#     role_manager = Role.query.filter_by(name='manager').first()
+#     if not role_manager:
+#         role_manager = Role(name='manager', description='Manager role')
+#         db.session.add(role_manager)
+
+#     department_employee = Department.query.filter_by(name='team member').first()
+#     if not department_employee:
+#         department_employee = Department(name='team member')
+#         db.session.add(department_employee)
+
+#     department_manager = Department.query.filter_by(name='admin').first()
+#     if not department_manager:
+#         department_manager = Department(name='admin')
+#         db.session.add(department_manager)
+    
+#     db.session.commit()
+
 if __name__ == '__main__':
+    # Uncomment the following line to populate roles and departments
+    # populate_roles_departments()
     app.run(port=5555, debug=True)
