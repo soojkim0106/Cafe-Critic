@@ -60,6 +60,27 @@ def register():
         # Generate password hash
         data['password_hash'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
         
+        # Check if roles and departments exist, if not, add them
+        role_employee = Role.query.filter_by(name='employee').first()
+        if not role_employee:
+            role_employee = Role(name='employee', description='Employee role')
+            db.session.add(role_employee)
+        
+        role_manager = Role.query.filter_by(name='manager').first()
+        if not role_manager:
+            role_manager = Role(name='manager', description='Manager role')
+            db.session.add(role_manager)
+
+        department_employee = Department.query.filter_by(name='team member').first()
+        if not department_employee:
+            department_employee = Department(name='team member')
+            db.session.add(department_employee)
+
+        department_manager = Department.query.filter_by(name='admin').first()
+        if not department_manager:
+            department_manager = Department(name='admin')
+            db.session.add(department_manager)
+        
         # Create user object and add to database
         user = User(**data)
         db.session.add(user)
@@ -108,30 +129,24 @@ class UserListResource(Resource):
 
 class TimeLogResource(Resource):
     @jwt_required()
-    def get(self, user_id=None):
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(username=current_user).first()
-        if user.role.name == 'Admin' or not user_id:
-            time_logs = TimeLog.query.all() if not user_id else TimeLog.query.filter_by(user_id=user_id).all()
-            # No Marshmallow dumping
-            time_logs_list = [{'id': tl.id, 'user_id': tl.user_id, 'clock_in_time': tl.clock_in_time, 'clock_out_time': tl.clock_out_time} for tl in time_logs]
-            return {'time_logs': time_logs_list}
-        else:
-            time_logs = TimeLog.query.filter_by(user_id=user.id).all()
-            # No Marshmallow dumping
-            time_logs_list = [{'id': tl.id, 'user_id': tl.user_id, 'clock_in_time': tl.clock_in_time, 'clock_out_time': tl.clock_out_time} for tl in time_logs]
-            return {'time_logs': time_logs_list}
-
-    @jwt_required()
     def post(self, user_id=None):
-        # No Marshmallow loading
-        data = request.get_json()
-        user_id = user_id or get_jwt_identity()
-        time_log = TimeLog(user_id=user_id, **data)
-        db.session.add(time_log)
-        db.session.commit()
-        # No Marshmallow dumping
-        return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 201
+        try:
+            # No Marshmallow loading
+            data = request.get_json()
+            current_user = get_jwt_identity()
+            user = User.query.filter_by(username=current_user).first()
+            if not user:
+                return jsonify(message="User not found"), 404
+            
+            user_id = user_id or user.id  # Use provided user_id or current user's id
+            data['user_id'] = user_id  # Set the user_id field
+            time_log = TimeLog(**data)
+            db.session.add(time_log)
+            db.session.commit()
+            # No Marshmallow dumping
+            return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 201
+        except Exception as e:
+            return jsonify(error=str(e)), 50
 
     @jwt_required()
     def put(self, time_log_id):
@@ -166,29 +181,29 @@ api.add_resource(UserListResource, '/users')
 api.add_resource(UserResource, '/users/<int:user_id>')
 api.add_resource(TimeLogResource, '/timelogs', '/timelogs/<int:time_log_id>')
 
-# def populate_roles_departments():
-#     # Check if roles and departments exist, if not, add them
-#     role_employee = Role.query.filter_by(name='employee').first()
-#     if not role_employee:
-#         role_employee = Role(name='employee', description='Employee role')
-#         db.session.add(role_employee)
+def populate_roles_departments():
+    # Check if roles and departments exist, if not, add them
+    role_employee = Role.query.filter_by(name='employee').first()
+    if not role_employee:
+        role_employee = Role(name='employee', description='Employee role')
+        db.session.add(role_employee)
     
-#     role_manager = Role.query.filter_by(name='manager').first()
-#     if not role_manager:
-#         role_manager = Role(name='manager', description='Manager role')
-#         db.session.add(role_manager)
+    role_manager = Role.query.filter_by(name='manager').first()
+    if not role_manager:
+        role_manager = Role(name='manager', description='Manager role')
+        db.session.add(role_manager)
 
-#     department_employee = Department.query.filter_by(name='team member').first()
-#     if not department_employee:
-#         department_employee = Department(name='team member')
-#         db.session.add(department_employee)
+    department_employee = Department.query.filter_by(name='team member').first()
+    if not department_employee:
+        department_employee = Department(name='team member')
+        db.session.add(department_employee)
 
-#     department_manager = Department.query.filter_by(name='admin').first()
-#     if not department_manager:
-#         department_manager = Department(name='admin')
-#         db.session.add(department_manager)
+    department_manager = Department.query.filter_by(name='admin').first()
+    if not department_manager:
+        department_manager = Department(name='admin')
+        db.session.add(department_manager)
     
-#     db.session.commit()
+    db.session.commit()
 
 if __name__ == '__main__':
     # Uncomment the following line to populate roles and departments
