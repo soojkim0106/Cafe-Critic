@@ -5,3 +5,36 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+/* TimeLogList.css */
+
+/* Style for the time log list container */
+.time-log-list-container {
+  margin-top: 20px;
+}
+
+/* Style for each time log item */
+.time-log-item {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Style for the delete button */
+.delete-button {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+/* TimeLogForm.css */
+
+/* Style for the form container */
+.time-log-form-container {
+  margin-top: 20px;
+}
+
+/* Add more styles as needed */
+
