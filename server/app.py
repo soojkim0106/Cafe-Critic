@@ -147,6 +147,13 @@ class TimeLogResource(Resource):
             return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 201
         except Exception as e:
             return jsonify(error=str(e)), 50
+        # Flask route for fetching time logs
+    @app.route('/timelogs')
+    def get_timelogs():
+        time_logs = TimeLog.query.all()
+        time_log_data = [{'id': log.id, 'date': log.date, 'clock_in': log.clock_in, 'clock_out': log.clock_out, 'total_hours': log.total_hours, 'status': log.status} for log in time_logs]
+        return jsonify({'timeLogs': time_log_data})
+
 
     @jwt_required()
     def put(self, time_log_id):
