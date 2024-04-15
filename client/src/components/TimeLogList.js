@@ -220,7 +220,7 @@ function TimeLogList() {
         </div>
       </div>
       <div className="hours-table">
-        <h3>Select Date</h3>
+        <h3>Select</h3>
         <table>
           <thead>
             <tr>

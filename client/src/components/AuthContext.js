@@ -6,11 +6,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = async (formData) => {
-    // Implement your login logic here
-    // This function should handle login logic, such as making API requests
-    // to your backend server to authenticate the user
     console.log('Logging in user:', formData);
-    // Example of setting the user after successful login
     setUser(formData.username);
   };
 
@@ -29,25 +25,44 @@ const AuthProvider = ({ children }) => {
         throw new Error('Registration failed');
       }
   
-      // Registration successful
       console.log('User registered successfully');
-      // Optionally, you can handle the response from the server here
     } catch (error) {
       console.error('Error registering user:', error);
-      // Optionally, you can handle errors here, such as displaying an error message to the user
+    }
+  };
+
+  const postTimeLog = async (timeLogData) => {
+    console.log(timeLogData)
+    try {
+      const response = await fetch('/timelogs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+        body: JSON.stringify(timeLogData),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to post time log');
+      }
+  
+      console.log('Time log posted successfully');
+      return response.json(); // Assuming the backend sends back some data
+    } catch (error) {
+      console.error('Error posting time log:', error.message);
+      throw error; // Rethrow for handling by calling components
     }
   };
 
   const logout = async () => {
-    // Implement your logout logic here
-    // This function should handle logout logic, such as clearing user data
     console.log('Logging out user');
-    // Example of clearing the user after logout
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, postTimeLog }}>
       {children}
     </AuthContext.Provider>
   );
