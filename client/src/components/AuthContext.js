@@ -6,7 +6,6 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = async (formData) => {
-    console.log(formData)
     console.log('Logging in user:', formData);
     try {
         const response = await fetch('/login', {
@@ -50,13 +49,13 @@ const AuthProvider = ({ children }) => {
   };
 
   const postTimeLog = async (timeLogData) => {
-    console.log(timeLogData)
+    console.log('timelogsdataobject',timeLogData[0])
     try {
       const response = await fetch('/timelogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          
+        
         },
         body: JSON.stringify(timeLogData),
       });

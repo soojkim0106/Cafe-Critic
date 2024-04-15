@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 
 function TimeLogList() {
+  const { postTimeLog } = useContext(AuthContext);
   const getCurrentPayrollStart = () => {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
@@ -90,6 +92,11 @@ function TimeLogList() {
     }
   };
 
+  const handleSaveSubmit = () => {
+    setEditingRowIndex(null)
+    postTimeLog(data);
+    
+  };
   const handleEditRow = (rowIndex) => {
     setEditingRowIndex(rowIndex);
   };
@@ -198,7 +205,7 @@ function TimeLogList() {
                   <td>{entry.status}</td>
                   <td>
                     {editingRowIndex === rowIndex ? (
-                      <button onClick={() => setEditingRowIndex(null)}>
+                      <button onClick={() => handleSaveSubmit()}>
                         Save
                       </button>
                     ) : (
