@@ -6,9 +6,27 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = async (formData) => {
+    console.log(formData)
     console.log('Logging in user:', formData);
-    setUser(formData.username);
-  };
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Login failed');
+        }
+
+        const data = await response.json();
+        console.log('Logged in successfully');
+    } catch (error) {
+        console.error('Login error:', error);
+    }
+};
 
   const register = async (formData) => {
     console.log(formData)
