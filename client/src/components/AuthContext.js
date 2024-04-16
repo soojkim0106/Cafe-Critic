@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        
+          
         },
         body: JSON.stringify(timeLogData),
       });
@@ -72,12 +72,28 @@ const AuthProvider = ({ children }) => {
       throw error; // Rethrow for handling by calling components
     }
   };
-
   const logout = async () => {
     console.log('Logging out user');
-    setUser(null);
-  };
+    try {
+        const response = await fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include JWT token
+            },
+        });
 
+        if (!response.ok) {
+            throw new Error('Logout failed');
+        }
+
+        // Clear user state after successful logout
+        setUser(null);
+        console.log('Logged out successfully');
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+};
   return (
     <AuthContext.Provider value={{ user, login, register, logout, postTimeLog }}>
       {children}

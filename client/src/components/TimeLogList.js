@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
 function TimeLogList() {
@@ -15,7 +15,7 @@ function TimeLogList() {
   const [data, setData] = useState([]);
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [newEntry, setNewEntry] = useState({
-    name: '', // Add name field
+    name: '',
     date: '',
     clockIn: '',
     clockOut: '',
@@ -54,12 +54,9 @@ function TimeLogList() {
       updatedData[rowIndex][field] = newValue;
 
       if (field === 'clockIn' || field === 'clockOut') {
-        // No need to handle time format conversion here
-        // Time input handles the format internally
         const clockIn = updatedData[rowIndex].clockIn;
         const clockOut = updatedData[rowIndex].clockOut;
 
-        // Calculate total worked hours
         let totalHours = 0;
         if (clockIn && clockOut) {
           const [hoursIn, minutesIn] = clockIn.split(':').map(Number);
@@ -69,7 +66,6 @@ function TimeLogList() {
         }
         updatedData[rowIndex].hoursWorked = totalHours.toFixed(2);
 
-        // Calculate total worked hours for all entries
         let totalWorkedHours = 0;
         updatedData.forEach(entry => {
           if (!isNaN(entry.hoursWorked)) {
@@ -93,10 +89,10 @@ function TimeLogList() {
   };
 
   const handleSaveSubmit = () => {
-    setEditingRowIndex(null)
+    setEditingRowIndex(null);
     postTimeLog(data);
-    
   };
+
   const handleEditRow = (rowIndex) => {
     setEditingRowIndex(rowIndex);
   };
@@ -116,8 +112,8 @@ function TimeLogList() {
     const updatedData = [...data, newEntry];
     setData(updatedData);
     saveDataToBackend(updatedData);
-    setNewEntry({ // Reset newEntry after adding
-      name: '', // Reset name field
+    setNewEntry({ 
+      name: '',
       date: '',
       clockIn: '',
       clockOut: '',
