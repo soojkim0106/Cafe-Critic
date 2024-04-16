@@ -1,29 +1,39 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom'; // Import useHistory
+import { useHistory } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 
 const Login = () => {
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const history = useHistory(); // Initialize useHistory
+  const [error, setError] = useState('');
+  const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => { // Make handleSubmit asynchronous to wait for login
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(formData); // Wait for login function to complete
-      history.push('/timelogs'); // Redirect to '/time-log' after successful login
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Login successful:', data);
+        history.push('/timelogs');
+      } else {
+        console.error('Login error:', data.error);
+        setError(data.error);  // Display error message from the server
+      }
     } catch (error) {
-      console.error('Login error:', error);
-      // Handle login error if needed
+      console.error('Network error:', error);
+      setError('Network error. Please try again later.');
     }
-    console.log(formData)
-   
-  };
+};
 
   return (
     <div>
@@ -46,6 +56,7 @@ const Login = () => {
           required
         />
         <button type="submit">Login</button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </div>
   );
