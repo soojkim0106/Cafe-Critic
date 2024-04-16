@@ -16,19 +16,20 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Login successful:', data);
-        history.push('/timelogs');
-      } else {
-        console.error('Login error:', data.error);
-        setError(data.error);  // Display error message from the server
-      }
+      // const response = await fetch('/login', {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify(formData)
+      // });
+      // const data = await response.json();
+      // if (response.ok) {
+      //   console.log('Login successful:', data);
+      //   history.push('/timelogs');
+      // } else {
+      //   console.error('Login error:', data.error);
+      //   setError(data.error);  // Display error message from the server
+      // }
+      login(formData)
     } catch (error) {
       console.error('Network error:', error);
       setError('Network error. Please try again later.');

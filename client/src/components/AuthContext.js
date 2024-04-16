@@ -21,7 +21,8 @@ const AuthProvider = ({ children }) => {
         }
 
         const data = await response.json();
-        console.log('Logged in successfully');
+        await localStorage.setItem('token', data.access_token)
+        console.log('Logged in successfully', localStorage.getItem('token'));
     } catch (error) {
         console.error('Login error:', error);
     }
@@ -55,7 +56,7 @@ const AuthProvider = ({ children }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          
+          'Authorization': `Bearer ${localStorage.getItem('token')}`  
         },
         body: JSON.stringify(timeLogData),
       });
@@ -74,12 +75,14 @@ const AuthProvider = ({ children }) => {
   };
   const logout = async () => {
     console.log('Logging out user');
+    const token = localStorage.getItem('token'); // Retrieve token from local storage
+    console.log('Token:', token); // Log token for debugging
     try {
         const response = await fetch('/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include JWT token
+                'Authorization': `Bearer ${token}`, // Include JWT token
             },
         });
 
@@ -89,6 +92,8 @@ const AuthProvider = ({ children }) => {
 
         // Clear user state after successful logout
         setUser(null);
+        // Remove token from local storage
+        localStorage.removeItem('token');
         console.log('Logged out successfully');
     } catch (error) {
         console.error('Logout error:', error);
