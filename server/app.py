@@ -152,11 +152,16 @@ class TimeLogResource(Resource):
             return jsonify({'message': "User not found"}), 404
 
         try:
-            # Assume all keys exist for simplicity, add checks for production code
+            import ipdb
+            ipdb.settrace()
+            user_id = user_id or user.id
             clock_in = datetime.strptime(data['clock_in'], '%H:%M').time()
             clock_out = datetime.strptime(data['clock_out'], '%H:%M').time()
 
-            new_log = TimeLog(
+            data['user_id'] = user_id
+
+
+            time_log = TimeLog(
                 user_id=user.id,
                 date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
                 clock_in=clock_in,
@@ -165,9 +170,9 @@ class TimeLogResource(Resource):
                 total_hours=data.get('total_hours', 0),
                 status=data.get('status', 'Pending')
             )
-            db.session.add(new_log)
+            db.session.add(time_log)
             db.session.commit()
-            return jsonify(new_log.to_dict()), 201
+            return jsonify(time_log.to_dict()), 201
         except KeyError as e:
             return jsonify({'error': f'Missing key {e}'}), 400
         except ValueError as e:
