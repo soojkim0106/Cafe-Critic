@@ -98,6 +98,7 @@ def register():
             db.session.add(department_manager)
         
         # Create user object and add to database
+        del data['password']
         user = User(**data)
         db.session.add(user)
         db.session.commit()
