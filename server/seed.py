@@ -3,9 +3,25 @@ from app import db, app
 from models import User, Role, Department, TimeLog
 from werkzeug.security import generate_password_hash
 from random import choice
+from datetime import datetime, time
 
 # Instantiate Faker object
 fake = Faker()
+
+def create_tables():
+    with app.app_context():
+        db.create_all()  # This creates all tables according to your models
+        print("All tables created.")
+
+def calculate_hours(clock_in, clock_out):
+    """Calculate hours between two time objects."""
+    start = datetime.combine(datetime.min, clock_in)  # Combine with minimum date
+    end = datetime.combine(datetime.min, clock_out)  # Combine with minimum date
+    duration = end - start
+    total_hours = duration.total_seconds() / 3600  # Convert seconds to hours
+    if total_hours < 0:
+        total_hours += 24  # Adjust for overnight work
+    return round(total_hours, 2)  # Round to two decimal places
 
 def seed_database():
     db.session.query(TimeLog).delete()
@@ -50,19 +66,27 @@ def seed_database():
     time_logs = []
     for user in users:
         for _ in range(2):  # Assume 2 logs per user
+            start_datetime = fake.date_time_this_year()
+            end_datetime = fake.date_time_between_dates(datetime_start=start_datetime, datetime_end=datetime.now())
+            clock_in_time = start_datetime.time()
+            clock_out_time = end_datetime.time()
+            worked_hours = calculate_hours(clock_in_time, clock_out_time)
+
             time_log = TimeLog(
-                date=fake.date_this_year(),
-                clock_in=fake.date_time_this_year(),
-                clock_out=fake.date_time_this_year(),
-                total_hours=fake.random_number(digits=2),
+                date=start_datetime.date(),
+                clock_in=clock_in_time,
+                clock_out=clock_out_time,
+                hours_worked=worked_hours,  # Correctly set hours worked
+                total_hours=worked_hours,  # Assume total_hours is the same as hours worked for seeding
                 status=choice(['Pending', 'Approved', 'Rejected']),
                 user_id=user.id  # Set the user_id for each TimeLog object
             )
-            time_logs.append(time_log)
+            time_logs.append(time_log)  # Correct usage of list append
     db.session.bulk_save_objects(time_logs)
     db.session.commit()
     print("Database seeded successfully.")
 
 if __name__ == '__main__':
     with app.app_context():
+        create_tables()
         seed_database()

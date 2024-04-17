@@ -162,10 +162,10 @@ class TimeLogResource(Resource):
         "total_hours": float(self.total_hours) if self.total_hours else None,
         "status": self.status,
         "user_id": self.user_id,
-        "departments": [{"id": dept.id, "name": dept.name} for dept in self.departments]
+        "departments": [{"id": dept.id, "name": dept.user} for dept in self.departments]
     }
         try:
-            
+        
             data = request.get_json()
             current_user = get_jwt_identity()
             user = User.query.filter_by(username=current_user).first()
@@ -173,9 +173,8 @@ class TimeLogResource(Resource):
             if not user:
                 return jsonify(message="User not found"), 404
             
-            import ipdb
-            ipdb.set_trace()
-
+            
+            
             user_id = user_id or user.id
             clock_in = datetime.strptime(data['clock_in'], '%H:%M')
             clock_out = datetime.strptime(data['clock_out'], '%H:%M')
@@ -187,14 +186,14 @@ class TimeLogResource(Resource):
             data['clock_out'] = datetime.strptime(data['clock_out'], '%H:%M').time()
 
             time_log = TimeLog(**data)
-            db.session.add(time_log)
+            db.session.add(time_log) 
             db.session.commit()
             time_log['clock_in'] = clock_in
             time_log['clock_out'] = clock_out 
             import ipdb
             ipdb.set_trace()
             return make_response(jsonify(time_log.to_dict()), 201)
-
+            
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
@@ -210,6 +209,7 @@ def get_timelogs():
         return jsonify({'timeLogs': time_log_data}), 200
     except Exception as e:
         return jsonify(error=str(e)), 500
+    
 
 
 
