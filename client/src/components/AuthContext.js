@@ -51,6 +51,15 @@ const AuthProvider = ({ children }) => {
 
   const postTimeLog = async (timeLogData) => {
     console.log('timelogsdataobject',timeLogData[0])
+    const time_log = {
+      date:timeLogData[0].date,
+      clock_in:timeLogData[0].clockIn,
+      clock_out:timeLogData[0].clockOut,
+      hours_worked:timeLogData[0].hoursWorked,
+      total_hours:timeLogData[0].totalHours,
+      status:timeLogData[0].status
+
+    }
     try {
       const response = await fetch('/timelogs', {
         method: 'POST',
