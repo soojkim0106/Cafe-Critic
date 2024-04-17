@@ -149,6 +149,7 @@ class UserListResource(Resource):
         return jsonify(users=user_list)
 
 class TimeLogResource(Resource):
+    
     @jwt_required()
     def post(self, user_id=None):
         def to_dict(self):
@@ -164,12 +165,16 @@ class TimeLogResource(Resource):
         "departments": [{"id": dept.id, "name": dept.name} for dept in self.departments]
     }
         try:
+            
             data = request.get_json()
             current_user = get_jwt_identity()
             user = User.query.filter_by(username=current_user).first()
 
             if not user:
                 return jsonify(message="User not found"), 404
+            
+            import ipdb
+            ipdb.set_trace()
 
             user_id = user_id or user.id
             clock_in = datetime.strptime(data['clock_in'], '%H:%M')
