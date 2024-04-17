@@ -1,8 +1,11 @@
 from config import app, api, db, bcrypt, jwt
 from flask_restful import Resource
+from flask import make_response
+from datetime import datetime
 from flask import request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from models import User, TimeLog, Role, Department
+
 
 # Global Error Handling
 @app.errorhandler(404)
@@ -43,6 +46,19 @@ def login():
         access_token = create_access_token(identity=username)
         return jsonify(access_token=access_token), 200
     return jsonify("Wrong username or password"), 401
+
+@app.route('/logout', methods=['POST'])
+@jwt_required()  # Ensure the user is authenticated
+def logout():
+    try:
+        # Clear the JWT cookies to log the user out
+        response = make_response({'message': 'Logout successful'})
+        unset_jwt_cookies(response)
+        return response
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @app.route('/register', methods=['POST'])
 def register():
