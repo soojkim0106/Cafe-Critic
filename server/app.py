@@ -56,6 +56,9 @@ def logout():
         response = make_response({'message': 'Logout successful'})
         unset_jwt_cookies(response)
         return response
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
