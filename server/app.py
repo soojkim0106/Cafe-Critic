@@ -49,19 +49,11 @@ def login():
     return jsonify("Wrong username or password"), 401
 
 @app.route('/logout', methods=['POST'])
-@jwt_required()  # Ensure the user is authenticated
+@jwt_required()
 def logout():
-    try:
-        # Clear the JWT cookies to log the user out
-        response = make_response({'message': 'Logout successful'})
-        unset_jwt_cookies(response)
-        return response
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    response = jsonify({'message': 'Logout successful'})
+    unset_jwt_cookies(response)
+    return response
 
 
 @app.route('/register', methods=['POST'])
@@ -151,52 +143,35 @@ class UserListResource(Resource):
 class TimeLogResource(Resource):
     
     @jwt_required()
-    def post(self, user_id=None):
-        def to_dict(self):
-            return {
-        "id": self.id,
-        "date": self.date.isoformat() if self.date else None,
-        "clock_in": self.clock_in.strftime('%H:%M') if self.clock_in else None,
-        "clock_out": self.clock_out.strftime('%H:%M') if self.clock_out else None,
-        "hours_worked": float(self.hours_worked) if self.hours_worked else None,
-        "total_hours": float(self.total_hours) if self.total_hours else None,
-        "status": self.status,
-        "user_id": self.user_id,
-        "departments": [{"id": dept.id, "name": dept.user} for dept in self.departments]
-    }
+    def post(self):
+        data = request.get_json()
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+
+        if not user:
+            return jsonify({'message': "User not found"}), 404
+
         try:
-        
-            data = request.get_json()
-            current_user = get_jwt_identity()
-            user = User.query.filter_by(username=current_user).first()
+            # Assume all keys exist for simplicity, add checks for production code
+            clock_in = datetime.strptime(data['clock_in'], '%H:%M').time()
+            clock_out = datetime.strptime(data['clock_out'], '%H:%M').time()
 
-            if not user:
-                return jsonify(message="User not found"), 404
-            
-            
-            
-            user_id = user_id or user.id
-            clock_in = datetime.strptime(data['clock_in'], '%H:%M')
-            clock_out = datetime.strptime(data['clock_out'], '%H:%M')
-                                         
-            data['user_id'] = user_id
-
-            data['date'] = datetime.strptime(data['date'], '%Y-%m-%d').date()
-            data['clock_in'] = datetime.strptime(data['clock_in'], '%H:%M').time()
-            data['clock_out'] = datetime.strptime(data['clock_out'], '%H:%M').time()
-
-            time_log = TimeLog(**data)
-            db.session.add(time_log) 
+            new_log = TimeLog(
+                user_id=user.id,
+                date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
+                clock_in=clock_in,
+                clock_out=clock_out,
+                hours_worked=data.get('hours_worked', 0),  # Default to 0 if not provided
+                total_hours=data.get('total_hours', 0),
+                status=data.get('status', 'Pending')
+            )
+            db.session.add(new_log)
             db.session.commit()
-            time_log['clock_in'] = clock_in
-            time_log['clock_out'] = clock_out 
-            import ipdb
-            ipdb.set_trace()
-            return make_response(jsonify(time_log.to_dict()), 201)
-            
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-
+            return jsonify(new_log.to_dict()), 201
+        except KeyError as e:
+            return jsonify({'error': f'Missing key {e}'}), 400
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
 # Register the resource with the API (do this in your Flask setup/configuration file)
 # api.add_resource(TimeLogResource, '/timelogs', '/timelogs/<int:time_log_id>')
 
