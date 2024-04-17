@@ -5,6 +5,7 @@ from datetime import datetime
 from flask import request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from models import User, TimeLog, Role, Department
+from sqlalchemy.orm import joinedload
 
 
 # Global Error Handling
@@ -147,46 +148,89 @@ class UserListResource(Resource):
 class TimeLogResource(Resource):
     @jwt_required()
     def post(self, user_id=None):
+        def to_dict(self):
+            return {
+        "id": self.id,
+        "date": self.date.isoformat() if self.date else None,
+        "clock_in": self.clock_in.strftime('%H:%M') if self.clock_in else None,
+        "clock_out": self.clock_out.strftime('%H:%M') if self.clock_out else None,
+        "hours_worked": float(self.hours_worked) if self.hours_worked else None,
+        "total_hours": float(self.total_hours) if self.total_hours else None,
+        "status": self.status,
+        "user_id": self.user_id,
+        "departments": [{"id": dept.id, "name": dept.name} for dept in self.departments]
+    }
         try:
-            # No Marshmallow loading
             data = request.get_json()
             current_user = get_jwt_identity()
             user = User.query.filter_by(username=current_user).first()
+
             if not user:
                 return jsonify(message="User not found"), 404
-            
-            user_id = user_id or user.id  # Use provided user_id or current user's id
-            data['user_id'] = user_id  # Set the user_id field
+
+            user_id = user_id or user.id
+            clock_in = datetime.strptime(data['clock_in'], '%H:%M')
+            clock_out = datetime.strptime(data['clock_out'], '%H:%M')
+                                         
+            data['user_id'] = user_id
+
+            data['date'] = datetime.strptime(data['date'], '%Y-%m-%d').date()
+            data['clock_in'] = datetime.strptime(data['clock_in'], '%H:%M').time()
+            data['clock_out'] = datetime.strptime(data['clock_out'], '%H:%M').time()
+
             time_log = TimeLog(**data)
             db.session.add(time_log)
             db.session.commit()
-            # No Marshmallow dumping
-            return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 201
+            time_log['clock_in'] = clock_in
+            time_log['clock_out'] = clock_out 
+            import ipdb
+            ipdb.set_trace()
+            return make_response(jsonify(time_log.to_dict()), 201)
+
         except Exception as e:
-            return jsonify(error=str(e)), 50
-        # Flask route for fetching time logs
-    @app.route('/timelogs')
-    def get_timelogs():
+            return jsonify({'error': str(e)}), 500
+
+# Register the resource with the API (do this in your Flask setup/configuration file)
+# api.add_resource(TimeLogResource, '/timelogs', '/timelogs/<int:time_log_id>')
+
+# Standalone function for fetching all time logs
+@app.route('/timelogs', methods=['GET'])
+def get_timelogs():
+    try:
         time_logs = TimeLog.query.all()
-        time_log_data = [{'id': log.id, 'date': log.date, 'clock_in': log.clock_in, 'clock_out': log.clock_out, 'total_hours': log.total_hours, 'status': log.status} for log in time_logs]
-        return jsonify({'timeLogs': time_log_data})
+        time_log_data = [log.to_dict() for log in time_logs]  # Using the to_dict method if available
+        return jsonify({'timeLogs': time_log_data}), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
 
 
+
+    @app.route('/timelogs/<int:time_log_id>', methods=['PATCH'])
     @jwt_required()
-    def put(self, time_log_id):
+    def update_time_log(time_log_id):
         current_user = get_jwt_identity()
-        user = User.query.filter_by(username=current_user).first()
+        user = User.query.options(joinedload(User.role)).filter_by(username=current_user).first()
         time_log = TimeLog.query.get_or_404(time_log_id)
+
+        if not user:
+            return jsonify({'message': 'User not found'}), 404
+
+        data = request.get_json()
+        if 'status' in data and user.role.name != 'Admin':
+            return jsonify({'message': 'Unauthorized to update status'}), 403
+
+        # Allowed updates for all users
+        allowed_updates = {'date', 'clock_in', 'clock_out'}
+        # Additional field 'status' can be updated by admin only
+        if user.role.name == 'Admin':
+            allowed_updates.add('status')
+
+        for key in data:
+            if key in allowed_updates:
+                setattr(time_log, key, data[key])
         
-        if user.role.name == 'Admin' or time_log.user_id == user.id:
-            # No Marshmallow loading
-            data = request.get_json()
-            for key, value in data.items():
-                setattr(time_log, key, value)
-            db.session.commit()
-            # No Marshmallow dumping
-            return jsonify(id=time_log.id, user_id=time_log.user_id, clock_in_time=time_log.clock_in_time, clock_out_time=time_log.clock_out_time), 200
-        return {'message': 'Unauthorized'}, 403
+        db.session.commit()
+        return jsonify({'message': 'Time log updated successfully', 'time_log': time_log.to_dict()}), 200
 
     @jwt_required()
     def delete(self, time_log_id):

@@ -10,18 +10,35 @@ user_time_log = db.Table(
 )
 
 class Role(db.Model, SerializerMixin):
+    serialize_rules = (
+        '-users.role',           # Exclude direct serialization of users to avoid recursion
+    )
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     description = db.Column(db.Text)
     users = db.relationship('User', back_populates='role')
 
+# Department model
+
 class Department(db.Model, SerializerMixin):
+    serialize_rules = (
+        '-users.department', 
+        '-time_logs.department' 
+               
+    )
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     users = db.relationship('User', back_populates='department')
     time_logs = db.relationship('TimeLog', secondary=user_time_log, back_populates='departments')
 
+    
+
 class User(db.Model, SerializerMixin):
+    serialize_rules = (
+        '-password_hash',        # Exclude password hash
+        '-time_logs.user',
+        '-department.user'
+    )
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
@@ -34,14 +51,18 @@ class User(db.Model, SerializerMixin):
     department = db.relationship('Department', back_populates='users')
 
 class TimeLog(db.Model, SerializerMixin):
+    serialize_rules = (
+        '-user.password_hash',   # Exclude user's password hash  
+        '-departments.users',    # Exclude other users in the departments to avoid recursion
+        '-departments.time_logs',
+        '-user.time_logs' # Exclude other time logs in the departments to avoid recursion
+    )
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
-    clock_in = db.Column(db.TIMESTAMP, nullable=False)
-    clock_out = db.Column(db.TIMESTAMP)
+    clock_in = db.Column(db.Time, nullable=False)
+    clock_out = db.Column(db.Time)
+    hours_worked= db.Column(db.Numeric)
     total_hours = db.Column(db.Numeric)
     status = db.Column(db.String(20), nullable=False)  # Pending, Approved, Rejected
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     departments = db.relationship('Department', secondary=user_time_log, back_populates='time_logs')
-
-# Ensure you correctly create and manage your database, including handling migrations
-# and potentially resetting your database to integrate these changes.
