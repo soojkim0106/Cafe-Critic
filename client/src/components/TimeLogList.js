@@ -15,7 +15,6 @@ function TimeLogList() {
   const [data, setData] = useState([]);
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [newEntry, setNewEntry] = useState({
-    name: '',
     date: '',
     clockIn: '',
     clockOut: '',
@@ -113,7 +112,6 @@ function TimeLogList() {
     setData(updatedData);
     saveDataToBackend(updatedData);
     setNewEntry({ 
-      name: '',
       date: '',
       clockIn: '',
       clockOut: '',
@@ -149,7 +147,6 @@ function TimeLogList() {
           <table className="time-log-table">
             <thead>
               <tr>
-                <th>Name</th>
                 <th>Date</th>
                 <th>Clock In</th>
                 <th>Clock Out</th>
@@ -162,7 +159,6 @@ function TimeLogList() {
             <tbody>
               {data.map((entry, rowIndex) => (
                 <tr key={rowIndex}>
-                  <td>{entry.name}</td>
                   <td>
                     {editingRowIndex === rowIndex ? (
                       <input
