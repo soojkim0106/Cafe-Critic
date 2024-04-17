@@ -51,8 +51,6 @@ def login():
 @app.route('/logout', methods=['POST'])
 @jwt_required()
 def logout():
-    import ipdb
-    ipdb.set_trace()
     response = jsonify({'message': 'Logout successful'})
     unset_jwt_cookies(response)
     return response
@@ -175,7 +173,7 @@ class TimeLogResource(Resource):
             db.session.add(time_log)
             db.session.commit()
             
-            return jsonify(time_log.to_dict()), 201
+            return make_response(time_log.to_dict(), 201)
         except KeyError as e:
             return jsonify({'error': f'Missing key {e}'}), 400
         except ValueError as e:
