@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
+import { BiLogo99Designs } from 'react-icons/bi';
 
 function TimeLogList() {
-  const { postTimeLog, deleteTimeLog, fetchAllTimeLogs } = useContext(AuthContext);
+  const { postTimeLog, deleteTimeLog, fetchAllTimeLogs, updateTimeLog } = useContext(AuthContext);
   const getCurrentPayrollStart = () => {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
@@ -15,6 +16,7 @@ function TimeLogList() {
   const [data, setData] = useState([]);
   const [allTimeLogs, setAllTimeLogs] = useState([]);
   const [editingRowIndex, setEditingRowIndex] = useState(null);
+  const [editLogId, seteditLogId] = useState(null)
   const [newEntry, setNewEntry] = useState({
     date: '',
     clockIn: '',
@@ -49,6 +51,49 @@ function TimeLogList() {
     setHoursForSelectedDate(totalHours);
   };
 
+
+  const saveDataToBackend = (updatedData) => {
+    // Logic to save data to backend
+  };
+
+  const updateDatabase = (logid) => {
+    const updatedTimeLog = allTimeLogs.find(log => logid === log.id)
+    updateTimeLog(logid, updatedTimeLog)
+  };
+
+  const handlePatch = (logid) => {
+    seteditLogId(logid);
+  }
+
+  const handleEditPatch = (newValue, rowIndex, field, isAllTimeLog) => {
+    setAllTimeLogs(prevData => {
+      const updatedData = [...prevData];
+      updatedData[rowIndex][field] = newValue;
+      if (!isAllTimeLog) {
+        if (field === 'clockIn' || field === 'clockOut') {
+          const clockIn = updatedData[rowIndex].clockIn;
+          const clockOut = updatedData[rowIndex].clockOut;
+          let totalHours = 0;
+          if (clockIn && clockOut) {
+            const [hoursIn, minutesIn] = clockIn.split(':').map(Number);
+            const [hoursOut, minutesOut] = clockOut.split(':').map(Number);
+            totalHours = (hoursOut - hoursIn) + (minutesOut - minutesIn) / 60;
+            if (totalHours < 0) totalHours += 24;
+          }
+          updatedData[rowIndex].hoursWorked = totalHours.toFixed(2);
+          let totalWorkedHours = 0;
+          updatedData.forEach(entry => {
+            if (!isNaN(entry.hoursWorked)) {
+              totalWorkedHours += parseFloat(entry.hoursWorked);
+            }
+          });
+          updatedData[rowIndex].totalHours = totalWorkedHours.toFixed(2);
+        }
+        // updatedTimeLog(updatedData[rowIndex].id, updatedData);
+      }
+      return updatedData;
+    });
+  }
   const handleCellEdit = (newValue, rowIndex, field, isAllTimeLog) => {
     setData(prevData => {
       const updatedData = [...prevData];
@@ -79,9 +124,7 @@ function TimeLogList() {
     });
   };
 
-  const saveDataToBackend = (updatedData) => {
-    // Logic to save data to backend
-  };
+  
 
   const handleSaveSubmit = () => {
     setEditingRowIndex(null);
@@ -91,7 +134,8 @@ function TimeLogList() {
   const handleEditRow = (rowIndex) => {
     setEditingRowIndex(rowIndex);
   };
-
+  
+ 
   const handleDeleteRow =  (timeLogId) => {
     
    
@@ -246,14 +290,48 @@ function TimeLogList() {
           <tbody>
             {allTimeLogs.map((log, index) => (
               <tr key={index}>
-                <td>{log.date}</td>
-                <td>{formatTime(log.clock_in)}</td>
-                <td>{formatTime(log.clock_out)}</td>
+                <td>
+                  {editLogId === log.id ? (
+                      <input
+                        type="date"
+                        value={log.date}
+                        onChange={(e) => handleEditPatch(e.target.value, index, 'date', false)}
+                      />
+                    ) : (log.date)} 
+                  </td>
+                <td>
+                  {editLogId === log.id ? (
+                      <input
+                        type="time"
+                        value={log.clockIn}
+                        onChange={(e) => handleEditPatch(e.target.value, index, 'clockIn', false)}
+                      />
+                    ) : (formatTime(log.clock_in))}
+                  </td>
+                <td>
+                  {editLogId === log.id ? (
+                      <input
+                        type="time"
+                        value={log.clockOut}
+                        onChange={(e) => handleEditPatch(e.target.value, index, 'clockOut', false)}
+                      />
+                    ) : (formatTime(log.clock_out))}
+                  </td>
                 <td>{log.hours_worked}</td>
                 <td>{log.total_hours}</td>
                 <td>{log.status}</td>
                 <td>
+                  {editLogId === log.id ? (
+                  <button onClick= {() => updateDatabase(log.id)}>Update</button>
+                  ):(
+                  <>
+                  <button onClick= {() => handlePatch(log.id)}>Edit</button>
                   <button onClick={() => handleDeleteRow(log.id)}>Delete</button>
+                  </>
+                  )}
+                  
+      
+                  
                 </td>
               </tr>
             ))}

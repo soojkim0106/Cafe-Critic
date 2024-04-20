@@ -209,12 +209,14 @@ def update_time_log(time_log_id):
         return jsonify({'message': 'User not found'}), 404
 
     data = request.get_json()
-    if 'status' in data and user.role.name != 'Admin':
-        return jsonify({'message': 'Unauthorized to update status'}), 403
-
+    # if 'status' in data and user.role.name != 'Admin':
+    # return jsonify({'message': 'Unauthorized to update status'}), 403
+    data['clock_in'] = datetime.strptime(data['clock_in'], '%H:%M').time()
+    data['clock_out'] = datetime.strptime(data['clock_out'], '%H:%M').time()
+    data['date']=datetime.strptime(data['date'], '%Y-%m-%d').date(),
     allowed_updates = {'date', 'clock_in', 'clock_out'}
-    if user.role.name == 'Admin':
-        allowed_updates.add('status')
+    # if user.role.name == 'Admin':
+    # allowed_updates.add('status')
 
     for key in data:
         if key in allowed_updates:
