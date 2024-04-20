@@ -230,11 +230,13 @@ def delete_time_log(time_log_id):
     user = User.query.filter_by(username=current_user).first()
     time_log = TimeLog.query.get_or_404(time_log_id)
 
-    if user.role.name == 'Admin' or time_log.user_id == user.id:
+    # Only allow deletion if the current user is the owner of the time log
+    if time_log.user_id == user.id:
         db.session.delete(time_log)
         db.session.commit()
         return jsonify({'message': 'Time log deleted successfully'}), 204
 
+    # If the user is not the owner, deny access
     return jsonify({'message': 'Unauthorized'}), 403
 
 
