@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
 function TimeLogList() {
-  const { postTimeLog, updateTimeLog, deleteTimeLog } = useContext(AuthContext);
+  const { postTimeLog, deleteTimeLog, fetchAllTimeLogs } = useContext(AuthContext);
   const getCurrentPayrollStart = () => {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
@@ -31,24 +31,14 @@ function TimeLogList() {
     if (submitClicked) {
       fetchData();
     }
-    fetchAllTimeLogs();
+   (fetchAllTimeLogs().then(data => {
+    if (data){setAllTimeLogs(data)
+    }
+      
+    }));
   }, [selectedDate, submitClicked]);
 
-  const fetchAllTimeLogs = async () => {
-    try {
-      const response = await fetch('/timelogs', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch timelogs');
-      const data = await response.json();
-      setAllTimeLogs(data.timeLogs);
-    } catch (error) {
-      console.error('Error fetching all time logs:', error);
-    }
-  };
-
+ 
   const fetchData = () => {
     const timeLogsForSelectedDate = data.filter(entry => entry.date === selectedDate.toISOString().split('T')[0]);
     setNoTimeLogMessage(timeLogsForSelectedDate.length === 0 ? 'No time log present.' : '');
@@ -59,61 +49,71 @@ function TimeLogList() {
     setHoursForSelectedDate(totalHours);
   };
 
-  const handleCellEdit = (newValue, rowIndex, field) => {
+  const handleCellEdit = (newValue, rowIndex, field, isAllTimeLog) => {
     setData(prevData => {
       const updatedData = [...prevData];
       updatedData[rowIndex][field] = newValue;
-      if (field === 'clockIn' || field === 'clockOut') {
-        const clockIn = updatedData[rowIndex].clockIn;
-        const clockOut = updatedData[rowIndex].clockOut;
-        let totalHours = 0;
-        if (clockIn && clockOut) {
-          const [hoursIn, minutesIn] = clockIn.split(':').map(Number);
-          const [hoursOut, minutesOut] = clockOut.split(':').map(Number);
-          totalHours = (hoursOut - hoursIn) + (minutesOut - minutesIn) / 60;
-          if (totalHours < 0) totalHours += 24;
-        }
-        updatedData[rowIndex].hoursWorked = totalHours.toFixed(2);
-        let totalWorkedHours = 0;
-        updatedData.forEach(entry => {
-          if (!isNaN(entry.hoursWorked)) {
-            totalWorkedHours += parseFloat(entry.hoursWorked);
+      if (!isAllTimeLog) {
+        if (field === 'clockIn' || field === 'clockOut') {
+          const clockIn = updatedData[rowIndex].clockIn;
+          const clockOut = updatedData[rowIndex].clockOut;
+          let totalHours = 0;
+          if (clockIn && clockOut) {
+            const [hoursIn, minutesIn] = clockIn.split(':').map(Number);
+            const [hoursOut, minutesOut] = clockOut.split(':').map(Number);
+            totalHours = (hoursOut - hoursIn) + (minutesOut - minutesIn) / 60;
+            if (totalHours < 0) totalHours += 24;
           }
-        });
-        updatedData[rowIndex].totalHours = totalWorkedHours.toFixed(2);
+          updatedData[rowIndex].hoursWorked = totalHours.toFixed(2);
+          let totalWorkedHours = 0;
+          updatedData.forEach(entry => {
+            if (!isNaN(entry.hoursWorked)) {
+              totalWorkedHours += parseFloat(entry.hoursWorked);
+            }
+          });
+          updatedData[rowIndex].totalHours = totalWorkedHours.toFixed(2);
+        }
+        saveDataToBackend(updatedData);
       }
       return updatedData;
     });
-    saveDataToBackend();
   };
 
-  const saveDataToBackend = () => {
+  const saveDataToBackend = (updatedData) => {
     // Logic to save data to backend
   };
 
   const handleSaveSubmit = () => {
     setEditingRowIndex(null);
-    postTimeLog(data);
+    postTimeLog(data).then(log => console.log(log));
   };
 
   const handleEditRow = (rowIndex) => {
     setEditingRowIndex(rowIndex);
   };
 
-  const handleDeleteRow = async (rowIndex) => {
-    const timeLogId = data[rowIndex].id; // Assuming each entry has an ID
-    const updatedData = [...data];
-    updatedData.splice(rowIndex, 1);
-    setData(updatedData);
-    saveDataToBackend(updatedData);
+  const handleDeleteRow =  (timeLogId) => {
+    
+   
     try {
-      await deleteTimeLog(timeLogId); // Delete the entry from the backend
-      console.log('Time log deleted successfully');
+      // Call deleteTimeLog with the time log id and await the deletion
+       deleteTimeLog(timeLogId);
+  
+      // If the deletion was successful, update the frontend state
+      // setAllTimeLogs(prevData => {
+      //   const updatedData = [...prevData];
+      //   updatedData.splice(rowIndex, 1);
+      //   return updatedData;
+      // });
+      setAllTimeLogs(prevData => {
+        const updatedData = prevData.filter(log => log.id !== timeLogId)
+        return updatedData;
+      });
     } catch (error) {
       console.error('Error deleting time log:', error);
+      // Handle error if necessary
     }
   };
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -131,7 +131,7 @@ function TimeLogList() {
       status: 'Pending'
     });
   };
-
+  console.log(allTimeLogs)
   const handleSubmit = () => {
     setSubmitClicked(true);
   };
@@ -175,7 +175,7 @@ function TimeLogList() {
                       <input
                         type="date"
                         value={entry.date}
-                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'date')}
+                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'date', false)}
                       />
                     ) : (
                       entry.date
@@ -186,7 +186,7 @@ function TimeLogList() {
                       <input
                         type="time"
                         value={entry.clockIn}
-                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'clockIn')}
+                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'clockIn', false)}
                       />
                     ) : (
                       formatTime(entry.clockIn)
@@ -197,7 +197,7 @@ function TimeLogList() {
                       <input
                         type="time"
                         value={entry.clockOut}
-                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'clockOut')}
+                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'clockOut', false)}
                       />
                     ) : (
                       formatTime(entry.clockOut)
@@ -253,7 +253,6 @@ function TimeLogList() {
                 <td>{log.total_hours}</td>
                 <td>{log.status}</td>
                 <td>
-                  <button onClick={() => handleEditRow(index)}>Edit</button>
                   <button onClick={() => handleDeleteRow(log.id)}>Delete</button>
                 </td>
               </tr>

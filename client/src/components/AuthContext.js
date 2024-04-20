@@ -58,7 +58,8 @@ const AuthProvider = ({ children }) => {
       });
       if (!response.ok) throw new Error('Failed to fetch timelogs');
       const data = await response.json();
-      fetchAllTimeLogs(data.timeLogs);
+      return (data.timeLogs);
+      
     } catch (error) {
       console.error('Error fetching all time logs:', error);
     }
@@ -110,12 +111,13 @@ const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify(updateData),
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || 'Failed to update time log');
       }
-
+  
+      console.log('Time log updated successfully');
       return response.json();
     } catch (error) {
       console.error('Error updating time log:', error.message);
@@ -123,6 +125,23 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+
+  const saveDataToBackend = async (allTimeLogs) => {
+    try {
+      const response = await fetch('/update-timelogs', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(allTimeLogs)
+      });
+      if (!response.ok) throw new Error('Failed to update timelogs');
+      console.log('Time logs updated successfully');
+    } catch (error) {
+      console.error('Error updating time logs:', error);
+    }
+  };
   const deleteTimeLog = async (timeLogId) => {
     try {
       const response = await fetch(`/timelogs/${timeLogId}`, {
@@ -131,19 +150,27 @@ const AuthProvider = ({ children }) => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
+      
+      // Check if the response has content
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to delete time log');
+        const text = await response.text(); // Read response as text to check if it's empty or not
+        throw new Error(text || 'Failed to delete time log');
       }
-
-      return response.json();
+  
+      // Handle empty response gracefully
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json") || response.status === 204) {
+        return {}; // Assume no content to parse
+      }
+  
+      return response.json(); // Parse JSON only if the response is not empty
     } catch (error) {
       console.error('Error deleting time log:', error.message);
-      throw error;
+      throw error; // Re-throw the error for further handling
     }
   };
 
+  
 
   const logout = async () => {
     console.log('Logging out user');
@@ -172,7 +199,7 @@ const AuthProvider = ({ children }) => {
     }
 };
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, postTimeLog, fetchAllTimeLogs }}>
+    <AuthContext.Provider value={{ user, login, register, logout, postTimeLog, fetchAllTimeLogs, updateTimeLog, deleteTimeLog, saveDataToBackend }}>
       {children}
     </AuthContext.Provider>
   );
