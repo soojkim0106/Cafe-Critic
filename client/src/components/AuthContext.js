@@ -49,6 +49,23 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const fetchAllTimeLogs = async () => {
+    try {
+      const response = await fetch('/timelogs', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ensure the token is sent with the request
+        }
+      });
+      if (!response.ok) throw new Error('Failed to fetch timelogs');
+      const data = await response.json();
+      fetchAllTimeLogs(data.timeLogs);
+    } catch (error) {
+      console.error('Error fetching all time logs:', error);
+    }
+};
+
+  
+
   const postTimeLog = async (timeLogData) => {
     console.log('timelogsdataobject',timeLogData[0])
     const time_log = {
@@ -82,6 +99,51 @@ const AuthProvider = ({ children }) => {
       throw error; // Rethrow for handling by calling components
     }
   };
+
+  const updateTimeLog = async (timeLogId, updateData) => {
+    try {
+      const response = await fetch(`/timelogs/${timeLogId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(updateData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to update time log');
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Error updating time log:', error.message);
+      throw error;
+    }
+  };
+
+  const deleteTimeLog = async (timeLogId) => {
+    try {
+      const response = await fetch(`/timelogs/${timeLogId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to delete time log');
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Error deleting time log:', error.message);
+      throw error;
+    }
+  };
+
   const logout = async () => {
     console.log('Logging out user');
     const token = localStorage.getItem('token'); // Retrieve token from local storage
@@ -109,7 +171,7 @@ const AuthProvider = ({ children }) => {
     }
 };
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, postTimeLog }}>
+    <AuthContext.Provider value={{ user, login, register, logout, postTimeLog, fetchAllTimeLogs }}>
       {children}
     </AuthContext.Provider>
   );

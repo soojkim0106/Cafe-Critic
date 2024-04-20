@@ -178,19 +178,65 @@ class TimeLogResource(Resource):
             return jsonify({'error': f'Missing key {e}'}), 400
         except ValueError as e:
             return jsonify({'error': str(e)}), 400
+        
+        
+        
+        
 # Register the resource with the API (do this in your Flask setup/configuration file)
 # api.add_resource(TimeLogResource, '/timelogs', '/timelogs/<int:time_log_id>')
 
 # Standalone function for fetching all time logs
 @app.route('/timelogs', methods=['GET'])
+@jwt_required()
 def get_timelogs():
+    current_user_username = get_jwt_identity()
     try:
-        time_logs = TimeLog.query.all()
-        time_log_data = [log.to_dict() for log in time_logs]  # Using the to_dict method if available
+        user = User.query.filter_by(username=current_user_username).first_or_404()
+        time_logs = TimeLog.query.filter_by(user_id=user.id).all()
+        time_log_data = [log.to_dict() for log in time_logs]  # Assuming TimeLog has a to_dict() method
         return jsonify({'timeLogs': time_log_data}), 200
     except Exception as e:
         return jsonify(error=str(e)), 500
     
+@app.route('/timelogs/<int:time_log_id>', methods=['PATCH'])
+@jwt_required()
+def update_time_log(time_log_id):
+    current_user = get_jwt_identity()
+    user = User.query.options(joinedload(User.role)).filter_by(username=current_user).first()
+    time_log = TimeLog.query.get_or_404(time_log_id)
+
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    data = request.get_json()
+    if 'status' in data and user.role.name != 'Admin':
+        return jsonify({'message': 'Unauthorized to update status'}), 403
+
+    allowed_updates = {'date', 'clock_in', 'clock_out'}
+    if user.role.name == 'Admin':
+        allowed_updates.add('status')
+
+    for key in data:
+        if key in allowed_updates:
+            setattr(time_log, key, data[key])
+    
+    db.session.commit()
+    return jsonify({'message': 'Time log updated successfully', 'time_log': time_log.to_dict()}), 200
+
+@app.route('/timelogs/<int:time_log_id>', methods=['DELETE'])
+@jwt_required()
+def delete_time_log(time_log_id):
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user).first()
+    time_log = TimeLog.query.get_or_404(time_log_id)
+
+    if user.role.name == 'Admin' or time_log.user_id == user.id:
+        db.session.delete(time_log)
+        db.session.commit()
+        return jsonify({'message': 'Time log deleted successfully'}), 204
+
+    return jsonify({'message': 'Unauthorized'}), 403
+
 
 
 

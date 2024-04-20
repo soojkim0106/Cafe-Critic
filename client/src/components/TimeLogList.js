@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
 function TimeLogList() {
@@ -13,6 +13,7 @@ function TimeLogList() {
 
   const [selectedDate, setSelectedDate] = useState(getCurrentPayrollStart());
   const [data, setData] = useState([]);
+  const [allTimeLogs, setAllTimeLogs] = useState([]); // State to store all timelogs
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [newEntry, setNewEntry] = useState({
     date: '',
@@ -22,7 +23,6 @@ function TimeLogList() {
     totalHours: '',
     status: 'Pending'
   });
-
   const [noTimeLogMessage, setNoTimeLogMessage] = useState('');
   const [hoursForSelectedDate, setHoursForSelectedDate] = useState(0);
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -31,15 +31,27 @@ function TimeLogList() {
     if (submitClicked) {
       fetchData();
     }
+    fetchAllTimeLogs(); // Fetch all timelogs when the component mounts
   }, [selectedDate, submitClicked]);
 
+  const fetchAllTimeLogs = async () => {
+    try {
+      const response = await fetch('/timelogs', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to fetch timelogs');
+      const data = await response.json();
+      setAllTimeLogs(data.timeLogs);
+    } catch (error) {
+      console.error('Error fetching all time logs:', error);
+    }
+  };
+
   const fetchData = () => {
-    // Fetch time log data for selected date
-    // This could be an API call to fetch time logs for the selected date
     const timeLogsForSelectedDate = data.filter(entry => entry.date === selectedDate.toISOString().split('T')[0]);
-
     setNoTimeLogMessage(timeLogsForSelectedDate.length === 0 ? 'No time log present.' : '');
-
     let totalHours = 0;
     timeLogsForSelectedDate.forEach(log => {
       totalHours += parseFloat(log.hoursWorked);
@@ -51,11 +63,9 @@ function TimeLogList() {
     setData(prevData => {
       const updatedData = [...prevData];
       updatedData[rowIndex][field] = newValue;
-
       if (field === 'clockIn' || field === 'clockOut') {
         const clockIn = updatedData[rowIndex].clockIn;
         const clockOut = updatedData[rowIndex].clockOut;
-
         let totalHours = 0;
         if (clockIn && clockOut) {
           const [hoursIn, minutesIn] = clockIn.split(':').map(Number);
@@ -64,7 +74,6 @@ function TimeLogList() {
           if (totalHours < 0) totalHours += 24;
         }
         updatedData[rowIndex].hoursWorked = totalHours.toFixed(2);
-
         let totalWorkedHours = 0;
         updatedData.forEach(entry => {
           if (!isNaN(entry.hoursWorked)) {
@@ -73,18 +82,13 @@ function TimeLogList() {
         });
         updatedData[rowIndex].totalHours = totalWorkedHours.toFixed(2);
       }
-
       return updatedData;
     });
     saveDataToBackend();
   };
 
   const saveDataToBackend = () => {
-    try {
-      // Save data to backend
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
+    // Logic to save data to backend
   };
 
   const handleSaveSubmit = () => {
@@ -111,7 +115,7 @@ function TimeLogList() {
     const updatedData = [...data, newEntry];
     setData(updatedData);
     saveDataToBackend(updatedData);
-    setNewEntry({ 
+    setNewEntry({
       date: '',
       clockIn: '',
       clockOut: '',
@@ -219,7 +223,7 @@ function TimeLogList() {
         </div>
       </div>
       <div className="hours-table">
-        <h3>Select</h3>
+        <h3>All Time Logs</h3>
         <table>
           <thead>
             <tr>
@@ -232,19 +236,18 @@ function TimeLogList() {
             </tr>
           </thead>
           <tbody>
-            {submitClicked && data.filter(entry => entry.date === selectedDate.toISOString().split('T')[0]).map((entry, rowIndex) => (
-              <tr key={rowIndex}>
-                <td>{entry.date}</td>
-                <td>{formatTime(entry.clockIn)}</td>
-                <td>{formatTime(entry.clockOut)}</td>
-                <td>{entry.hoursWorked}</td>
-                <td>{entry.totalHours}</td>
-                <td>{entry.status}</td>
+            {allTimeLogs.map((log, index) => (
+              <tr key={index}>
+                <td>{log.date}</td>
+                <td>{formatTime(log.clock_in)}</td>
+                <td>{formatTime(log.clock_out)}</td>
+                <td>{log.hours_worked}</td>
+                <td>{log.total_hours}</td>
+                <td>{log.status}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        {submitClicked && <p>Total Hours: {hoursForSelectedDate}</p>}
       </div>
     </div>
   );
