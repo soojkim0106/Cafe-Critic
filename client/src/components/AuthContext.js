@@ -106,7 +106,7 @@ const AuthProvider = ({ children }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(updateData),
       });
@@ -128,7 +128,7 @@ const AuthProvider = ({ children }) => {
       const response = await fetch(`/timelogs/${timeLogId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -143,6 +143,7 @@ const AuthProvider = ({ children }) => {
       throw error;
     }
   };
+
 
   const logout = async () => {
     console.log('Logging out user');

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
 function TimeLogList() {
-  const { postTimeLog } = useContext(AuthContext);
+  const { postTimeLog, updateTimeLog, deleteTimeLog } = useContext(AuthContext);
   const getCurrentPayrollStart = () => {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
@@ -13,7 +13,7 @@ function TimeLogList() {
 
   const [selectedDate, setSelectedDate] = useState(getCurrentPayrollStart());
   const [data, setData] = useState([]);
-  const [allTimeLogs, setAllTimeLogs] = useState([]); // State to store all timelogs
+  const [allTimeLogs, setAllTimeLogs] = useState([]);
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [newEntry, setNewEntry] = useState({
     date: '',
@@ -31,7 +31,7 @@ function TimeLogList() {
     if (submitClicked) {
       fetchData();
     }
-    fetchAllTimeLogs(); // Fetch all timelogs when the component mounts
+    fetchAllTimeLogs();
   }, [selectedDate, submitClicked]);
 
   const fetchAllTimeLogs = async () => {
@@ -100,11 +100,18 @@ function TimeLogList() {
     setEditingRowIndex(rowIndex);
   };
 
-  const handleDeleteRow = (rowIndex) => {
+  const handleDeleteRow = async (rowIndex) => {
+    const timeLogId = data[rowIndex].id; // Assuming each entry has an ID
     const updatedData = [...data];
     updatedData.splice(rowIndex, 1);
     setData(updatedData);
     saveDataToBackend(updatedData);
+    try {
+      await deleteTimeLog(timeLogId); // Delete the entry from the backend
+      console.log('Time log deleted successfully');
+    } catch (error) {
+      console.error('Error deleting time log:', error);
+    }
   };
 
   const handleDateChange = (date) => {
@@ -233,6 +240,7 @@ function TimeLogList() {
               <th>Hours Worked</th>
               <th>Total Hours</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -244,6 +252,10 @@ function TimeLogList() {
                 <td>{log.hours_worked}</td>
                 <td>{log.total_hours}</td>
                 <td>{log.status}</td>
+                <td>
+                  <button onClick={() => handleEditRow(index)}>Edit</button>
+                  <button onClick={() => handleDeleteRow(log.id)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>

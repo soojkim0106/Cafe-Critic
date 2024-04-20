@@ -202,7 +202,7 @@ def get_timelogs():
 @jwt_required()
 def update_time_log(time_log_id):
     current_user = get_jwt_identity()
-    user = User.query.options(joinedload(User.role)).filter_by(username=current_user).first()
+    user = User.query.filter_by(username=current_user).first()
     time_log = TimeLog.query.get_or_404(time_log_id)
 
     if not user:
