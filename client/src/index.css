@@ -7,6 +7,54 @@
 
 /* TimeLogList.css */
 
+
+
+/* home css */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Styling for the text content inside the home component */
+.home-content {
+  flex: 1; /* Takes necessary space but leaves room for image */
+  padding-right: 20px; /* Adds spacing between text and image */
+}
+
+.home-content h4, .home-content h3, .home-content h1 {
+  margin: 0.5em 0; /* Adds vertical spacing but not too much */
+}
+
+/* Styling for the call to action button */
+.home-content .button {
+  padding: 10px 20px;
+  background-color: #007BFF; /* A nice shade of blue */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.home-content .button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Styling for the image container to ensure it is properly sized */
+.home-image-container {
+  flex: 1; /* Takes necessary space, flexible */
+  max-width: 600px; /* Limits the image size */
+}
+
+.home-image-container img {
+  width: 100%; /* Responsive width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: Rounds the corners */
+}
+
+
+
 /* Style for the time log list container */
 .time-log-list-container {
   margin-top: 20px;
