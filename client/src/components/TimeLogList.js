@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
-import { BiLogo99Designs } from 'react-icons/bi';
+
 
 function TimeLogList() {
   const { postTimeLog, deleteTimeLog, fetchAllTimeLogs, updateTimeLog } = useContext(AuthContext);
@@ -19,8 +19,8 @@ function TimeLogList() {
   const [editLogId, seteditLogId] = useState(null)
   const [newEntry, setNewEntry] = useState({
     date: '',
-    clockIn: '',
-    clockOut: '',
+    clockIn: '00:00',
+    clockOut: '00:00',
     hoursWorked: '',
     totalHours: '',
     status: 'Pending'
@@ -168,8 +168,8 @@ function TimeLogList() {
     saveDataToBackend(updatedData);
     setNewEntry({
       date: '',
-      clockIn: '',
-      clockOut: '',
+      clockIn: '00:00',
+      clockOut: '00:00',
       hoursWorked: '',
       totalHours: '',
       status: 'Pending'

@@ -202,6 +202,7 @@ def get_timelogs():
 @jwt_required()
 def update_time_log(time_log_id):
     data = request.get_json()
+    print("Received data:", data)  # Log the received data
     current_user = get_jwt_identity()
     user = User.query.filter_by(username=current_user).first()
     time_log = TimeLog.query.get_or_404(time_log_id)
@@ -210,16 +211,18 @@ def update_time_log(time_log_id):
         return jsonify({'message': 'User not found'}), 404
 
     try:
+        # Ensure keys match expected format from frontend
         time_log.date = datetime.strptime(data['date'], '%Y-%m-%d').date()
-        time_log.clock_in = datetime.strptime(data['clock_in'], '%H:%M').time()
+        time_log.clock_in = datetime.strptime(data['clock_in'], '%H:%M').time()  # Ensure this matches the frontend key
         time_log.clock_out = datetime.strptime(data['clock_out'], '%H:%M').time()
-        time_log.hours_worked = data.get('hours_worked', time_log.hours_worked)
+        print("Parsed Times:", time_log.clock_in, time_log.clock_out)
+
+        time_log.hours_worked = data.get('hours_worked', time_log.hours_worked)  # Matching frontend key
         time_log.total_hours = data.get('total_hours', time_log.total_hours)
         time_log.status = data.get('status', time_log.status)
 
         db.session.commit()
 
-        # Fetch and log the updated data using the recommended method
         updated_time_log = db.session.get(TimeLog, time_log_id)
         print(f"Updated Time Log: {updated_time_log.date}, {updated_time_log.clock_in}, {updated_time_log.clock_out}, {updated_time_log.hours_worked}, {updated_time_log.total_hours}, {updated_time_log.status}")
 
@@ -227,7 +230,7 @@ def update_time_log(time_log_id):
     except KeyError as e:
         return jsonify({'error': f'Missing key {e}'}), 400
     except ValueError as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': 'Incorrect time format'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
