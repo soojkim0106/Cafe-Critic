@@ -216,7 +216,8 @@ def update_time_log(time_log_id):
         time_log.clock_in = datetime.strptime(data['clock_in'], '%H:%M').time()  # Ensure this matches the frontend key
         time_log.clock_out = datetime.strptime(data['clock_out'], '%H:%M').time()
         print("Parsed Times:", time_log.clock_in, time_log.clock_out)
-
+        # import ipdb
+        # ipdb.set_trace()
         time_log.hours_worked = data.get('hours_worked', time_log.hours_worked)  # Matching frontend key
         time_log.total_hours = data.get('total_hours', time_log.total_hours)
         time_log.status = data.get('status', time_log.status)

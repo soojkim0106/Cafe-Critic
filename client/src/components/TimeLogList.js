@@ -19,10 +19,10 @@ function TimeLogList() {
   const [editLogId, seteditLogId] = useState(null)
   const [newEntry, setNewEntry] = useState({
     date: '',
-    clockIn: '00:00',
-    clockOut: '00:00',
-    hoursWorked: '',
-    totalHours: '',
+    clock_in: '00:00',
+    clock_out: '00:00',
+    hours_worked: '',
+    total_hours: '',
     status: 'Pending'
   });
   const [noTimeLogMessage, setNoTimeLogMessage] = useState('');
@@ -33,11 +33,16 @@ function TimeLogList() {
     if (submitClicked) {
       fetchData();
     }
-   (fetchAllTimeLogs().then(data => {
-    if (data){setAllTimeLogs(data)
-    }
-      
-    }));
+    fetchAllTimeLogs().then(data => {
+      if (data) {
+        const timeLogs = data.map(log => ({
+          ...log,
+          clock_in: log.clock_in || '00:00', // Ensuring there's always a default value
+          clock_out: log.clock_out || '00:00'
+        }));
+        setAllTimeLogs(timeLogs);
+      }
+    });
   }, [selectedDate, submitClicked]);
 
  
@@ -64,36 +69,62 @@ function TimeLogList() {
   const handlePatch = (logid) => {
     seteditLogId(logid);
   }
+  console.log(allTimeLogs)
+  const handleEditPatch = async (newValue, rowIndex, field) => {
+    console.log(`Handling edit patch for field ${field} with new value ${newValue}`);
 
-  const handleEditPatch = (newValue, rowIndex, field, isAllTimeLog) => {
+    // Ensure the backend field names are used
+    const backendField = field === 'clockIn' ? 'clock_in' : field === 'clockOut' ? 'clock_out' : field;
+
     setAllTimeLogs(prevData => {
-      const updatedData = [...prevData];
-      updatedData[rowIndex][field] = newValue;
-      if (!isAllTimeLog) {
+        const updatedData = [...prevData];
+        updatedData[rowIndex][backendField] = newValue; // Apply changes with the correct backend field name
+
+        console.log(`Updated field ${field} for row ${rowIndex}:`, updatedData[rowIndex]);
+
+        // Recalculate hours worked if clock_in or clock_out changes
         if (field === 'clockIn' || field === 'clockOut') {
-          const clockIn = updatedData[rowIndex].clockIn;
-          const clockOut = updatedData[rowIndex].clockOut;
-          let totalHours = 0;
-          if (clockIn && clockOut) {
-            const [hoursIn, minutesIn] = clockIn.split(':').map(Number);
-            const [hoursOut, minutesOut] = clockOut.split(':').map(Number);
-            totalHours = (hoursOut - hoursIn) + (minutesOut - minutesIn) / 60;
-            if (totalHours < 0) totalHours += 24;
-          }
-          updatedData[rowIndex].hoursWorked = totalHours.toFixed(2);
-          let totalWorkedHours = 0;
-          updatedData.forEach(entry => {
-            if (!isNaN(entry.hoursWorked)) {
-              totalWorkedHours += parseFloat(entry.hoursWorked);
-            }
-          });
-          updatedData[rowIndex].totalHours = totalWorkedHours.toFixed(2);
+            updatedData[rowIndex].hours_worked = calculateHoursWorked(
+                updatedData[rowIndex].clock_in,
+                updatedData[rowIndex].clock_out
+            );
+            console.log(`New hours worked for row ${rowIndex}:`, updatedData[rowIndex].hours_worked);
+
+            // Recalculate total hours for the table
+            const totalHours = updatedData.reduce((total, log) => total + parseFloat(log.hours_worked || 0), 0);
+            updatedData.forEach(log => log.total_hours = totalHours.toFixed(2));
+            console.log(`Total hours for all logs after update:`, totalHours);
         }
-        // updatedTimeLog(updatedData[rowIndex].id, updatedData);
-      }
-      return updatedData;
+
+        return updatedData;
     });
-  }
+  };
+
+    // Assume updatedData is accessible here correctly
+    
+
+const calculateHoursWorked = (clock_in, clock_out) => {
+    const [startHour, startMinute] = clock_in.split(':').map(Number);
+    const [endHour, endMinute] = clock_out.split(':').map(Number);
+    let hours = endHour - startHour;
+    let minutes = endMinute - startMinute;
+
+    if (minutes < 0) {
+        hours -= 1;
+        minutes += 60;
+    }
+
+    if (hours < 0) {
+        hours += 24; // Handle overnight shifts
+    }
+
+    const totalHours = (hours + minutes / 60).toFixed(2);
+    console.log(`Calculated hours worked from ${clock_in} to ${clock_out}: ${totalHours}`);
+    return totalHours;
+};
+
+ 
+
   const handleCellEdit = (newValue, rowIndex, field, isAllTimeLog) => {
     setData(prevData => {
       const updatedData = [...prevData];
@@ -168,10 +199,10 @@ function TimeLogList() {
     saveDataToBackend(updatedData);
     setNewEntry({
       date: '',
-      clockIn: '00:00',
-      clockOut: '00:00',
-      hoursWorked: '',
-      totalHours: '',
+      clock_in: '00:00',
+      clock_out: '00:00',
+      hours_worked: '',
+      total_hours: '',
       status: 'Pending'
     });
   };
