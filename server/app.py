@@ -201,6 +201,7 @@ def get_timelogs():
 @app.route('/timelogs/<int:time_log_id>', methods=['PATCH'])
 @jwt_required()
 def update_time_log(time_log_id):
+    data = request.get_json()
     current_user = get_jwt_identity()
     user = User.query.filter_by(username=current_user).first()
     time_log = TimeLog.query.get_or_404(time_log_id)
@@ -208,22 +209,27 @@ def update_time_log(time_log_id):
     if not user:
         return jsonify({'message': 'User not found'}), 404
 
-    data = request.get_json()
-    # if 'status' in data and user.role.name != 'Admin':
-    # return jsonify({'message': 'Unauthorized to update status'}), 403
-    data['clock_in'] = datetime.strptime(data['clock_in'], '%H:%M').time()
-    data['clock_out'] = datetime.strptime(data['clock_out'], '%H:%M').time()
-    data['date']=datetime.strptime(data['date'], '%Y-%m-%d').date(),
-    allowed_updates = {'date', 'clock_in', 'clock_out'}
-    # if user.role.name == 'Admin':
-    # allowed_updates.add('status')
+    try:
+        time_log.date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+        time_log.clock_in = datetime.strptime(data['clock_in'], '%H:%M').time()
+        time_log.clock_out = datetime.strptime(data['clock_out'], '%H:%M').time()
+        time_log.hours_worked = data.get('hours_worked', time_log.hours_worked)
+        time_log.total_hours = data.get('total_hours', time_log.total_hours)
+        time_log.status = data.get('status', time_log.status)
 
-    for key in data:
-        if key in allowed_updates:
-            setattr(time_log, key, data[key])
-    
-    db.session.commit()
-    return jsonify({'message': 'Time log updated successfully', 'time_log': time_log.to_dict()}), 200
+        db.session.commit()
+
+        # Fetch and log the updated data using the recommended method
+        updated_time_log = db.session.get(TimeLog, time_log_id)
+        print(f"Updated Time Log: {updated_time_log.date}, {updated_time_log.clock_in}, {updated_time_log.clock_out}, {updated_time_log.hours_worked}, {updated_time_log.total_hours}, {updated_time_log.status}")
+
+        return jsonify(updated_time_log.to_dict()), 200
+    except KeyError as e:
+        return jsonify({'error': f'Missing key {e}'}), 400
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/timelogs/<int:time_log_id>', methods=['DELETE'])
 @jwt_required()
