@@ -8,26 +8,27 @@ const AuthProvider = ({ children }) => {
   const login = async (formData) => {
     console.log('Logging in user:', formData);
     try {
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-
-        const data = await response.json();
-        await localStorage.setItem('token', data.access_token)
-        console.log('Logged in successfully', localStorage.getItem('token'));
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+  
+      localStorage.setItem('token', data.access_token);
+      console.log('Logged in successfully', data);
+      return true; // Indicate success
     } catch (error) {
-        console.error('Login error:', error);
+      console.error('Login error:', error);
+      throw error; // Rethrow to be handled in the component
     }
-};
-
+  };
   const register = async (formData) => {
     console.log(formData)
     try {

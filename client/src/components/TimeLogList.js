@@ -167,27 +167,16 @@ const calculateHoursWorked = (clock_in, clock_out) => {
   };
   
  
-  const handleDeleteRow =  (timeLogId) => {
-    
-   
-    try {
-      // Call deleteTimeLog with the time log id and await the deletion
-       deleteTimeLog(timeLogId);
-  
-      // If the deletion was successful, update the frontend state
-      // setAllTimeLogs(prevData => {
-      //   const updatedData = [...prevData];
-      //   updatedData.splice(rowIndex, 1);
-      //   return updatedData;
-      // });
-      setAllTimeLogs(prevData => {
-        const updatedData = prevData.filter(log => log.id !== timeLogId)
-        return updatedData;
+  const handleDeleteRow = (timeLogId) => {
+    deleteTimeLog(timeLogId)
+      .then(() => {
+        // Successfully deleted on the backend, now update UI
+        setAllTimeLogs(prevData => prevData.filter(log => log.id !== timeLogId));
+        console.log('Deletion successful');
+      })
+      .catch(error => {
+        console.error('Error deleting time log:', error);
       });
-    } catch (error) {
-      console.error('Error deleting time log:', error);
-      // Handle error if necessary
-    }
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -289,7 +278,7 @@ const calculateHoursWorked = (clock_in, clock_out) => {
                     ) : (
                       <>
                         <button onClick={() => handleEditRow(rowIndex)}>Edit</button>
-                        <button onClick={() => handleDeleteRow(rowIndex)}>Delete</button>
+                        {/* <button onClick={() => handleDeleteRow(rowIndex)}>Delete</button> */}
                       </>
                     )}
                   </td>
