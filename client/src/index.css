@@ -12,7 +12,7 @@
 /* home css */
 .home-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 20px;
 }
@@ -21,6 +21,7 @@
 .home-content {
   flex: 1; /* Takes necessary space but leaves room for image */
   padding-right: 20px; /* Adds spacing between text and image */
+  margin-left: 200px;
 }
 
 .home-content h4, .home-content h3, .home-content h1 {
@@ -43,16 +44,66 @@
 
 /* Styling for the image container to ensure it is properly sized */
 .home-image-container {
-  flex: 1; /* Takes necessary space, flexible */
-  max-width: 600px; /* Limits the image size */
+  flex: 1; /* Allows the image container to take necessary space */
+  max-width: 600px; /* Limits the maximum width of the image */
+  display: flex; /* Enables flexbox for the image container */
+  justify-content: center; /* Centers the image horizontally */
+  align-items: center; /* Centers the image vertically */
 }
 
 .home-image-container img {
   width: 100%; /* Responsive width */
   height: auto; /* Maintain aspect ratio */
   border-radius: 10px; /* Optional: Rounds the corners */
+  margin-left: -300px;
+}
+/* * Home.css */ */
+.home-container .home-content h4 {
+    color: #3498db; /* Light blue color for h4 */
 }
 
+.home-container .home-content h3 {
+    color: #007BFF; /* Orange color for h3 */
+}
+
+.home-container .home-content h1 {
+    color: #000000; /* Green color for h1 */
+}
+
+/* NavBar.css - Unique styles for the NavBar component */
+nav {
+  background-color: #007BFF; /* Dark blue background */
+  padding: 10px 20px; /* Padding around the nav */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+nav ul {
+  list-style: none; /* Remove list bullets */
+  margin: 0;
+  padding: 0;
+  display: flex; /* Display items in a row */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Align items vertically */
+}
+
+nav ul li {
+  margin: 0 15px; /* Horizontal spacing between items */
+}
+
+nav ul li a,
+.logout-button { /* Styling for links and the Logout component */
+  color: white; /* Text color */
+  text-decoration: none; /* No underline */
+  font-size: 16px;
+  padding: 8px 16px; /* Padding for clickable area */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+nav ul li a:hover,
+.logout-button:hover { /* Hover effects */
+  background-color: #5994cf; /* Darker shade of blue on hover */
+}
 
 
 /* Style for the time log list container */
