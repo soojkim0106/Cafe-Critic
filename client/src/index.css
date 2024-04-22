@@ -5,3 +5,285 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+/* TimeLogList.css */
+
+
+
+/* home css */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Styling for the text content inside the home component */
+.home-content {
+  flex: 1; /* Takes necessary space but leaves room for image */
+  padding-right: 20px; /* Adds spacing between text and image */
+  margin-left: 200px;
+}
+
+.home-content h4, .home-content h3, .home-content h1 {
+  margin: 0.5em 0; /* Adds vertical spacing but not too much */
+}
+
+/* Styling for the call to action button */
+.home-content .button {
+  padding: 10px 20px;
+  background-color: #007BFF; /* A nice shade of blue */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.home-content .button:hover {
+  background-color: #366596; /* Darker shade on hover */
+}
+
+/* Styling for the image container to ensure it is properly sized */
+.home-image-container {
+  flex: 1; /* Allows the image container to take necessary space */
+  max-width: 600px; /* Limits the maximum width of the image */
+  display: flex; /* Enables flexbox for the image container */
+  justify-content: center; /* Centers the image horizontally */
+  align-items: center; /* Centers the image vertically */
+}
+
+.home-image-container img {
+  width: 100%; /* Responsive width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: Rounds the corners */
+  margin-left: -300px;
+}
+/* * Home.css */ */
+.home-container .home-content h4 {
+    color: #3498db; /* Light blue color for h4 */
+}
+
+.home-container .home-content h3 {
+    color: #007BFF; /* Orange color for h3 */
+}
+
+.home-container .home-content h1 {
+    color: #000000; /* Green color for h1 */
+}
+
+/* NavBar.css - Unique styles for the NavBar component */
+nav {
+  background-color: #007BFF; /* Dark blue background */
+  padding: 10px 20px; /* Padding around the nav */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+nav ul {
+  list-style: none; /* Remove list bullets */
+  margin: 0;
+  padding: 0;
+  display: flex; /* Display items in a row */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Align items vertically */
+}
+
+nav ul li {
+  margin: 0 15px; /* Horizontal spacing between items */
+}
+
+nav ul li a,
+.logout-button { /* Styling for links and the Logout component */
+  color: white; /* Text color */
+  text-decoration: none; /* No underline */
+  font-size: 16px;
+  padding: 8px 16px; /* Padding for clickable area */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+nav ul li a:hover,
+.logout-button:hover { /* Hover effects */
+  background-color: #5994cf; /* Darker shade of blue on hover */
+}
+
+
+/* Register.css */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  padding: 20px;
+}
+
+.register-form {
+  flex: 1; /* Takes up half of the container */
+  max-width: 500px; /* Maximum width of the form */
+  padding-right: 20px; /* Spacing between form and image */
+  margin-bottom: 15px; /* Adds space between form fields */
+}
+.register-form label {
+  display: block; /* Makes the label take the full width */
+  margin-bottom: 5px; /* Space between the label and the field */
+}
+.register-form input,
+.register-form select {
+  width: 100%; /* Full width of the form field */
+  padding: 8px; /* Padding inside the input/select */
+  box-sizing: border-box; /* Includes padding and border in the width */
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px; /* Rounded borders */
+}
+.register-image-container {
+  flex: 1; /* Takes up the other half */
+  max-width: 600px; /* Maximum width of the image */
+}
+
+.register-image-container img {
+  width: 70%; /* Responsive image width */
+  height: auto; /* Maintain aspect ratio */
+}
+.register-form .error-message {
+  color: #ff6b6b; /* Red color for error messages */
+  font-size: 0.85em; /* Smaller font size for error messages */
+  margin-top: 5px; /* Space between field and error message */
+}
+.register-button {
+  background-color: #007BFF; /* Blue background */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+.register-form h2 {
+  text-align: center;
+  color: #007BFF; /* Assuming a blue theme from your details */
+  margin-bottom: 20px;
+}
+/* Style for the time log list container */
+.time-log-list-container {
+  margin-top: 20px;
+}
+/* Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-form {
+  width: 50%; /* Adjust based on preference */
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 90px;
+}
+
+.login-image-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image-container img {
+  max-width: 45%;
+  height: auto;
+}
+
+.login-form h2 {
+  text-align: center;
+  color: #007BFF; /* Assuming a blue theme */
+  margin-bottom: 20px;
+}
+
+.field-container {
+  margin-bottom: 10px;
+}
+
+.field-container input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box; /* Includes padding and border in the width */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* /TimeLogList.css */
+.time-log-list-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 200px; /* Adjust width as needed */
+  background-color: #007BFF; /* Light blue background for sidebar */
+  padding: 20px;
+  color: white; /* Text color for sidebar */
+}
+
+.sidebar h2 {
+  color: white; /* White text for the header */
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  display: block; /* Make buttons full width */
+  background-color: #0056b3; /* Darker blue for buttons */
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar button:hover {
+  background-color: #003b7a; /* Even darker on hover */
+}
+
+.admin-dashboard-content {
+  flex-grow: 1; /* Take up the remaining space */
+  padding: 20px;
+}
+
+/* Existing styles */
+.time-log-item {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.delete-button {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.time-log-form-container {
+  margin-top: 20px;
+}
