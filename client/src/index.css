@@ -106,12 +106,168 @@ nav ul li a:hover,
 }
 
 
+/* Register.css */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  padding: 20px;
+}
+
+.register-form {
+  flex: 1; /* Takes up half of the container */
+  max-width: 500px; /* Maximum width of the form */
+  padding-right: 20px; /* Spacing between form and image */
+  margin-bottom: 15px; /* Adds space between form fields */
+}
+.register-form label {
+  display: block; /* Makes the label take the full width */
+  margin-bottom: 5px; /* Space between the label and the field */
+}
+.register-form input,
+.register-form select {
+  width: 100%; /* Full width of the form field */
+  padding: 8px; /* Padding inside the input/select */
+  box-sizing: border-box; /* Includes padding and border in the width */
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px; /* Rounded borders */
+}
+.register-image-container {
+  flex: 1; /* Takes up the other half */
+  max-width: 600px; /* Maximum width of the image */
+}
+
+.register-image-container img {
+  width: 70%; /* Responsive image width */
+  height: auto; /* Maintain aspect ratio */
+}
+.register-form .error-message {
+  color: #ff6b6b; /* Red color for error messages */
+  font-size: 0.85em; /* Smaller font size for error messages */
+  margin-top: 5px; /* Space between field and error message */
+}
+.register-button {
+  background-color: #007BFF; /* Blue background */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+.register-form h2 {
+  text-align: center;
+  color: #007BFF; /* Assuming a blue theme from your details */
+  margin-bottom: 20px;
+}
 /* Style for the time log list container */
 .time-log-list-container {
   margin-top: 20px;
 }
+/* Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-/* Style for each time log item */
+.login-form {
+  width: 50%; /* Adjust based on preference */
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 90px;
+}
+
+.login-image-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image-container img {
+  max-width: 45%;
+  height: auto;
+}
+
+.login-form h2 {
+  text-align: center;
+  color: #007BFF; /* Assuming a blue theme */
+  margin-bottom: 20px;
+}
+
+.field-container {
+  margin-bottom: 10px;
+}
+
+.field-container input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box; /* Includes padding and border in the width */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* /TimeLogList.css */
+.time-log-list-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 200px; /* Adjust width as needed */
+  background-color: #007BFF; /* Light blue background for sidebar */
+  padding: 20px;
+  color: white; /* Text color for sidebar */
+}
+
+.sidebar h2 {
+  color: white; /* White text for the header */
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  display: block; /* Make buttons full width */
+  background-color: #0056b3; /* Darker blue for buttons */
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar button:hover {
+  background-color: #003b7a; /* Even darker on hover */
+}
+
+.admin-dashboard-content {
+  flex-grow: 1; /* Take up the remaining space */
+  padding: 20px;
+}
+
+/* Existing styles */
 .time-log-item {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -119,7 +275,6 @@ nav ul li a:hover,
   margin-bottom: 10px;
 }
 
-/* Style for the delete button */
 .delete-button {
   background-color: #ff6347;
   color: #fff;
@@ -128,12 +283,7 @@ nav ul li a:hover,
   padding: 5px 10px;
   cursor: pointer;
 }
-/* TimeLogForm.css */
 
-/* Style for the form container */
 .time-log-form-container {
   margin-top: 20px;
 }
-
-/* Add more styles as needed */
-

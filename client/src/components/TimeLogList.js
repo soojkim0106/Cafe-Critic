@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 
 
+
 function TimeLogList() {
   const { postTimeLog, deleteTimeLog, fetchAllTimeLogs, updateTimeLog } = useContext(AuthContext);
   const getCurrentPayrollStart = () => {
@@ -15,6 +16,8 @@ function TimeLogList() {
   const [selectedDate, setSelectedDate] = useState(getCurrentPayrollStart());
   const [data, setData] = useState([]);
   const [allTimeLogs, setAllTimeLogs] = useState([]);
+  const [isTableVisible, setIsTableVisible] = useState(false); // Initialize isTableVisible to false
+  
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [editLogId, seteditLogId] = useState(null)
   const [newEntry, setNewEntry] = useState({
@@ -43,7 +46,7 @@ function TimeLogList() {
         setAllTimeLogs(timeLogs);
       }
     });
-  }, [selectedDate, submitClicked]);
+  }, [selectedDate, submitClicked,isTableVisible]);
 
  
   const fetchData = () => {
@@ -182,6 +185,16 @@ const calculateHoursWorked = (clock_in, clock_out) => {
     setSelectedDate(date);
   };
 
+  const handleCreateLog = () => {
+    setIsTableVisible(true); // Set isTableVisible to true when Create Time Log is clicked
+  };
+
+  const handleViewTimeLogs = () => {
+    setIsTableVisible(false); // Set isTableVisible to false when View Time Logs is clicked
+  };
+
+
+
   const handleAddNewEntry = () => {
     const updatedData = [...data, newEntry];
     setData(updatedData);
@@ -210,16 +223,107 @@ const calculateHoursWorked = (clock_in, clock_out) => {
 
   return (
     <div className="time-log-list-container">
-      <h2>Time Log List</h2>
-      <div className="calendar-dropdown">
-        <label htmlFor="selectedDate">Select Date:</label>
-        <input type="date" id="selectedDate" name="selectedDate" value={selectedDate ? selectedDate.toISOString().split('T')[0] : ''} onChange={(e) => handleDateChange(new Date(e.target.value))} />
-        <button onClick={handleSubmit}>Submit</button>
+      <div className="sidebar">
+        <h2>Sidebar Header</h2>
+        <button onClick={handleCreateLog}>Create Time Log</button>
+        <button onClick={handleViewTimeLogs}>View Time Logs</button>
       </div>
-      <div className="admin-dashboard-content">
-        {noTimeLogMessage && <p>{noTimeLogMessage}</p>}
-        {data.length > 0 && (
-          <table className="time-log-table">
+      {isTableVisible ? (
+        <>
+          <h2>Time Log List</h2>
+          <div className="calendar-dropdown">
+            <label htmlFor="selectedDate">Select Date:</label>
+            <input
+              type="date"
+              id="selectedDate"
+              name="selectedDate"
+              value={selectedDate ? selectedDate.toISOString().split('T')[0] : ''}
+              onChange={e => handleDateChange(new Date(e.target.value))}
+            />
+            <button onClick={handleSubmit}>Submit</button>
+          </div>
+          <div className="admin-dashboard-content">
+            {noTimeLogMessage && <p>{noTimeLogMessage}</p>}
+            {data.length > 0 && (
+              <table className="time-log-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Clock In</th>
+                    <th>Clock Out</th>
+                    <th>Hours Worked</th>
+                    <th>Total Hours</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((entry, rowIndex) => (
+                    <tr key={rowIndex}>
+                      <td>
+                        {editingRowIndex === rowIndex ? (
+                          <input
+                            type="date"
+                            value={entry.date}
+                            onChange={e => handleCellEdit(e.target.value, rowIndex, 'date', false)}
+                          />
+                        ) : (
+                          entry.date
+                        )}
+                      </td>
+                      <td>
+                        {editingRowIndex === rowIndex ? (
+                          <input
+                            type="time"
+                            value={entry.clockIn}
+                            onChange={e => handleCellEdit(e.target.value, rowIndex, 'clockIn', false)}
+                          />
+                        ) : (
+                          formatTime(entry.clockIn)
+                        )}
+                      </td>
+                      <td>
+                        {editingRowIndex === rowIndex ? (
+                          <input
+                            type="time"
+                            value={entry.clockOut}
+                            onChange={e => handleCellEdit(e.target.value, rowIndex, 'clockOut', false)}
+                          />
+                        ) : (
+                          formatTime(entry.clockOut)
+                        )}
+                      </td>
+                      <td>{entry.hoursWorked}</td>
+                      <td>{entry.totalHours}</td>
+                      <td>{entry.status}</td>
+                      <td>
+                        {editingRowIndex === rowIndex ? (
+                          <button onClick={() => handleSaveSubmit()}>Save</button>
+                        ) : (
+                          <>
+                            <button onClick={() => handleEditRow(rowIndex)}>Edit</button>
+                            {/* <button onClick={() => handleDeleteRow(rowIndex)}>Delete</button> */}
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div>
+              <button onClick={handleAddNewEntry}>
+                <span role="img" aria-label="plus-sign">
+                  +
+                </span>
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="hours-table">
+          <h3>All Time Logs</h3>
+          <table>
             <thead>
               <tr>
                 <th>Date</th>
@@ -232,53 +336,51 @@ const calculateHoursWorked = (clock_in, clock_out) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((entry, rowIndex) => (
-                <tr key={rowIndex}>
+              {allTimeLogs.map((log, index) => (
+                <tr key={index}>
                   <td>
-                    {editingRowIndex === rowIndex ? (
+                    {editLogId === log.id ? (
                       <input
                         type="date"
-                        value={entry.date}
-                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'date', false)}
+                        value={log.date}
+                        onChange={e => handleEditPatch(e.target.value, index, 'date', false)}
                       />
                     ) : (
-                      entry.date
+                      log.date
                     )}
                   </td>
                   <td>
-                    {editingRowIndex === rowIndex ? (
+                    {editLogId === log.id ? (
                       <input
                         type="time"
-                        value={entry.clockIn}
-                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'clockIn', false)}
+                        value={log.clockIn}
+                        onChange={e => handleEditPatch(e.target.value, index, 'clockIn', false)}
                       />
                     ) : (
-                      formatTime(entry.clockIn)
+                      formatTime(log.clock_in)
                     )}
                   </td>
                   <td>
-                    {editingRowIndex === rowIndex ? (
+                    {editLogId === log.id ? (
                       <input
                         type="time"
-                        value={entry.clockOut}
-                        onChange={(e) => handleCellEdit(e.target.value, rowIndex, 'clockOut', false)}
+                        value={log.clockOut}
+                        onChange={e => handleEditPatch(e.target.value, index, 'clockOut', false)}
                       />
                     ) : (
-                      formatTime(entry.clockOut)
+                      formatTime(log.clock_out)
                     )}
                   </td>
-                  <td>{entry.hoursWorked}</td>
-                  <td>{entry.totalHours}</td>
-                  <td>{entry.status}</td>
+                  <td>{log.hours_worked}</td>
+                  <td>{log.total_hours}</td>
+                  <td>{log.status}</td>
                   <td>
-                    {editingRowIndex === rowIndex ? (
-                      <button onClick={() => handleSaveSubmit()}>
-                        Save
-                      </button>
+                    {editLogId === log.id ? (
+                      <button onClick={() => updateDatabase(log.id)}>Update</button>
                     ) : (
                       <>
-                        <button onClick={() => handleEditRow(rowIndex)}>Edit</button>
-                        {/* <button onClick={() => handleDeleteRow(rowIndex)}>Delete</button> */}
+                        <button onClick={() => handlePatch(log.id)}>Edit</button>
+                        <button onClick={() => handleDeleteRow(log.id)}>Delete</button>
                       </>
                     )}
                   </td>
@@ -286,80 +388,9 @@ const calculateHoursWorked = (clock_in, clock_out) => {
               ))}
             </tbody>
           </table>
-        )}
-        <div>
-          <button onClick={handleAddNewEntry}>
-            <span role="img" aria-label="plus-sign">+</span>
-          </button>
         </div>
-      </div>
-      <div className="hours-table">
-        <h3>All Time Logs</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Clock In</th>
-              <th>Clock Out</th>
-              <th>Hours Worked</th>
-              <th>Total Hours</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allTimeLogs.map((log, index) => (
-              <tr key={index}>
-                <td>
-                  {editLogId === log.id ? (
-                      <input
-                        type="date"
-                        value={log.date}
-                        onChange={(e) => handleEditPatch(e.target.value, index, 'date', false)}
-                      />
-                    ) : (log.date)} 
-                  </td>
-                <td>
-                  {editLogId === log.id ? (
-                      <input
-                        type="time"
-                        value={log.clockIn}
-                        onChange={(e) => handleEditPatch(e.target.value, index, 'clockIn', false)}
-                      />
-                    ) : (formatTime(log.clock_in))}
-                  </td>
-                <td>
-                  {editLogId === log.id ? (
-                      <input
-                        type="time"
-                        value={log.clockOut}
-                        onChange={(e) => handleEditPatch(e.target.value, index, 'clockOut', false)}
-                      />
-                    ) : (formatTime(log.clock_out))}
-                  </td>
-                <td>{log.hours_worked}</td>
-                <td>{log.total_hours}</td>
-                <td>{log.status}</td>
-                <td>
-                  {editLogId === log.id ? (
-                  <button onClick= {() => updateDatabase(log.id)}>Update</button>
-                  ):(
-                  <>
-                  <button onClick= {() => handlePatch(log.id)}>Edit</button>
-                  <button onClick={() => handleDeleteRow(log.id)}>Delete</button>
-                  </>
-                  )}
-                  
-      
-                  
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      )}
     </div>
   );
 }
-
 export default TimeLogList;
