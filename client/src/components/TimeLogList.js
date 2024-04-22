@@ -224,13 +224,13 @@ const calculateHoursWorked = (clock_in, clock_out) => {
   return (
     <div className="time-log-list-container">
       <div className="sidebar">
-        <h2>Sidebar Header</h2>
+        <h2>Dashboard</h2>
         <button onClick={handleCreateLog}>Create Time Log</button>
         <button onClick={handleViewTimeLogs}>View Time Logs</button>
       </div>
       {isTableVisible ? (
         <>
-          <h2>Time Log List</h2>
+          <h2>Create Entry</h2>
           <div className="calendar-dropdown">
             <label htmlFor="selectedDate">Select Date:</label>
             <input
@@ -322,7 +322,7 @@ const calculateHoursWorked = (clock_in, clock_out) => {
         </>
       ) : (
         <div className="hours-table">
-          <h3>All Time Logs</h3>
+          <h3>View Timelogs</h3>
           <table>
             <thead>
               <tr>
