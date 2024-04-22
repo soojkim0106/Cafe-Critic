@@ -1,9 +1,12 @@
-// NavBar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Logout from './Logout'; // Import the Logout component
 
+
 function NavBar() {
+  const location = useLocation();  // Hook to get the current location
+  const showLogout = location.pathname.startsWith('/timelogs');  // Determine if we're under any 'timelogs' route
+
   return (
     <nav>
       <ul>
@@ -16,13 +19,12 @@ function NavBar() {
         <li>
           <Link to="/register">Register</Link>
         </li>
-        <li>
-          <Link to="/timelogs">Time Logs</Link>
-        </li>
-        {/* Include the Logout component */}
-        <li>
-          <Logout />
-        </li>
+        {/* Conditionally render Logout component based on route */}
+        {showLogout && (
+          <li>
+            <Logout />
+          </li>
+        )}
       </ul>
     </nav>
   );
