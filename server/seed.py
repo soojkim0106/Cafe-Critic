@@ -11,8 +11,8 @@ from app import app
 from config import db
 from models.user import User
 from models.cafe import Cafe
-from models.recipe import Recipe
 from models.review import Review
+from models.comment import Comment
 
 if __name__ == '__main__':
     # fake = Faker()

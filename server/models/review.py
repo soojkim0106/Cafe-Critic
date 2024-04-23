@@ -35,6 +35,35 @@ class Review(db.Model, SerializerMixin):
     @validates("body")
     def validate_body(self, _, body):
         if not isinstance(body, str):
+            raise TypeError("Body must be a string!")
+        elif not (150 > len(body)):
+            raise ValueError("Body cannot be longer than 150 characters")
+        return body
+    
+    @validates("good_description")
+    def validate_good_description(self, _, gd):
+        if not isinstance(gd, str):
+            raise TypeError("Good description must be a string")
+        elif not (150 > len(gd)):
+            raise ValueError("Good description cannot be longer than 150 characters")
+        return gd
+    
+    @validates("bad_description")
+    def validate_good_description(self, _, bd):
+        if not isinstance(bd, str):
+            raise TypeError("Bad description must be a string")
+        elif not (150 > len(bd)):
+            raise ValueError("Bad description cannot be longer than 150 characters")
+        return bd
+    
+    @validates("star_rating")
+    def validate_star_rating(self, _, sr):
+        if not isinstance(sr, int):
+            raise TypeError("Star rating must be an integer")
+        elif not (5 <= sr <= 1):
+            raise ValueError("Star rating muts be in between 1 to 5")
+        return sr
+        
     @validates("user_id")
     def validate_user_id(self, _, user_id):
         if not isinstance(user_id, int):
