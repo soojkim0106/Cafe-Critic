@@ -15,15 +15,20 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
-    #relationship
+    # relationship
     
-    #serialization
+    cafes = association_proxy("reviews", "cafe")
+    reviews = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")
     
+    # serialization
+    
+    serialize_rules = ("-password_hash", "-reviews.user")
     
     def __repr__(self):
         return f"<User {self.id}: {self.username} | {self.email}>"
     
-    #password hashing
+    # password hashing
     @hybrid_property
     def password_hash(self):
         raise AttributeError("You cannot view password!")
@@ -47,6 +52,7 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return flask_bcrypt.check_password_hash(self._password_hash, password)
     
+    # model validation
     @validates("username")
     def validate_username(self, _, username):
         if not isinstance(username, str):

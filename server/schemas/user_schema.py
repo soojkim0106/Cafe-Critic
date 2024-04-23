@@ -1,5 +1,4 @@
 from config import ma, db
-import re
 from models.user import User
 from marshmallow import validate, fields, validate
 
