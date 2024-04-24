@@ -1,14 +1,16 @@
-from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.orm import validates
 from .user import User
 from .cafe import Cafe
+
+from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import validates
 from config import db
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = "reviews"
     
-    __table_args__ = (db.UniqueConstraint('cafe_id', 'user_id',))
+    __table_args__ = (db.UniqueConstraint('cafe_id', 'user_id',),)
     
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))

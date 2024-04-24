@@ -8,7 +8,7 @@ from flask_bcrypt import Bcrypt
 from os import environ
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///critic.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///critics.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # app.config["SQLALCHEMY_ECHO"] = True
 app.secret_key = environ.get("SESSION_SECRET")

@@ -16,7 +16,7 @@ class Cafe(db.Model, SerializerMixin):
     
     # relationship
     users = association_proxy("reviews", "user")
-    reviews = db.relationship("Review", back_populates="review", cascade="all, delete-orphan")
+    reviews = db.relationship("Review", back_populates="cafe", cascade="all, delete-orphan")
     
     # serialization
     

@@ -2,7 +2,8 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
-from config import flask_bcrypt, db
+from config import db
+from config import flask_bcrypt
 import re
 
 class User(db.Model, SerializerMixin):

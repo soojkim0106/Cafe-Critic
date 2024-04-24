@@ -1,5 +1,5 @@
 from config import ma
-from marshmallow import validate, validates, ValidationError, fields, validate
+from marshmallow import validate, fields, validate
 from models.review import Review
 
 class ReviewSchema(ma.SQLAlchemyAutoSchema):

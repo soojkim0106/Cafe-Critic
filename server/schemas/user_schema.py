@@ -1,6 +1,7 @@
-from config import ma, db
-from models.user import User
+from config import ma
 from marshmallow import validate, fields, validate
+from models.user import User
+
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
     
