@@ -5,6 +5,7 @@ import Error from '../components/errors/Error'
 import UserCard from '../components/user/UserCard'
 import Registration from '../components/auth/registration'
 import ReviewCard from '../components/review/ReviewCard'
+import CafeCard from '../components/cafe/CafeCard'
 
 
 export const router = createBrowserRouter([
@@ -16,11 +17,15 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 index: true,
-                element: <Home />
+                element: <Registration />
             },
             {
                 path: "registration",
                 element: <Registration />
+            },
+            {
+                path: "cafes",
+                element: <Home />
             },
             {
                 path: "users/:userId",
@@ -29,6 +34,10 @@ export const router = createBrowserRouter([
             {
                 path: "reviews/:reviewId",
                 element: <ReviewCard />
+            },
+            {
+                path:"cafes/:cafeId",
+                element: <CafeCard />
             }
         ]
     }

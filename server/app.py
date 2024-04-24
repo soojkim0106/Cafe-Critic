@@ -183,6 +183,7 @@ def logout():
         db.session.rollback()
         raise e
 class Cafes(Resource):
+    @login_required
     def get(self):
         try:
             serialized_cafes = cafes_schema.dump(Cafe.query)

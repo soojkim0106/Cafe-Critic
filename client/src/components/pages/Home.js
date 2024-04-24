@@ -1,8 +1,12 @@
 import React from 'react'
+import CafeContainer from '../cafe/CafeContainer'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+        Home
+        <CafeContainer/>
+    </div>
   )
 }
 

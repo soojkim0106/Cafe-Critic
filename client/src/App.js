@@ -1,8 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import toast ,{Toaster} from 'react-hot-toast'
+import Header from './components/navigation/Header'
+import { UserContext } from "./context/UserContext";
 
 function App() {
-  return <h1>Project Client</h1>;
+  const {user} = useContext(UserContext)
+  const [cafes, setCafes] = useState([])
+
+  useEffect(() => {
+    fetch('/cafes')
+        .then(resp => {
+          if (resp.ok) {
+            return resp.json().then(setCafes)
+          }
+          return resp.json().then(errorObj => toast.error(errorObj.message))
+        })
+        .catch(err => console.log(err))
+}, []);
+
+return (
+  <>
+    <Header />
+    <div><Toaster /></div>
+    <Outlet context={{user, cafes}}/>
+  </>
+);
 }
 
 export default App;

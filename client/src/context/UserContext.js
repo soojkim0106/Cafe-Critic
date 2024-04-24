@@ -29,7 +29,7 @@ const UserProvider = ({ children }) => {
 		setUser({ ...user, entries: updatedEntries })
 	}
 
-    // Refresh
+    //Refresh
     useEffect(() => {
         fetch('/me')
         .then(resp => {
