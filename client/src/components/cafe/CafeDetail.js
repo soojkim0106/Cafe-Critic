@@ -1,8 +1,9 @@
 import React from 'react'
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import {Link, useLocation, useOutletContext } from 'react-router-dom'
 import toast from "react-hot-toast";
 import ReviewCard from '../review/ReviewCard';
+import UserProvider from '../../context/UserContext';
 
 const CafeDetail = () => {
     const location = useLocation();
@@ -11,7 +12,7 @@ const CafeDetail = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
     
-    const { user } = useOutletContext();
+    const { user } = useContext(UserProvider);
   
     useEffect(() => {
       fetch("/me").then((resp) => {

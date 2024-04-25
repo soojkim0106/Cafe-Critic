@@ -1,9 +1,22 @@
 import {useState, useEffect} from 'react'
 import CafeCard from './CafeCard'
-import { useOutletContext } from 'react-router-dom'
+import toast from "react-hot-toast";
+
 
 const CafeContainer = () => {
-    const {cafes} = useOutletContext()
+
+    const [cafes, setCafes] = useState([])
+
+    useEffect(() => {
+      fetch('/cafes')
+          .then(resp => {
+            if (resp.ok) {
+              return resp.json().then(setCafes)
+            }
+            return resp.json().then(errorObj => toast.error(errorObj.message))
+          })
+          .catch(err => console.log(err))
+  }, []);
     
   return (
     <div>

@@ -32,10 +32,10 @@ def before_request():
         id = request.view_args.get("id")
         record = db.session.get(path_dict.get(request.endpoint), id)
         key_name = "user" if request.endpoint == "userbyid" else "cafe"
-        if request.endpoint == 'reviewbyid':
-            key_name = "review"
         if request.endpoint == 'commentbyid':
             key_name = "comment"
+        elif request.endpoint == 'reviewbyid':
+            key_name = "review"
         setattr(g, key_name, record)
         
 def login_required(func):
@@ -46,6 +46,7 @@ def login_required(func):
         return func(*args, **kwargs)
     return decorated_function
 
+@app.route("/images/<path:image_path>")
 def get_image(image_path):
     image_folder = './cafe_logo'
     full_path = os.path.join(image_folder, image_path)

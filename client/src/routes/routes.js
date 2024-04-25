@@ -6,6 +6,7 @@ import UserCard from '../components/user/UserCard'
 import Registration from '../components/auth/registration'
 import ReviewCard from '../components/review/ReviewCard'
 import CafeCard from '../components/cafe/CafeCard'
+import CafeContainer from '../components/cafe/CafeContainer'
 
 
 export const router = createBrowserRouter([
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "cafes",
-                element: <Home />
+                element: <CafeContainer />
             },
             {
                 path: "users/:userId",

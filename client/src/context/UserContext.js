@@ -7,6 +7,7 @@ export const UserContext = createContext()
 const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
 
+
 	const login = (user) => {
 		setUser(user)
 	}
@@ -16,18 +17,48 @@ const UserProvider = ({ children }) => {
 			fetch('/logout', { method: 'DELETE' }).then((res) => {
 				if (res.status === 204) {
 					setUser(null)
-					toast.success('All logged out!')
+					toast.success('Come again!')
 				} else {
-					toast.error('Something whent wrong while logging out. Please try again.')
+					toast.error('Logout failed. Please try again.')
 				}
 			})
 		} catch (err) {
 			throw err
     }}
 
-	const updateEntries = (updatedEntries) => {
-		setUser({ ...user, entries: updatedEntries })
-	}
+    const updateCurrentUser = (user) => setUser(user)
+
+    const handleEditUser = (formData) => { 
+        try { 
+          fetch(`/users/${user.id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }).then((resp) => {
+            if (resp.ok) {
+              resp.json().then((user) => {
+                updateCurrentUser(user);
+              });
+            } else {
+              return resp
+                .json()
+                .then((errorObj) => toast.error(errorObj.message));
+            }
+          });
+        } catch (err) {
+          throw err;
+        }
+      }
+    
+    const handleDeleteUser = () => {
+        fetch(`/users/${user.id}`, { method: "DELETE" })
+          // .then(toast.success("Come back soon!"))
+          .then(logout);
+        // localStorage.clear()
+        // sessionStorage.clear()
+      };
 
     //Refresh
     useEffect(() => {
@@ -43,7 +74,7 @@ const UserProvider = ({ children }) => {
     }, [])
 
     return (
-        <UserContext.Provider value={{ user, login, logout, updateEntries }}>
+        <UserContext.Provider value={{ user, login, logout, updateCurrentUser, handleEditUser, handleDeleteUser }}>
             {children}
         </UserContext.Provider>
 )}

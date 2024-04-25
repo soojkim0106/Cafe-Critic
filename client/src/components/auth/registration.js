@@ -44,7 +44,7 @@ const initialValues = {
 };
 
 const Registration = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const requestedUrl = isLogin ? "/login" : "/signup";
@@ -86,68 +86,102 @@ const Registration = () => {
   });
 
   return (
-    <div className='auth'>
-        <h2>{isLogin ? 'Login':'Sign Up'}</h2>
-        <Formik onSubmit={formik.handleSubmit}>
-            <Form className='form' onSubmit={formik.handleSubmit}>
+    <div className="auth">
+      <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+      <Formik onSubmit={formik.handleSubmit}>
+        <Form className="form" onSubmit={formik.handleSubmit}>
+            {!isLogin && (
+                <>
                 <Field
-                    type='text'
-                    name='username'
-                    placeholder='Username'
+                    type="email"
+                    name="email"
+                    placeholder="Email"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.username}
-                    className='input'
-                    autoComplete='username'
+                    value={formik.values.email}
+                    className="input"
                 />
-                {formik.errors.username && formik.touched.username && (
-                    <div className='error-message show'>
-                        {formik.errors.username}
+                {formik.errors.email &&
+                    formik.touched.email && (
+                    <div className="error-message show">
+                        {formik.errors.email}
                     </div>
-                )}
-                <Field
-                    type='password'
-                    name='_password_hash'
-                    placeholder='Password'
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values._password_hash}
-                    className='input'
-                    autoComplete='current-password'
-                />
-                {formik.errors._password_hash &&
-                    formik.touched._password_hash && (
-                        <div className='error-message show'>
-                            {formik.errors._password_hash}
-                        </div>
                     )}
-                {!isLogin && (
-                    <>
-                        <Field
-                            type='password'
-                            name='confirmPassword'
-                            placeholder='Confirm Password'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.confirmPassword}
-                            className='input'
-                        />
-                        {formik.errors.confirmPassword &&
-                            formik.touched.confirmPassword && (
-                                <div className='error-message show'>
-                                    {formik.errors.confirmPassword}
-                                </div>
-                            )}
-                    </>
+                </>
+            )}
+          <Field
+            type="text"
+            name="username"
+            placeholder="Username"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.username}
+            className="input"
+            autoComplete="username"
+          />
+          {formik.errors.username && formik.touched.username && (
+            <div className="error-message show">{formik.errors.username}</div>
+          )}
+          <Field
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values._password_hash}
+            className="input"
+            autoComplete="current-password"
+          />
+          {formik.errors._password_hash && formik.touched._password_hash && (
+            <div className="error-message show">
+              {formik.errors._password_hash}
+            </div>
+          )}
+          {!isLogin && (
+            <>
+              <Field
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirmPassword}
+                className="input"
+              />
+              {formik.errors.confirmPassword &&
+                formik.touched.confirmPassword && (
+                  <div className="error-message show">
+                    {formik.errors.confirmPassword}
+                  </div>
                 )}
-                <input type='submit' className='submit' value={isLogin ? 'Login' : 'Sign up'} />
-                {isLogin ? 
-                <button type='button' className='change-form' onClick={handleIsLogin}>Create New Account</button>
-                : ""
-                }
-            </Form>
-        </Formik>
+            </>
+          )}
+          <input
+            type="submit"
+            className="submit"
+            value={isLogin ? "Login" : "Sign up"}
+          />
+          {isLogin ? (
+            <button
+              type="button"
+              className="change-form"
+              onClick={handleIsLogin}
+            >
+              Create New Account
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="change-form"
+              onClick={handleIsLogin}
+            >
+              Login
+            </button>
+          )}
+        </Form>
+      </Formik>
     </div>
-)}
+  );
+};
 
 export default Registration;
