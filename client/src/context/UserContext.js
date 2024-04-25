@@ -7,7 +7,6 @@ export const UserContext = createContext()
 const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
 
-
 	const login = (user) => {
 		setUser(user)
 	}
@@ -54,10 +53,7 @@ const UserProvider = ({ children }) => {
     
     const handleDeleteUser = () => {
         fetch(`/users/${user.id}`, { method: "DELETE" })
-          // .then(toast.success("Come back soon!"))
           .then(logout);
-        // localStorage.clear()
-        // sessionStorage.clear()
       };
 
     //Refresh

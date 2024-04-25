@@ -6,10 +6,10 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { object, string } from "yup";
 import { useFormik, Formik } from "formik";
-import UserProvider from "../../context/UserContext";
+import {UserContext} from "../../context/UserContext";
 
 const UserCard = () => {
-    const { user, updateCurrentUser, handleEditUser } = useContext(UserProvider)
+    const { user, updateCurrentUser, handleEditUser } = useContext(UserContext)
     const navigate = useNavigate()
     const { userId } = useParams()
 
