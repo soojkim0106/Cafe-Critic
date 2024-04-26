@@ -1,6 +1,5 @@
-from config import ma
-from marshmallow import validate, validates, ValidationError, fields, validate
-from models.comment import Comment
+from . import ma, Comment, fields, validate, validates, ValidationError
+
 
 
 class CommentSchema(ma.SQLAlchemyAutoSchema):

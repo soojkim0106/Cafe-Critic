@@ -28,6 +28,7 @@ const UserProvider = ({ children }) => {
 
   const updateCurrentUser = (user) => setUser(user);
 
+
   const handleEditUser = (formData) => {
     fetch(`/users/${user.id}`, {
       method: "PATCH",
@@ -80,7 +81,7 @@ const UserProvider = ({ children }) => {
         logout,
         updateCurrentUser,
         handleEditUser,
-        handleDeleteUser,
+        handleDeleteUser
       }}
     >
       {children}

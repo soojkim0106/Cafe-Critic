@@ -1,13 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from '../App'
-import Home from '../components/pages/Home'
 import Error from '../components/errors/Error'
 import UserCard from '../components/user/UserCard'
 import Registration from '../components/auth/registration'
-import ReviewCard from '../components/review/ReviewCard'
-import CafeCard from '../components/cafe/CafeCard'
+import ReviewDetail from '../components/review/ReviewDetail'
 import CafeContainer from '../components/cafe/CafeContainer'
-
+import CafeDetail from '../components/cafe/CafeDetail'
 
 export const router = createBrowserRouter([
     {
@@ -29,16 +27,16 @@ export const router = createBrowserRouter([
                 element: <CafeContainer />
             },
             {
-                path: "users/:userId",
+                path: "profile",
                 element: <UserCard />
             },
             {
                 path: "reviews/:reviewId",
-                element: <ReviewCard />
+                element: <ReviewDetail />
             },
             {
                 path:"cafes/:cafeId",
-                element: <CafeCard />
+                element: <CafeDetail />
             }
         ]
     }

@@ -1,25 +1,29 @@
 import { useEffect, useState, useContext } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { object, string } from "yup";
-import { useFormik, Formik } from "formik";
+import { object, string, number } from "yup";
+import { useFormik, Formik, Field, Form,  } from "formik";
 import { UserContext } from "../../context/UserContext";
-import {Modal} from "react-bootstrap-modal";
-import {Button} from 'react-bootstrap-buttons';
+import { Modal, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 
 const ReviewForm = () => {
-  const { user, updateCurrentUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
+  const { cafeId } = useParams();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const updateReview = (updatedReview) => {
+    setUser({...user, reviews: updatedReview})
+  }
 
   const reviewSchema = object({
     body: string().required("Review body is required"),
     good_description: string().required("Good description is required"),
     bad_description: string().required("Bad description is required"),
-    star_rating: string()
+    star_rating: number()
       .required("Star rating is required")
-      .max(5, "Star rating must be between 1 and 5"),
   });
 
   const initialValues = {
@@ -27,6 +31,8 @@ const ReviewForm = () => {
     good_description: "",
     bad_description: "",
     star_rating: "",
+    // cafe_id: cafeId,
+    // user_id: user.id,
   };
 
   const formik = useFormik({
@@ -35,34 +41,39 @@ const ReviewForm = () => {
     onSubmit: (formData) => {
       handlePostReview(formData);
       toast.success("Review posted successfully");
-      window.location.reload();
     },
   });
 
   const handlePostReview = (formData) => {
-    fetch(`/reviews`, {
+
+    const {id} = user;
+    console.log(`formData: ${formData}`)
+    console.log(`userId: ${id}`)
+    console.log(`cafeId: ${cafeId}`)
+
+    fetch("/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...formData,
+        user_id: user.id,
+        cafe_id: Number.parseInt(cafeId),
+      }),
     })
-      .then((resp) => {
-        if (!resp.ok) {
-          return resp.json().then((errorObj) => {
-            toast.error(errorObj.message);
-          });
-        }
+    .then((resp) => {
+      if (resp.ok) {
         return resp.json();
-      })
-      .then((review) => {
-        updateCurrentUser(review);
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error(err.message);
-      });
-  };
+      } else {
+        throw new Error("Failed to submit form");
+      }
+    })
+    .catch((error) => {
+      toast.error("An error occurred. Please try again.");
+      console.error(error);
+    });
+};
 
   if (!user) {
     return <p>You must log in first</p>;
@@ -70,79 +81,72 @@ const ReviewForm = () => {
 
   return (
     <>
-      <div className="review-form">
-        <Button variant="primary" onClick={handleShow}>
-          Add Review
-        </Button>
-        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-          <Modal.Header closeButton>
-            <Modal.Title>Your Review</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form onSubmit={formik.handleSubmit}>
-              <label htmlFor="name">Body</label>
-              <input
-                type="text"
-                name="body"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.body}
-              />
-              {formik.errors.body && formik.touched.body && (
-                <div className="error-message show">{formik.errors.body}</div>
-              )}
-              <label htmlFor="name">Good Description</label>
-              <input
-                type="text"
-                name="good_description"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.good_description}
-              />
-              {formik.errors.good_description &&
-                formik.touched.good_description && (
-                  <div className="error-message show">
-                    {formik.errors.good_description}
-                  </div>
-                )}
-              <label htmlFor="name">Bad Description</label>
-              <input
-                type="text"
-                name="bad_description"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.bad_description}
-              />
-              {formik.errors.bad_description &&
-                formik.touched.bad_description && (
-                  <div className="error-message show">
-                    {formik.errors.bad_description}
-                  </div>
-                )}
-              <label htmlFor="name">Star Rating</label>
-              <input
-                type="text"
-                name="star_rating"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.star_rating}
-              />
-              {formik.errors.star_rating && formik.touched.star_rating && (
+      <div className="review">
+        <Formik onsubmit={formik.handleSubmit}>
+          <Form className="review-form" onSubmit={formik.handleSubmit}>
+            <Field
+              type="text"
+              name="body"
+              placeholder="body"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.body}
+              className="input"
+              autoComplete="body"
+            />
+            {formik.errors.body && formik.touched.body && (
+              <div className="error-message show">{formik.errors.body}</div>
+            )}
+            <Field
+              type="text"
+              name="good_description"
+              placeholder="what were the pros?"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.good_description}
+              className="input"
+              autoComplete="good_description"
+            />
+            {formik.errors.good_description &&
+              formik.touched.good_description && (
                 <div className="error-message show">
-                  {formik.errors.star_rating}
+                  {formik.errors.good_description}
                 </div>
               )}
-            </form>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Review
-              </Button>
-            </Modal.Footer>
-          </Modal.Body>
-        </Modal>
+            <Field
+              type="text"
+              name="bad_description"
+              placeholder="what were the cons?"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.bad_description}
+              className="input"
+              autoComplete="bad_description"
+            />
+            {formik.errors.bad_description &&
+              formik.touched.bad_description && (
+                <div className="error-message show">
+                  {formik.errors.bad_description}
+                </div>
+              )}
+            <Field
+              type="integer"
+              name="star_rating"
+              placeholder="star rating"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.star_rating}
+              className="input"
+              autoComplete="star_rating"
+            />
+            {formik.errors.star_rating && formik.touched.star_rating && (
+              <div className="error-message show">
+                {formik.errors.star_rating}
+              </div>
+            )}
+            <input type="submit" className="submit" value="submit" />
+          </Form>
+        </Formik>
       </div>
     </>
   );

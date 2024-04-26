@@ -5,7 +5,7 @@ import { UserContext } from "../../context/UserContext";
 
 
 const Header = () => {
-    const {user, logout, setUser} = useContext(UserContext)
+    const {user, logout, login} = useContext(UserContext)
 
   return (
     <>
@@ -16,7 +16,7 @@ const Header = () => {
           {user ? (
             <div className="container">
                 <NavLink to={"/cafes"}>Cafe</NavLink><br></br>
-              <NavLink to={`/users/${user.id}`}>
+              <NavLink to={'/profile'}>
                 Profile
               </NavLink> <br></br>
               <NavLink onClick={logout}>Logout</NavLink>

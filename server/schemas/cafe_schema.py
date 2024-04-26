@@ -1,6 +1,4 @@
-from config import ma
-from marshmallow import validate, validates, ValidationError, fields, validate
-from models.cafe import Cafe
+from . import ma, Cafe, fields, validate, validates, ValidationError
 
 class CafeSchema(ma.SQLAlchemyAutoSchema):
     

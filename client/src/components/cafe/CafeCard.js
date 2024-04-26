@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const CafeCard = ({cafe}) => {
 
     const { id, name, image } = cafe;
+    console.log(cafe)
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
-    
 
     useEffect(() => {
         if (!imageUrl)
@@ -30,7 +30,7 @@ const CafeCard = ({cafe}) => {
   return (
     <div className='cafe-card'>
         <button>
-        <Link to={`/cafes/${id}`} state={{ cafe }}>
+        <Link to={`/cafes/${id}`}>
           <h3>{name}</h3>
           {imageLoaded && imageUrl && <img src={imageUrl} alt={name} />}
         </Link>

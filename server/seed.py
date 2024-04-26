@@ -55,8 +55,21 @@ with app.app_context():
         image="kiss.png"
     )
     
+    
     cafes = [c1, c2, c3, c4, c5, c6]
     db.session.add_all(cafes)
+    db.session.commit()
+    
+    r1 = Review(
+        body="I love this place!",
+        good_description="Great coffee",
+        bad_description="None",
+        star_rating=2, 
+        cafe_id=1,
+        user_id=1,
+    )
+    
+    db.session.add(r1)
     db.session.commit()
     
     print("Completed seeding...")

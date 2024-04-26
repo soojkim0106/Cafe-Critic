@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import CafeCard from "./CafeCard";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/UserContext";
@@ -6,20 +7,15 @@ import { UserContext } from "../../context/UserContext";
 const CafeContainer = () => {
   const [cafes, setCafes] = useState([]);
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  //   useEffect(() => {
-  //     fetch('/me')
-  //     .then(resp => {
-  //         if (resp.ok) {
-  //         resp.json().then(setUser)
-
-  //         } else {
-  //         toast.error('Please log in')
-  //         }
-  //     })
-  // }, [])
+  //! Send them away if they are not logged in
+    useEffect(() => {
+    if (!user) {
+      navigate("/registration");
+    }
+  }, [user, navigate])
   
-
   useEffect(() => {
     fetch("/cafes")
       .then((resp) => {
@@ -34,12 +30,9 @@ const CafeContainer = () => {
   return (
     <div>
       Cafe Container
-      {cafes.map((cafe) => {
-        if (cafe) {
-          return <CafeCard key={cafe.id} cafe={cafe} />;
-        }
-        return null;
-      })}
+      {cafes && cafes.map((cafe) => (
+        <CafeCard key={cafe.id} cafe={cafe} />
+      ))}
     </div>
   );
 };

@@ -46,7 +46,7 @@ const initialValues = {
 const Registration = () => {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { login } = useContext(UserContext);
   const requestedUrl = isLogin ? "/login" : "/signup";
 
   const handleIsLogin = () => {
@@ -71,7 +71,7 @@ const Registration = () => {
         if (resp.ok) {
           resp
             .json()
-            .then(user)
+            .then(login)
             .then(() => {
               navigate("/cafes");
               toast("Grab your favorite critic pen", {

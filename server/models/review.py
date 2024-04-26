@@ -2,8 +2,6 @@ from .user import User
 from .cafe import Cafe
 
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 from config import db
 
@@ -38,7 +36,7 @@ class Review(db.Model, SerializerMixin):
     def validate_body(self, _, body):
         if not isinstance(body, str):
             raise TypeError("Body must be a string!")
-        elif not (150 > len(body)):
+        elif len(body) >= 150:
             raise ValueError("Body cannot be longer than 150 characters")
         return body
     
@@ -46,7 +44,7 @@ class Review(db.Model, SerializerMixin):
     def validate_good_description(self, _, gd):
         if not isinstance(gd, str):
             raise TypeError("Good description must be a string")
-        elif not (150 > len(gd)):
+        elif len(gd) >= 150:
             raise ValueError("Good description cannot be longer than 150 characters")
         return gd
     
@@ -54,7 +52,7 @@ class Review(db.Model, SerializerMixin):
     def validate_good_description(self, _, bd):
         if not isinstance(bd, str):
             raise TypeError("Bad description must be a string")
-        elif not (150 > len(bd)):
+        elif len(bd) >= 150:
             raise ValueError("Bad description cannot be longer than 150 characters")
         return bd
     
@@ -62,7 +60,7 @@ class Review(db.Model, SerializerMixin):
     def validate_star_rating(self, _, sr):
         if not isinstance(sr, int):
             raise TypeError("Star rating must be an integer")
-        elif not (5 <= sr <= 1):
+        elif (sr >= 5):
             raise ValueError("Star rating muts be in between 1 to 5")
         return sr
         

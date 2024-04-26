@@ -1,32 +1,34 @@
 import React from 'react'
 import { useEffect, useState, useContext } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import toast from "react-hot-toast";
 import ReviewCard from '../review/ReviewCard';
-import UserContext from '../../context/UserContext';
+import ReviewForm from '../review/ReviewForm';
 
 const CafeDetail = () => {
-    const location = useLocation();
-    const { cafe } = location.state;
-  
+    const [cafe, setCafe] = useState();
+    const {cafeId} = useParams();
+    const [error, setError] = useState(null)
+
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
     
-    const { setUser } = useContext(UserContext);
-  
-    useEffect(() => {
-      fetch("/me").then((resp) => {
+
+    useEffect(()=>{
+      fetch(`/cafes/${cafeId}`)
+      .then(resp => {
         if (resp.ok) {
-          resp.json().then(setUser);
-        } else {
-          toast.error("Please log in!");
+          return resp.json().then(setCafe)
         }
-      });
-    }, [setUser]);
+        return resp.json().then(errorObj => setError(errorObj.message))
+      })
+      .catch(error => console.error(error))
+    }, [cafeId])
+
   
     useEffect(() => {
-      if (!imageUrl) {
-        fetch(`/images/${image}`)
+      if (!imageUrl && cafe?.image) {
+        fetch(`/images/${cafe.image}`)
           .then((data) => {
             return data.blob();
           })
@@ -42,14 +44,17 @@ const CafeDetail = () => {
           URL.revokeObjectURL(imageUrl);
         }
       };
-    }, [image, imageLoaded, imageUrl]);
+    }, [cafe?.image, imageUrl]);
   
-  
+    if (error) {
+      return <h2>{error}</h2>
+    }
     if(!cafe){
       return <h2>Loading...</h2>
     }
 
-    const {name, address, image} = cafe;
+    const {name, address} = cafe;
+
   return (
     <div className='cafe-detail-container'>
         <h2>{name}</h2>
@@ -59,6 +64,7 @@ const CafeDetail = () => {
         </div>
         <div>
             Reviews:
+            <ReviewForm/>
             <ReviewCard/>
         </div>
     </div>
