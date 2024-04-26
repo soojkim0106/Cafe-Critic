@@ -1,29 +1,48 @@
-import {useState, useEffect} from 'react'
-import CafeCard from './CafeCard'
+import { useState, useEffect, useContext } from "react";
+import CafeCard from "./CafeCard";
 import toast from "react-hot-toast";
-
+import { UserContext } from "../../context/UserContext";
 
 const CafeContainer = () => {
+  const [cafes, setCafes] = useState([]);
+  const { user, setUser } = useContext(UserContext);
 
-    const [cafes, setCafes] = useState([])
+  //   useEffect(() => {
+  //     fetch('/me')
+  //     .then(resp => {
+  //         if (resp.ok) {
+  //         resp.json().then(setUser)
 
-    useEffect(() => {
-      fetch('/cafes')
-          .then(resp => {
-            if (resp.ok) {
-              return resp.json().then(setCafes)
-            }
-            return resp.json().then(errorObj => toast.error(errorObj.message))
-          })
-          .catch(err => console.log(err))
+  //         } else {
+  //         toast.error('Please log in')
+  //         }
+  //     })
+  // }, [])
+
+  useEffect(() => {
+    fetch("/cafes")
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json().then(setCafes).then(setUser);
+        }
+        return resp.json().then((errorObj) => toast.error(errorObj.message));
+      })
+      .catch((err) => console.log(err));
   }, []);
-    
+
+  console.log(cafes)
+
   return (
     <div>
-        Cafe Container
-        {cafes.map((cafe => (<CafeCard key={cafe.id} cafe={cafe}/>)))}
+      Cafe Container
+      {cafes.map((cafe) => {
+        if (cafe) {
+          return <CafeCard key={cafe.id} {...cafe} />;
+        }
+        return null;
+      })}
     </div>
-  )
-}
+  );
+};
 
-export default CafeContainer
+export default CafeContainer;

@@ -7,18 +7,6 @@ import { UserContext } from "../../context/UserContext";
 const Header = () => {
     const {user, logout, setUser} = useContext(UserContext)
 
-    useEffect(() => {
-        fetch('/me')
-        .then(resp => {
-            if (resp.ok) {
-            resp.json().then(setUser)
-            
-            } else {
-            toast.error('Please log in')
-            }
-        })
-    }, [setUser])
-
   return (
     <>
     <Toaster />

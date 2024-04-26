@@ -3,7 +3,7 @@ import {useEffect, useState, useContext} from 'react'
 import {Link, useLocation, useOutletContext } from 'react-router-dom'
 import toast from "react-hot-toast";
 import ReviewCard from '../review/ReviewCard';
-import UserProvider from '../../context/UserContext';
+import UserContext from '../../context/UserContext';
 
 const CafeDetail = () => {
     const location = useLocation();
@@ -12,20 +12,20 @@ const CafeDetail = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
     
-    const { user } = useContext(UserProvider);
+    const { setUser } = useContext(UserContext);
   
     useEffect(() => {
       fetch("/me").then((resp) => {
         if (resp.ok) {
-          resp.json().then(user);
+          resp.json().then(setUser);
         } else {
           toast.error("Please log in!");
         }
       });
-    }, [user]);
+    }, [setUser]);
   
     useEffect(() => {
-      if (!imageUrl)
+      if (!imageUrl) {
         fetch(`/images/${image}`)
           .then((data) => {
             return data.blob();
@@ -37,12 +37,13 @@ const CafeDetail = () => {
             setImageLoaded(true);
           })
           .catch((error) => console.error("Error:", error));
+      }
       return () => {
         if (imageUrl) {
           URL.revokeObjectURL(imageUrl);
         }
       };
-    }, [imageLoaded, imageUrl, image]);
+    }, [image, imageLoaded, imageUrl]);
   
   
     if(!cafe){

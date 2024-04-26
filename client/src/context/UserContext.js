@@ -26,37 +26,37 @@ const UserProvider = ({ children }) => {
     }}
 
     const updateCurrentUser = (user) => setUser(user)
-
-    const handleEditUser = (formData) => { 
-        try { 
-          fetch(`/users/${user.id}`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }).then((resp) => {
-            if (resp.ok) {
-              resp.json().then((user) => {
-                updateCurrentUser(user);
-              });
-            } else {
-              return resp
-                .json()
-                .then((errorObj) => toast.error(errorObj.message));
-            }
-          });
-        } catch (err) {
-          throw err;
-        }
-      }
+    
+      const handleEditUser = (formData) => { 
+        fetch(`/users/${user.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+        .then((resp) => {
+          if (!resp.ok) {
+            return resp.json().then((errorObj) => {
+              toast.error(errorObj.message);
+            });
+          }
+          return resp.json();
+        })
+        .then((user) => {
+          updateCurrentUser(user);
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error(err.message);
+        });
+      } 
     
     const handleDeleteUser = () => {
         fetch(`/users/${user.id}`, { method: "DELETE" })
           .then(logout);
       };
 
-    //Refresh
     useEffect(() => {
         fetch('/me')
         .then(resp => {
