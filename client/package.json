@@ -10,6 +10,8 @@
     "@webkrafters/react-observable-context": "^4.7.6",
     "formik": "^2.4.5",
     "react": "^18.2.0",
+    "react-bootstrap-buttons": "^1.0.0",
+    "react-bootstrap-modal": "^4.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.3.0",

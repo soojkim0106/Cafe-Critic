@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const CafeCard = ({cafe}) => {
-  
+
     const { id, name, image } = cafe;
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
     
+
     useEffect(() => {
         if (!imageUrl)
           fetch(`/images/${image}`)

@@ -11,15 +11,12 @@ const UserCard = () => {
     useContext(UserContext);
   const navigate = useNavigate();
   const { userId } = useParams();
-  const [showForm, setShowForm] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);
 
   const updateProfileSchema = object({
-    username: string().max(20, "Username must be max of 20 characters"),
-    email: string().email(),
+    username: string().max(20, "Username must be max of 20 characters").required(),
+    email: string().email().required(),
     current_password: string().required("Please enter your current password"),
-    new_password: string(),
   });
 
   useEffect(() => {
@@ -48,7 +45,7 @@ const UserCard = () => {
   const initialValues = {
     username: '',
     email: '',
-    new_password: '',
+    // new_password: '',
     current_password: '',
   };
 
@@ -56,11 +53,9 @@ const UserCard = () => {
     initialValues,
     validationSchema: updateProfileSchema,
     onSubmit: (formData) => {
-      if(showChangePassword && !formData.new_password){
-        toast.error("Please enter a new password");
-        return;
-      }
       handleEditUser(formData);
+      toast.success("Profile updated successfully");
+      window.location.reload();
     },
   });
 
@@ -96,7 +91,6 @@ const UserCard = () => {
           </div>
         ) : (
           <form onSubmit={formik.handleSubmit}>
-            {!showChangePassword && (
               <>
                 <label>Username</label>
                 <input
@@ -115,49 +109,24 @@ const UserCard = () => {
                   autoComplete="email"
                 />
               </>
-            )}
-            {showChangePassword && (
-              <>
-                <label>New Password</label>
-                <input
-                  type="password"
-                  placeholder="Enter New Password"
-                  name="new_password"
-                  value={formik.values.new_password}
-                  onChange={formik.handleChange}
-                  autoComplete="new-password"
-                />
-              </>
-            )}
             <label>Current Password</label>
             <input
               type="password"
-              placeholder="Current Password Required"
+              placeholder="Required"
               name="current_password"
               value={formik.values.current_password}
               onChange={formik.handleChange}
               autoComplete="current-password"
             />
             <button type="submit">Save</button>
-            {showChangePassword ? null : (
-              <button type="button" onClick={() => setIsEditMode(false)}>
-                {" "}
-                Cancel
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => setShowChangePassword(!showChangePassword)}
-            >
-              {showChangePassword ? "Cancel" : "Change Password"}
+            <button type="button" onClick={() => setIsEditMode(false)}> Cancel
             </button>
           </form>
         )}
-        <Toaster />
       </div>
       <div>
         <h1>Reviews</h1>
-        <ReviewCard />
+        <ReviewCard/>
       </div>
     </>
   );

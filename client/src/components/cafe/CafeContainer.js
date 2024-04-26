@@ -18,6 +18,7 @@ const CafeContainer = () => {
   //         }
   //     })
   // }, [])
+  
 
   useEffect(() => {
     fetch("/cafes")
@@ -28,16 +29,14 @@ const CafeContainer = () => {
         return resp.json().then((errorObj) => toast.error(errorObj.message));
       })
       .catch((err) => console.log(err));
-  }, []);
-
-  console.log(cafes)
-
+  }, [setUser]);
+  
   return (
     <div>
       Cafe Container
       {cafes.map((cafe) => {
         if (cafe) {
-          return <CafeCard key={cafe.id} {...cafe} />;
+          return <CafeCard key={cafe.id} cafe={cafe} />;
         }
         return null;
       })}

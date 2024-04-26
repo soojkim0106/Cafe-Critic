@@ -1,6 +1,6 @@
 import React from 'react'
-import {useEffect, useState, useContext} from 'react'
-import {Link, useLocation, useOutletContext } from 'react-router-dom'
+import { useEffect, useState, useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 import toast from "react-hot-toast";
 import ReviewCard from '../review/ReviewCard';
 import UserContext from '../../context/UserContext';
@@ -31,7 +31,6 @@ const CafeDetail = () => {
             return data.blob();
           })
           .then((blob) => {
-            // src.current = URL.createObjectURL(blob);
             const url = URL.createObjectURL(blob);
             setImageUrl(url);
             setImageLoaded(true);

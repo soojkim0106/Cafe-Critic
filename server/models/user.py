@@ -24,7 +24,7 @@ class User(db.Model, SerializerMixin):
     
     # serialization
     
-    serialize_rules = ("-password_hash", "-reviews.user")
+    serialize_rules = ("-_password_hash", "-reviews.user")
     
     def __repr__(self):
         return f"<User {self.id}: {self.username} | {self.email}>"
