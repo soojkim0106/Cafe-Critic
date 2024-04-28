@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
+import { object, string, number } from "yup";
+import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
 
 const ReviewCard = ({ review, setReviews, reviews }) => {
@@ -8,8 +10,31 @@ const ReviewCard = ({ review, setReviews, reviews }) => {
   const { user, setUser } = useContext(UserContext);
   const [isEditMode, setIsEditMode] = useState(false);
   const location = useLocation();
-
   const navigate = useNavigate();
+
+  const updateReview = object({
+    body: string().required("Review body is required"),
+    good_description: string().required("Good description is required"),
+    bad_description: string().required("Bad description is required"),
+    star_rating: number().required("Star rating is required"),
+  });
+
+  const initialValues = {
+    body: review.body,
+    good_description: review.good_description,
+    bad_description: review.bad_description,
+    star_rating: review.star_rating,
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: updateReview,
+    onSubmit: (formData) => {
+      handleEditReview(formData);
+      toast.success("Review updated successfully");
+      window.location.reload();
+    },
+  });
 
   useEffect(() => {
     if (!user) {
@@ -39,21 +64,93 @@ const ReviewCard = ({ review, setReviews, reviews }) => {
     }
   };
 
+  const handleEditReview = (formData) => {
+    fetch(`/reviews/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((resp) => {
+        if (!resp.ok) {
+          return resp.json().then((errorObj) => {
+            toast.error(errorObj.message);
+          });
+        }
+        return resp.json();
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div className="review-body">
-      <p>{body}</p>
-      <p>Pro: {good_description}</p>
-      <p>Con: {bad_description}</p>
-      <p>Star Rating (1~5): {star_rating}</p>
-      {location.pathname === '/profile' && (
-        <>
-          <button className="edit-button" onClick={() => setIsEditMode(true)}>
-            Edit
+      {isEditMode ? (
+        <form onSubmit={formik.handleSubmit}>
+          <>
+            <label>Body</label>
+            <input
+              type="text"
+              name="body"
+              value={formik.values.body}
+              onChange={formik.handleChange}
+              autoComplete="body"
+            />
+            <label>Good Description</label>
+            <input
+              type="text"
+              name="good_description"
+              value={formik.values.good_description}
+              onChange={formik.handleChange}
+              autoComplete="good_description"
+            />
+            <label>Bad Description</label>
+            <input
+              type="text"
+              name="bad_description"
+              value={formik.values.bad_description}
+              onChange={formik.handleChange}
+              autoComplete="bad_description"
+            />
+            <label>Star Rating</label>
+
+            <input
+              type="text"
+              name="star_rating"
+              value={formik.values.star_rating}
+              onChange={formik.handleChange}
+              autoComplete="star_rating"
+            />
+          </>
+          <button type="submit">Save</button>
+          <button type="button" onClick={() => setIsEditMode(false)}>
+            {" "}
+            Cancel
           </button>
-          <button className="edit-button" onClick={handleDeleteReview}>
-            Delete
-          </button>
-        </>
+        </form>
+      ) : (
+        <div>
+          <p>{body}</p>
+          <p>Pro: {good_description}</p>
+          <p>Con: {bad_description}</p>
+          <p>Star Rating (1~5): {star_rating}</p>
+          {location.pathname === "/profile" && (
+            <>
+              <button
+                className="edit-button"
+                onClick={() => setIsEditMode(true)}
+              >
+                Edit
+              </button>
+              <button className="edit-button" onClick={handleDeleteReview}>
+                Delete
+              </button>
+            </>
+          )}
+        </div>
       )}
     </div>
   );

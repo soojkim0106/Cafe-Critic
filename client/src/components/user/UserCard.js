@@ -56,10 +56,8 @@ const UserCard = () => {
           }
         })
         .then((userData) => {
-          console.log(userData);
           if (userData.reviews && Array.isArray(userData.reviews)) {
             const reviewId = userData.reviews.map((review) => {
-              console.log(review);
               return review.id;
             });
             Promise.all(
@@ -68,7 +66,6 @@ const UserCard = () => {
               )
             )
               .then((reviewData) => {
-                console.log(reviewData);
                 setReviewList(reviewData);
               })
               .catch((error) => {

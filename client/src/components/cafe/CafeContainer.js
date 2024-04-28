@@ -29,7 +29,6 @@ const CafeContainer = () => {
   
   return (
     <div>
-      Cafe Container
       {cafes && cafes.map((cafe) => (
         <CafeCard key={cafe.id} cafe={cafe} />
       ))}
