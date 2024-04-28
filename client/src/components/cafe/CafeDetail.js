@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom'
 import toast from "react-hot-toast";
 import ReviewCard from '../review/ReviewCard';
 import ReviewForm from '../review/ReviewForm';
+import ReviewContainer from '../review/ReviewContainer';
 
 const CafeDetail = () => {
     const [cafe, setCafe] = useState();
@@ -12,6 +13,8 @@ const CafeDetail = () => {
 
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [reviewList, setReviewList] = useState([]);
+
     
 
     useEffect(()=>{
@@ -25,7 +28,47 @@ const CafeDetail = () => {
       .catch(error => console.error(error))
     }, [cafeId])
 
-  
+    useEffect(() => {
+      if (cafe) {
+        fetch(`/cafes/${cafe.id}`)
+          .then((resp) => {
+            if (resp.ok) {
+              return resp.json();
+            } else {
+              throw new Error("Failed to fetch user data");
+            }
+          })
+          .then((cafeData) => {
+            console.log(cafeData);
+            if (cafeData.reviews && Array.isArray(cafeData.reviews)) {
+              const reviewId = cafeData.reviews.map((review) => {
+                console.log(review);
+                return review.id;
+              });
+              Promise.all(
+                reviewId.map((reviewId) =>
+                  fetch(`/reviews/${reviewId}`).then((resp) => resp.json())
+                )
+              )
+                .then((reviewData) => {
+                  console.log(reviewData);
+                  setReviewList(reviewData);
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            } else {
+              console.error(
+                "cafeData.review is not an array or is undefined"
+              );
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }, [cafe]);
+
     useEffect(() => {
       if (!imageUrl && cafe?.image) {
         fetch(`/images/${cafe.image}`)
@@ -63,9 +106,12 @@ const CafeDetail = () => {
             <p>Address: {address}</p>
         </div>
         <div>
-            Reviews:
+            Review:
             <ReviewForm/>
-            <ReviewCard/>
+            {reviewList.map((review) => (
+          <ReviewCard review={review} key={review.id}></ReviewCard>
+        ))}
+
         </div>
     </div>
   )

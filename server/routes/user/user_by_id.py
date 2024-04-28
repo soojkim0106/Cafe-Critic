@@ -24,3 +24,13 @@ class UserById(Resource):
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 404
+        
+    @login_required
+    def get(self,id):
+        try:
+            print(g.user)
+            print(user_schema.dump(g.user))
+            if g.user:
+                return user_schema.dump(g.user), 200
+        except Exception as e:
+            return {"error": str(e)}, 400

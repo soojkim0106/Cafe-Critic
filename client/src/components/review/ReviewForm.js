@@ -57,7 +57,10 @@ const ReviewForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ...formData,
+        body: formData.body,
+        good_description: formData.good_description,
+        bad_description: formData.bad_description,
+        star_rating: Number.parseInt(formData.star_rating),
         user_id: user.id,
         cafe_id: Number.parseInt(cafeId),
       }),

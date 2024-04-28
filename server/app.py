@@ -8,13 +8,6 @@ import os
 from config import app, db, api
 
 from models.user import User
-from models.review import Review
-from models.cafe import Cafe
-from models.comment import Comment
-
-from schemas.cafe_schema import cafe_schema, cafes_schema
-from schemas.comment_schema import comment_schema, comments_schema
-from schemas.review_schema import review_schema, reviews_schema
 from schemas.user_schema import user_schema, users_schema
 
 from config import app, db, api
@@ -67,6 +60,12 @@ def logout():
         db.session.rollback()
         raise e
 
+@app.route('/reviews/<int:id>/likes', methods=['GET'])
+def get_likes(id):
+    review = Reviews.query.get(id)
+    if review is None:
+        return ({'error': 'Review not found'}), 404
+    return ({'likes': review.likes}), 200
 
 api.add_resource(Users, "/users")
 api.add_resource(UserById,"/users/<int:id>")
@@ -75,6 +74,7 @@ api.add_resource(Cafes, "/cafes")
 api.add_resource(CafeById, "/cafes/<int:id>")
 api.add_resource(Reviews, "/reviews")
 api.add_resource(ReviewById, "/reviews/<int:id>")
+# api.add_resource(ReviewById, "/reviews/<int:id>/likes")
 api.add_resource(Comments, "/comments")
 api.add_resource(CommentById, "/comments/<int:id>")
 

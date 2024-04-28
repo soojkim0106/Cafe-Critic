@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const CafeCard = ({cafe}) => {
 
     const { id, name, image } = cafe;
-    console.log(cafe)
     const [imageUrl, setImageUrl] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
+    // const [reviewList, setReviewList] = useState([]);
 
     useEffect(() => {
         if (!imageUrl)
@@ -26,6 +26,7 @@ const CafeCard = ({cafe}) => {
             }
           };
         }, [imageUrl, image]);
+
 
   return (
     <div className='cafe-card'>

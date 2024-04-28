@@ -4,9 +4,10 @@ import toast, { Toaster } from "react-hot-toast";
 import { object, string } from "yup";
 import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
-import ReviewCard from "../review/ReviewCard";
 import {Modal} from "react-bootstrap-modal";
 import {Button} from 'react-bootstrap-buttons';
+import ReviewContainer from "../review/ReviewContainer";
+import ReviewCard from "../review/ReviewCard";
 
 const UserCard = () => {
   const { user, updateCurrentUser, handleEditUser, handleDeleteUser } =
@@ -15,6 +16,7 @@ const UserCard = () => {
   const { userId } = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
   const [show, setShow] = useState(false);
+  const [reviewList, setReviewList] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -35,11 +37,6 @@ const UserCard = () => {
               updateCurrentUser(user);
               return user;
             })
-            // .then((user) => {
-            //   if (user.id !== userId) {
-            //     navigate(`/users/${user.id}`);
-            //   }
-            // });
         } else {
           toast.error("Please log in");
           navigate("/registration");
@@ -47,6 +44,48 @@ const UserCard = () => {
       });
     }
   }, [userId, user, navigate, updateCurrentUser]);
+
+  useEffect(() => {
+    if (user) {
+      fetch(`/users/${user.id}`)
+        .then((resp) => {
+          if (resp.ok) {
+            return resp.json();
+          } else {
+            throw new Error("Failed to fetch user data");
+          }
+        })
+        .then((userData) => {
+          console.log(userData);
+          if (userData.reviews && Array.isArray(userData.reviews)) {
+            const reviewId = userData.reviews.map((review) => {
+              console.log(review);
+              return review.id;
+            });
+            Promise.all(
+              reviewId.map((reviewId) =>
+                fetch(`/reviews/${reviewId}`).then((resp) => resp.json())
+              )
+            )
+              .then((reviewData) => {
+                console.log(reviewData);
+                setReviewList(reviewData);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          } else {
+            console.error(
+              "userData.review is not an array or is undefined"
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [user]);
+
 
   const initialValues = {
     username: '',
@@ -130,7 +169,9 @@ const UserCard = () => {
       </div>
       <div>
         <h1>Reviews</h1>
-        <ReviewCard/>
+        {reviewList.map((review) => (
+          <ReviewCard review={review} key={review.id}></ReviewCard>
+        ))}
       </div>
     </>
   );

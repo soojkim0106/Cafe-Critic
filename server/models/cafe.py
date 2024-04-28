@@ -20,7 +20,7 @@ class Cafe(db.Model, SerializerMixin):
     
     # serialization
     
-    serialize_rules = ("-reviews.cafe",)
+    # serialize_rules = ("-reviews.cafe",)
     
     def __repr__(self):
         return f"<Cafe {self.id}: {self.name} | {self.address}>"

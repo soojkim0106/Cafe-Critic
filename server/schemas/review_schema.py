@@ -6,19 +6,18 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
         model = Review
         load_instance = True
         
-    cafe = fields.Nested(
-        "CafeSchema",
-        only=("id", "name"),
-        exclude=("user",),
-        many=True,
-    )
+    # cafe = fields.Nested(
+    #     "CafeSchema",
+    #     only=("id", "name"),
+    #     exclude=("user",),
+    # )
     
-    user = fields.Nested(
-        "UserSchema",
-        only=("id", "username", "email"),
-        exclude=("review",),
-        many=True,
-    )
+    # user = fields.Nested(
+    #     "UserSchema",
+    #     only=("id", "username", "email"),
+    #     exclude=("review",),
+    #     many=True,
+    # )
         
     # Ensure the field names match the actual field names in your model
     user_id = fields.Integer(required=True)
