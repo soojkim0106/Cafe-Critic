@@ -4,11 +4,14 @@ import toast from "react-hot-toast";
 import { object, string, number } from "yup";
 import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
+import CommentCard from "../comment/CommentCard";
+import CommentContainer from "../comment/CommentContainer";
 
-const ReviewCard = ({ review, setReviews, reviews }) => {
+const ReviewCard = ({ review }) => {
   const { id, body, star_rating, good_description, bad_description } = review;
   const { user, setUser } = useContext(UserContext);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -86,6 +89,10 @@ const ReviewCard = ({ review, setReviews, reviews }) => {
       });
   };
 
+  const handleToggleComments = () => {
+    setShowComments(!showComments);
+  };
+
   return (
     <div className="review-body">
       {isEditMode ? (
@@ -133,6 +140,7 @@ const ReviewCard = ({ review, setReviews, reviews }) => {
         </form>
       ) : (
         <div>
+          <p>Written by: {user.username}</p>
           <p>{body}</p>
           <p>Pro: {good_description}</p>
           <p>Con: {bad_description}</p>
@@ -152,6 +160,11 @@ const ReviewCard = ({ review, setReviews, reviews }) => {
           )}
         </div>
       )}
+      <div>
+        <h4>Comments:</h4>
+        <button onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button>
+      {showComments && <CommentContainer/>}
+      </div>
     </div>
   );
 };

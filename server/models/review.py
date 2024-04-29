@@ -71,7 +71,7 @@ class Review(db.Model, SerializerMixin):
         elif user_id < 1:
             raise ValueError(f"{user_id} has to be a positive integer")
         elif not db.session.get(User, user_id):
-            raise ValueError(f"{user_id} has to correspond to an existing production")
+            raise ValueError(f"{user_id} has to correspond to an existing user")
         return user_id
     
     @validates("cafe_id")
@@ -81,5 +81,5 @@ class Review(db.Model, SerializerMixin):
         elif cafe_id < 1:
             raise ValueError(f"{cafe_id} has to be a positive integer")
         elif not db.session.get(Cafe, cafe_id):
-            raise ValueError(f"{cafe_id} has to correspond to an existing production")
+            raise ValueError(f"{cafe_id} has to correspond to an existing cafe")
         return cafe_id

@@ -10,7 +10,7 @@ from config import app, db, api
 from models.user import User
 from schemas.user_schema import user_schema, users_schema
 
-from config import app, db, api
+from config import app, db, api, oauth, url_for, redirect, google
 from routes.auth.check_session import Me
 from routes.cafe.cafes import Cafes
 from routes.cafe.cafe_by_id import CafeById
@@ -20,6 +20,7 @@ from routes.review.reviews import Reviews
 from routes.review.review_by_id import ReviewById
 from routes.user.users import Users
 from routes.user.user_by_id import UserById
+# from routes.auth.google_auth import GoogleAuth
 
 
 @app.route("/signup", methods=["POST"])
@@ -60,12 +61,41 @@ def logout():
         db.session.rollback()
         raise e
 
-@app.route('/reviews/<int:id>/likes', methods=['GET'])
-def get_likes(id):
-    review = Reviews.query.get(id)
-    if review is None:
-        return ({'error': 'Review not found'}), 404
-    return ({'likes': review.likes}), 200
+# @app.route('/reviews/<int:id>/likes', methods=['GET'])
+# def get_likes(id):
+#     review = Reviews.query.get(id)
+#     if review is None:
+#         return ({'error': 'Review not found'}), 404
+#     return ({'likes': review.likes}), 200
+@app.route('/googleauth')
+def googleauth():
+    google = oauth.create_client('google')
+    redirect_uri = url_for('authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+@app.route('/authorize')
+def authorize():
+    google = oauth.create_client('google')  # create the google oauth client
+    token = google.authorize_access_token()  # Access token from google (needed to get user info)
+    resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
+    user_info = resp.json()
+    user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+    session['username'] = user_info['username']
+    session['email'] = user_info['email']
+    return redirect('/')
+
+@app.route("/")
+def hello_world():
+    email = dict(session).get('email')
+    username = dict(session).get('username')
+    return f"Hello, {email} {id}!"
+
+@app.route('/googleauthlogout')
+def googleauthlogout():
+    for key in list(session.keys()):
+        session.pop(key)
+    return redirect('/')
+
 
 api.add_resource(Users, "/users")
 api.add_resource(UserById,"/users/<int:id>")

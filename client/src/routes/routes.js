@@ -3,9 +3,11 @@ import App from '../App'
 import Error from '../components/errors/Error'
 import UserCard from '../components/user/UserCard'
 import Registration from '../components/auth/registration'
-import ReviewDetail from '../components/review/ReviewDetail'
 import CafeContainer from '../components/cafe/CafeContainer'
 import CafeDetail from '../components/cafe/CafeDetail'
+import GoogleAuth from '../components/auth/googleauth'
+import ReviewCard from '../components/review/ReviewCard'
+import CommentCard from '../components/comment/CommentCard'
 
 export const router = createBrowserRouter([
     {
@@ -32,11 +34,21 @@ export const router = createBrowserRouter([
             },
             {
                 path: "reviews/:reviewId",
-                element: <ReviewDetail />
+                element: <ReviewCard />
             },
             {
                 path:"cafes/:cafeId",
                 element: <CafeDetail />
+            }
+            ,
+            {
+                path:"googleauth",
+                element: <GoogleAuth />
+            }
+            ,
+            {
+                path:"comments/:commentId",
+                element: <CommentCard />
             }
         ]
     }

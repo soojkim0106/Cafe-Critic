@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { object, string } from "yup";
 import { Form, Field, useFormik, Formik } from "formik";
@@ -46,12 +46,19 @@ const initialValues = {
 const Registration = () => {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
-  const { login } = useContext(UserContext);
+  const { login, setUser } = useContext(UserContext);
   const requestedUrl = isLogin ? "/login" : "/signup";
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 
   const handleIsLogin = () => {
     setIsLogin(!isLogin);
   };
+
+  const handleCallbackResponse = (response) => {
+    navigate("/googleauth")
+  }
+
 
   const formik = useFormik({
     initialValues,
@@ -180,6 +187,7 @@ const Registration = () => {
           )}
         </Form>
       </Formik>
+      <button onClick={handleCallbackResponse}>GoogleLogin</button>
     </div>
   );
 };

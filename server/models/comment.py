@@ -45,15 +45,15 @@ class Comment(db.Model, SerializerMixin):
         elif user_id < 1:
             raise ValueError(f"{user_id} has to be a positive integer")
         elif not db.session.get(User, user_id):
-            raise ValueError(f"{user_id} has to correspond to an existing production")
+            raise ValueError(f"{user_id} has to correspond to an existing user")
         return user_id
     
     @validates("review_id")
     def validate_review_id(self, _, review_id):
         if not isinstance(review_id, int):
-            raise TypeError("User ids must be an integer")
+            raise TypeError("Review ids must be an integer")
         elif review_id < 1:
             raise ValueError(f"{review_id} has to be a positive integer")
         elif not db.session.get(Review, review_id):
-            raise ValueError(f"{review_id} has to correspond to an existing production")
+            raise ValueError(f"{review_id} has to correspond to an existing review")
         return review_id

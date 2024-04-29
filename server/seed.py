@@ -19,6 +19,20 @@ with app.app_context():
     Cafe.query.delete()
     print("Deleting initial tables...")
     
+    u1 = User(
+        username="test",
+        email="test@email.com",
+        _password_hash="this1Spassword"
+    )
+    u2 = User(
+        username="sooj",
+        email="sooj@email.com",
+        _password_hash="this1Spassword"
+    )
+    users = [u1, u2]
+    db.session.add_all(users)
+    db.session.commit()
+    
     c1 = Cafe(
         name="The Mill",
         address="736 Divisadero St, San Francisco, CA 94117",
@@ -70,6 +84,14 @@ with app.app_context():
     )
     
     db.session.add(r1)
+    db.session.commit()
+    
+    c1 = Comment(
+        body="I agree!",
+        review_id=1,
+        user_id=2
+    )
+    db.session.add(c1)
     db.session.commit()
     
     print("Completed seeding...")
