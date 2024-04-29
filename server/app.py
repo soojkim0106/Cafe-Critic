@@ -80,15 +80,15 @@ def authorize():
     resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
-    session['username'] = user_info['username']
+    # session['username'] = user_info['username']
     session['email'] = user_info['email']
     return redirect('/')
 
 @app.route("/")
 def hello_world():
     email = dict(session).get('email')
-    username = dict(session).get('username')
-    return f"Hello, {email} {id}!"
+    # username = dict(session).get('username')
+    return f"Hello, {email}!"
 
 @app.route('/googleauthlogout')
 def googleauthlogout():

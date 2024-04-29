@@ -1,15 +1,17 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { object, string, number } from "yup";
 import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
 import CommentCard from "../comment/CommentCard";
 import CommentContainer from "../comment/CommentContainer";
+import CommentForm from "../comment/CommentForm";
 
 const ReviewCard = ({ review }) => {
   const { id, body, star_rating, good_description, bad_description } = review;
   const { user, setUser } = useContext(UserContext);
+  const {cafeId} = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const location = useLocation();
@@ -140,7 +142,7 @@ const ReviewCard = ({ review }) => {
         </form>
       ) : (
         <div>
-          <p>Written by: {user.username}</p>
+          {/* <p>Written by: {user.username}</p> */}
           <p>{body}</p>
           <p>Pro: {good_description}</p>
           <p>Con: {bad_description}</p>
@@ -161,9 +163,14 @@ const ReviewCard = ({ review }) => {
         </div>
       )}
       <div>
+      {location.pathname === `/cafes/${cafeId}` && (
+        <>
+        <CommentForm reviewId={review.id}/>
         <h4>Comments:</h4>
         <button onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button>
-      {showComments && <CommentContainer/>}
+        {showComments && <CommentContainer/>}
+        </>
+      )}
       </div>
     </div>
   );

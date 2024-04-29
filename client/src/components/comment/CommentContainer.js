@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/UserContext";
 import CommentCard from "./CommentCard";
+import { object, string, number } from "yup";
+import { useFormik, Formik } from "formik";
 
 const CommentContainer = () => {
     const [comments, setComments] = useState([]);
@@ -25,6 +27,7 @@ const CommentContainer = () => {
           })
           .catch((err) => console.log(err));
       }, [setUser]);
+
 
   return (
     <div>

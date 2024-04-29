@@ -7,14 +7,16 @@ class CafeSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         exclude = ["created_at", "updated_at"]
         
-#     user = fields.Nested(
-#         "UserSchema",
-#         only=("id", "username", "email"),
-# )
+    users = fields.Nested(
+        "UserSchema",
+        only=("id", "username"),
+        many=True,
+)
     
     reviews = fields.Nested(
         "ReviewSchema",
         many=True,
+        only=("id", "body"),
     )
         
     name = fields.String(required=True, validate=validate.Length(min=2,error="Cafe name must be more than 2 characters"))

@@ -12,7 +12,7 @@ class Users(Resource):
     def post(self):
         try:
             data = (
-                request.get_json()
+                request.json
             )
             user = user_schema.load(
                 data

@@ -8,8 +8,21 @@ class CommentSchema(ma.SQLAlchemyAutoSchema):
         model = Comment
         load_instance = True
         exclude = ["created_at", "updated_at"]
+    
+    review = fields.Nested(
+        "ReviewSchema",
+        only=("id", "body"),
+    )
+    
+    user = fields.Nested(
+        "UserSchema",
+        only=("id", "username"),
+    )
         
     body = fields.String(required=True, validate=validate.Length(min=1,error="You cannot leave comment with only 1 character."))
+    user_id = fields.Integer(required=True)
+    review_id = fields.Integer(required=True)
+
 
 #!For ONE cafe
 comment_schema = CommentSchema()

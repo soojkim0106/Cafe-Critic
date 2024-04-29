@@ -24,7 +24,7 @@ class Comment(db.Model, SerializerMixin):
     
     # serialization
     
-    serialize_rules = ("-user.comments", )
+    serialize_rules = ("-user.comments", "-review.comments")
     
     def __repr__(self):
         return f"<Comment {self.id}: {self.body} | written by: {self.user_id} for review {self.review_id}>"

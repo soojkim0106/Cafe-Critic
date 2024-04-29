@@ -24,7 +24,7 @@ class User(db.Model, SerializerMixin):
     
     # serialization
     
-    serialize_rules = ("-_password_hash", "-reviews.user", "-reviews.cafe.user")
+    serialize_rules = ("-_password_hash", "-reviews.user", "-comments.user", )
     
     def __repr__(self):
         return f"<User {self.id}: {self.username} | {self.email}>"
@@ -36,7 +36,7 @@ class User(db.Model, SerializerMixin):
     
     @password_hash.setter
     def password_hash(self, new_password):
-        if not len(new_password) >= 5:
+        if len(new_password) < 5:
             raise ValueError("Password must be at least 5 characters")
         elif not re.search(r"[$&+,:;=?@#|'<>.-^*()%!]",new_password):
             raise ValueError('Password must contain special characters')

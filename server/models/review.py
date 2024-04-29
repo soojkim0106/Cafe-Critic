@@ -28,7 +28,7 @@ class Review(db.Model, SerializerMixin):
     comments = db.relationship("Comment", back_populates="review", cascade="all, delete-orphan")
 
     # serialization
-    serialize_rules = ("-user.reviews", "-cafe.reviews",)
+    serialize_rules = ("-user.reviews", "-cafe.reviews", "-comments.review")
     
     # model validation
     

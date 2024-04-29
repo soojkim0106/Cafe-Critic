@@ -11,12 +11,20 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         
     cafes = fields.Nested(
         "CafeSchema",
-        only=("id", "name"),
+        only=("id","name","address"),
+        many=True,
     )
     
     reviews = fields.Nested(
         "ReviewSchema",
         many=True,
+        only=("id","body"),
+    )
+    
+    comments = fields.Nested(
+        "CommentSchema",
+        many=True,
+        only=("id","body"),
     )
     
     username = fields.String(required=True, validate=validate.Length(min=2,max=20))
