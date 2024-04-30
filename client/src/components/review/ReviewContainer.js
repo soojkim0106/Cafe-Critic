@@ -29,7 +29,7 @@ const ReviewContainer = () => {
   return (
     <div>ReviewContainer
         {reviews && reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} reviews={reviews} setReviews={setReviews}/>
+            <ReviewCard key={review.id} review={review} reviews={reviews} setReviews={setReviews} user={user}/>
         ))}
     </div>
   )

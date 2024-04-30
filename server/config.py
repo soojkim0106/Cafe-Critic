@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(1500)
+
 from flask import Flask, url_for, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate

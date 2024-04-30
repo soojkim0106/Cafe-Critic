@@ -1,5 +1,5 @@
 from .. import (
-    Resource, db, session, User, login_required
+    Resource, db, session, User, login_required, user_schema
 )
 
 class Me(Resource):
@@ -9,6 +9,6 @@ class Me(Resource):
             if "user_id" not in session:
                 return {"message": "Please log in first!"}, 400
             user = db.session.get(User, session.get("user_id"))
-            return user.to_dict(), 200
+            return user_schema.dump(user), 200
         except Exception as e:
             return {"error": str(e)}

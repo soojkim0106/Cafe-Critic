@@ -44,7 +44,7 @@ def login():
         user = User.query.filter_by(username=data.get("username")).first()
         if user and user.authenticate(data.get("password_hash")):
             session["user_id"] = user.id
-            return user.to_dict(), 200
+            return user_schema.dump(user), 200
         else:
             return {"message": "You have the wrong username or password"}, 422
         

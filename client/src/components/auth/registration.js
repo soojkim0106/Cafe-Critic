@@ -46,10 +46,15 @@ const initialValues = {
 const Registration = () => {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
-  const { login, setUser } = useContext(UserContext);
+  const { user, login, setUser } = useContext(UserContext);
   const requestedUrl = isLogin ? "/login" : "/signup";
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
+  useEffect(() => {
+    if(user){
+      navigate("/cafes")
+    }
+  },[user, navigate])
 
   const handleIsLogin = () => {
     setIsLogin(!isLogin);

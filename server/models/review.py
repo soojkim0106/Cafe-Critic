@@ -1,11 +1,10 @@
 from .user import User
 from .cafe import Cafe
 
-from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from config import db
 
-class Review(db.Model, SerializerMixin):
+class Review(db.Model):
     __tablename__ = "reviews"
     
     __table_args__ = (db.UniqueConstraint('cafe_id', 'user_id',),)
@@ -17,7 +16,6 @@ class Review(db.Model, SerializerMixin):
     good_description = db.Column(db.String, nullable=False)
     bad_description = db.Column(db.String, nullable=False)
     star_rating = db.Column(db.Integer, nullable=False, default=0)
-    liked = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
@@ -28,7 +26,7 @@ class Review(db.Model, SerializerMixin):
     comments = db.relationship("Comment", back_populates="review", cascade="all, delete-orphan")
 
     # serialization
-    serialize_rules = ("-user.reviews", "-cafe.reviews", "-comments.review")
+    # serialize_rules = ("-user.reviews", "-cafe.reviews", "-comments.review")
     
     # model validation
     

@@ -11,7 +11,7 @@ const GoogleAuth = () => {
 
   return (
     <div>
-        <button onCLick={handleGlogin}>Login with Google</button>
+        <button onClick={handleGlogin}>Login with Google</button>
     </div>
   )
 }

@@ -11,11 +11,11 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
         only=("id", "name"),
     )
     
-    user = fields.Nested(
-        "UserSchema",
-        only=("id", "username",),
-        many=True,
-    )
+    # user = fields.Nested(
+    #     "UserSchema",
+    #     only=("id", "username",),
+    #     many=True,
+    # )
     comments = fields.Nested(
         "CommentSchema",
         many=True,

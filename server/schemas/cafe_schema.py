@@ -7,11 +7,11 @@ class CafeSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         exclude = ["created_at", "updated_at"]
         
-    users = fields.Nested(
-        "UserSchema",
-        only=("id", "username"),
-        many=True,
-)
+#     users = fields.Nested(
+#         "UserSchema",
+#         only=("id", "username"),
+#         many=True,
+# )
     
     reviews = fields.Nested(
         "ReviewSchema",

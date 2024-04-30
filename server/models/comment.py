@@ -1,13 +1,12 @@
 from .user import User
 from .review import Review
 
-from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 from config import db
 
-class Comment(db.Model, SerializerMixin):
+class Comment(db.Model):
     __tablename__ = "comments"
     
     id = db.Column(db.Integer, primary_key = True)
@@ -24,7 +23,7 @@ class Comment(db.Model, SerializerMixin):
     
     # serialization
     
-    serialize_rules = ("-user.comments", "-review.comments")
+    # serialize_rules = ("-user.comments", "-review.comments")
     
     def __repr__(self):
         return f"<Comment {self.id}: {self.body} | written by: {self.user_id} for review {self.review_id}>"
@@ -34,7 +33,7 @@ class Comment(db.Model, SerializerMixin):
     def validate_body(self, _, body):
         if not isinstance(body, str):
             raise TypeError("Body must be a string!")
-        elif not (150 > len(body)):
+        elif len(body) >= 150:
             raise ValueError("Body cannot be longer than 150 characters")
         return body
     
