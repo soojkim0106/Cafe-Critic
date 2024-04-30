@@ -7,7 +7,7 @@ class CommentSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Comment
         load_instance = True
-        fields = ["id", "body", "user_id", "review_id", "created_at", "updated_at"]
+        fields = ["id", "body", "user_id", "review_id", "username", "created_at", "updated_at"]
     
     review = fields.Nested(
         "ReviewSchema",

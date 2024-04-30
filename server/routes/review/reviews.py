@@ -27,9 +27,9 @@ class Reviews(Resource):
             db.session.rollback()
             return {"message": str(e)}, 422
     
-class ReviewLikes(Resource):
-    def get(self, id):
-        review = Review.query.get(id)
-        if review is None:
-            return {'error': 'Review not found'}, 404
-        return {'likes': review.likes}, 200
+# class ReviewLikes(Resource):
+#     def get(self, id):
+#         review = Review.query.get(id)
+#         if review is None:
+#             return {'error': 'Review not found'}, 404
+#         return {'likes': review.likes}, 200

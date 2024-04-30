@@ -31,6 +31,7 @@ const ReviewForm = () => {
     good_description: "",
     bad_description: "",
     star_rating: "",
+    // username: user.username,
     // cafe_id: cafeId,
     // user_id: user.id,
   };
@@ -50,6 +51,7 @@ const ReviewForm = () => {
     console.log(`formData: ${formData}`)
     console.log(`userId: ${id}`)
     console.log(`cafeId: ${cafeId}`)
+    console.log(user.username)
 
     fetch("/reviews", {
       method: "POST",
@@ -63,6 +65,7 @@ const ReviewForm = () => {
         star_rating: Number.parseInt(formData.star_rating),
         user_id: user.id,
         cafe_id: Number.parseInt(cafeId),
+        username: user.username,
       }),
     })
     .then((resp) => {
@@ -135,7 +138,7 @@ const ReviewForm = () => {
             <Field
               type="integer"
               name="star_rating"
-              placeholder="star rating"
+              placeholder="rating: 1-5 stars"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.star_rating}

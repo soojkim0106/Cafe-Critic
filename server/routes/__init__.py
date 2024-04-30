@@ -23,16 +23,13 @@ def not_found(error):
 
 @app.before_request
 def before_request():
-    path_dict = {"userbyid": User, "cafebyid": Cafe, "reviewbyid": Review}
+    path_dict = {"userbyid": User, "cafebyid": Cafe, "reviewbyid": Review, "commentbyid": Comment}
     if request.endpoint in path_dict:
-
         id = request.view_args.get("id")
         record = db.session.get(path_dict.get(request.endpoint), id)
-        key_name = "user" if request.endpoint == "userbyid" else "cafe"
-        if request.endpoint == 'commentbyid':
-            key_name = "comment"
-        elif request.endpoint == 'reviewbyid':
-            key_name = "review"
+        key_name_dict = {"userbyid": "user", "cafebyid": "cafe", "reviewbyid": "review", "commentbyid": "comment"}
+
+        key_name = key_name_dict.get(request.endpoint)
         setattr(g, key_name, record)
         
 def login_required(func):

@@ -9,7 +9,7 @@ import CommentContainer from "../comment/CommentContainer";
 import CommentForm from "../comment/CommentForm";
 
 const ReviewCard = ({ review }) => {
-  const { id, body, star_rating, good_description, bad_description } = review;
+  const { id, body, star_rating, good_description, bad_description, username } = review;
   const { user, setUser } = useContext(UserContext);
   const {cafeId} = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -142,10 +142,10 @@ const ReviewCard = ({ review }) => {
         </form>
       ) : (
         <div>
-          {/* <p>Written by: {user.username}</p> */}
-          <p>{body}</p>
-          <p>Pro: {good_description}</p>
-          <p>Con: {bad_description}</p>
+          <p>Written by: {username}</p>
+          <p>Description: {body}</p>
+          <p>Tell me the good stuff: {good_description}</p>
+          <p>What was bad about it: {bad_description}</p>
           <p>Star Rating (1~5): {star_rating}</p>
           {location.pathname === "/profile" && (
             <>

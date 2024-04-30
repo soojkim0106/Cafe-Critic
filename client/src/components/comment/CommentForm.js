@@ -18,6 +18,7 @@ export const CommentForm = ({reviewId}) => {
     body: "",
     user_id: id,
     review_id: reviewId,
+    username: user.username,
   };
 
   const formik = useFormik({
@@ -30,11 +31,6 @@ export const CommentForm = ({reviewId}) => {
   });
 
   const handlePostComment = (formData) => {
-    console.log(`formData: ${formData}`);
-    console.log(`userId: ${id}`);
-    console.log(`reviewId: ${reviewId}`);
-
-    debugger
     fetch('/comments', {
       method: "POST",
       headers: {
@@ -44,6 +40,7 @@ export const CommentForm = ({reviewId}) => {
         body: formData.body,
         user_id: user.id,
         review_id: Number.parseInt(reviewId),
+        username: user.username,
       }),
     })
     .then((resp) => {

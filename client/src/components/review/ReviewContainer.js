@@ -27,7 +27,7 @@ const ReviewContainer = () => {
       }, [setUser]);
       
   return (
-    <div>ReviewContainer
+    <div>
         {reviews && reviews.map((review) => (
             <ReviewCard key={review.id} review={review} reviews={reviews} setReviews={setReviews} user={user}/>
         ))}

@@ -29,9 +29,10 @@ const CommentContainer = () => {
       }, [setUser]);
 
 
+
   return (
     <div>
-        {comments && comments.map((comment) => (<CommentCard key={comment.id} comment={comment} comments={comments} setComments={setComments}/>))}
+        {comments && comments.map((comment) => (<CommentCard key={comment.id} comment={comment} comments={comments} setComments={setComments} user={user} />))}
     </div>
   )
 }

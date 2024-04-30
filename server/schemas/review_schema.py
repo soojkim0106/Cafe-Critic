@@ -5,6 +5,7 @@ class ReviewSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Review
         load_instance = True
+        fields=["id", "user_id", "cafe_id", "body", "star_rating", "good_description", "bad_description", "username", "created_at", "updated_at"]
         
     cafe = fields.Nested(
         "CafeSchema",

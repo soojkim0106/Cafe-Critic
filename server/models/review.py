@@ -12,6 +12,7 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     cafe_id = db.Column(db.Integer, db.ForeignKey("cafes.id"))
+    username = db.Column(db.String)
     body = db.Column(db.String, nullable=False)
     good_description = db.Column(db.String, nullable=False)
     bad_description = db.Column(db.String, nullable=False)

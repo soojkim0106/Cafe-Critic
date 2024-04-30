@@ -6,8 +6,8 @@ import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
 import {Modal} from "react-bootstrap-modal";
 import {Button} from 'react-bootstrap-buttons';
-import ReviewContainer from "../review/ReviewContainer";
 import ReviewCard from "../review/ReviewCard";
+import CommentCard from "../comment/CommentCard";
 
 const UserCard = () => {
   const { user, updateCurrentUser, handleEditUser, handleDeleteUser } =
@@ -17,6 +17,7 @@ const UserCard = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [show, setShow] = useState(false);
   const [reviewList, setReviewList] = useState([]);
+  const [commentList, setCommentList] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -74,6 +75,28 @@ const UserCard = () => {
           } else {
             console.error(
               "userData.review is not an array or is undefined"
+            );
+          }
+        })
+        .then((userData) => {
+          if (userData.comments && Array.isArray(userData.comments)) {
+            const commentId = userData.comments.map((comment) => {
+              return comment.id;
+            });
+            Promise.all(
+              commentId.map((commentId) =>
+                fetch(`/comments/${commentId}`).then((resp) => resp.json())
+              )
+            )
+              .then((commentData) => {
+                setReviewList(commentData);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          } else {
+            console.error(
+              "userData.comment is not an array or is undefined"
             );
           }
         })
@@ -170,6 +193,12 @@ const UserCard = () => {
           <ReviewCard review={review} key={review.id}></ReviewCard>
         ))}
       </div>
+      {/* <div>
+        <h1>Comments</h1>
+        {commentList.map((comment) => (
+          <CommentCard comment={comment} key={comment.id}></CommentCard>
+        ))}
+      </div> */}
     </>
   );
 };

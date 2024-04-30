@@ -15,6 +15,7 @@ class Comment(db.Model):
     review_id = db.Column(db.Integer, db.ForeignKey("reviews.id"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    username = db.Column(db.String)
 
     # relationship
     
