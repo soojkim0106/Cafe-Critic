@@ -31,11 +31,14 @@ class GoogleAuth(Resource):
                     user_data = {
                         "username": id_info.get("name"),
                         "email": id_info.get("email"),
+                        "password_hash": "Passwordtofix1!",
+                        "current_password": "Passwordtofix1!",
                     }
 
                     user_schema.validate(user_data)
                     new_user = user_schema.load(user_data)
-                    new_user.password_hash = "passwordtofix"
+                    # new_user.password_hash = "passwordtofix"
+                    # new_user.current_password = "passwordtofix"
                     db.session.add(new_user)
                     db.session.commit()
 

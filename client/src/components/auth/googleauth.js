@@ -26,9 +26,9 @@ const GoogleAuth = () => {
   }, [])
 
   const handleCallbackResponse = (response) => {
-    // console.log("Encoded JWT ID token: " + response.credential);
-    // const userObject = jwtDecode(response.credential);
-    // console.log(userObject)
+    console.log("Encoded JWT ID token: " + response.credential);
+    const userObject = jwtDecode(response.credential);
+    console.log(userObject)
     fetch('/googleauth', {
       method: 'POST',
       headers: {
@@ -36,9 +36,7 @@ const GoogleAuth = () => {
       },
       body: JSON.stringify({id_token: response.credential})
     })
-    .then(response => {
-      debugger
-      response.json()})
+    .then(response => response.json())
     .then(user => {
       login(user)
       navigate(`/cafes`)
