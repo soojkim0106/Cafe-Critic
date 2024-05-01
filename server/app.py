@@ -20,6 +20,7 @@ from routes.review.reviews import Reviews
 from routes.review.review_by_id import ReviewById
 from routes.user.users import Users
 from routes.user.user_by_id import UserById
+from routes.auth.google_auth import GoogleAuth
 # from routes.auth.google_auth import GoogleAuth
 
 
@@ -67,11 +68,11 @@ def logout():
 #     if review is None:
 #         return ({'error': 'Review not found'}), 404
 #     return ({'likes': review.likes}), 200
-@app.route('/googleauth')
-def googleauth():
-    google = oauth.create_client('google')
-    redirect_uri = url_for('authorize', _external=True)
-    return google.authorize_redirect(redirect_uri)
+# @app.route('/googleauth')
+# def googleauth():
+#     google = oauth.create_client('google')
+#     redirect_uri = url_for('authorize', _external=True)
+#     return google.authorize_redirect(redirect_uri)
 
 @app.route('/authorize')
 def authorize():
@@ -107,6 +108,7 @@ api.add_resource(ReviewById, "/reviews/<int:id>")
 # api.add_resource(ReviewById, "/reviews/<int:id>/likes")
 api.add_resource(Comments, "/comments")
 api.add_resource(CommentById, "/comments/<int:id>")
+api.add_resource(GoogleAuth, "/googleauth")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -1,30 +1,17 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import { UserContext } from "../../context/UserContext";
 
 
 const GoogleAuth = () => {
   const requestedUrl = "/googleauth";
-  
-  const [ guser, setGuser ] = useState({});
+  const navigate = useNavigate();
+  const { user, login, logout } = useContext(UserContext);
 
   const handleGlogin = () => {
     fetch(requestedUrl);
   };
-  
-  const handleCallbackResponse = (response) => {
-    console.log("Encoded JWT ID token: " + response.credential);
-    const userObject = jwtDecode(response.credential);
-    console.log(userObject)
-    setGuser(userObject);
-    document.getElementById("signInDiv").hidden = true;
-  }
-
-  const handleSignOut = () => {
-    setGuser({})
-    document.getElementById("signInDiv").hidden = false;
-  }
-
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
@@ -38,19 +25,37 @@ const GoogleAuth = () => {
     google.accounts.id.prompt()
   }, [])
 
+  const handleCallbackResponse = (response) => {
+    // console.log("Encoded JWT ID token: " + response.credential);
+    // const userObject = jwtDecode(response.credential);
+    // console.log(userObject)
+    fetch('/googleauth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id_token: response.credential})
+    })
+    .then(response => {
+      debugger
+      response.json()})
+    .then(user => {
+      login(user)
+      navigate(`/cafes`)
+    })
+    .catch(error => console.error(error))
+    // document.getElementById("signInDiv").hidden = true;
+  }
+
+  // const handleSignOut = () => {
+  //   document.getElementById("signInDiv").hidden = false;
+  // }
+
+
   return (
     <div>
       <div id="signInDiv"></div>
-      {
-        Object.keys(guser).length !== 0 && 
-      <button onClick={ (e) => handleSignOut(e)}>Sign Out</button>
-      }
-      { guser && 
-        <div>
-          <img src={guser.picture} alt={guser.name} />
-          <h3>{guser.name}</h3>
-        </div>
-      }
+
     </div>
   );
 };
