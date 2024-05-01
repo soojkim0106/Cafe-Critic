@@ -5,8 +5,6 @@ import toast from "react-hot-toast";
 const CommentCard = ({ comment, user }) => {
   const { id, body, user_id, username } = comment;
 
-  console.log(comment)
-
   const handleDeleteComment = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your comment?"
@@ -25,6 +23,9 @@ const CommentCard = ({ comment, user }) => {
         })
         .then(() => {
           toast.success("Comment deleted successfully");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
         })
         .catch((err) => {
           console.error(err);

@@ -25,6 +25,8 @@ const ReviewContainer = () => {
           })
           .catch((err) => console.log(err));
       }, [setUser]);
+
+      console.log(reviews)
       
   return (
     <div>

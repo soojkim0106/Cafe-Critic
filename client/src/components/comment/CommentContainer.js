@@ -6,7 +6,7 @@ import CommentCard from "./CommentCard";
 import { object, string, number } from "yup";
 import { useFormik, Formik } from "formik";
 
-const CommentContainer = () => {
+const CommentContainer = ({reviewId}) => {
     const [comments, setComments] = useState([]);
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const CommentContainer = () => {
             return resp.json().then((errorObj) => toast.error(errorObj.message));
           })
           .catch((err) => console.log(err));
-      }, [setUser]);
+      }, []);
 
 
 

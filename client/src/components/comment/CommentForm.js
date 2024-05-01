@@ -27,6 +27,9 @@ export const CommentForm = ({reviewId}) => {
     onSubmit: (formData) => {
       handlePostComment(formData);
       toast.success("Comment posted successfully");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     },
   });
 

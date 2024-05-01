@@ -40,6 +40,7 @@ const ReviewCard = ({ review }) => {
       window.location.reload();
     },
   });
+  
 
   useEffect(() => {
     if (!user) {
@@ -62,6 +63,9 @@ const ReviewCard = ({ review }) => {
             });
           }
         })
+        .then(
+          toast.success("Review deleted successfully"),
+        )
         .catch((err) => {
           console.error(err);
           toast.error(err.message);

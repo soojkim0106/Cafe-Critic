@@ -11,12 +11,12 @@ const ReviewForm = () => {
   const [show, setShow] = useState(false);
   const { cafeId } = useParams();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
-  const updateReview = (updatedReview) => {
-    setUser({...user, reviews: updatedReview})
-  }
+  // const updateReview = (updatedReview) => {
+  //   setUser({...user, reviews: updatedReview})
+  // }
 
   const reviewSchema = object({
     body: string().required("Review body is required"),

@@ -78,31 +78,6 @@ const UserCard = () => {
             );
           }
         })
-        .then((userData) => {
-          if (userData.comments && Array.isArray(userData.comments)) {
-            const commentId = userData.comments.map((comment) => {
-              return comment.id;
-            });
-            Promise.all(
-              commentId.map((commentId) =>
-                fetch(`/comments/${commentId}`).then((resp) => resp.json())
-              )
-            )
-              .then((commentData) => {
-                setReviewList(commentData);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          } else {
-            console.error(
-              "userData.comment is not an array or is undefined"
-            );
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     }
   }, [user]);
 
