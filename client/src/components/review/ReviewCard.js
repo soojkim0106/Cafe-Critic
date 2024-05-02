@@ -159,7 +159,7 @@ const ReviewCard = ({ review }) => {
         </form>
       ) : (
         <div>
-          <p>Written by: {username}</p>
+          <p><strong>Written by</strong>: {review.username}</p>
           <p><strong>Description</strong>: {body}</p>
           <p><strong>Tell me the good stuff</strong>: {good_description}</p>
           <p><strong>What was bad about it</strong>: {bad_description}</p>

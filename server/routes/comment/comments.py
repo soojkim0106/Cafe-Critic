@@ -4,19 +4,6 @@ class Comments(Resource):
     @login_required
     def post(self):
         try:
-        #     data = request.json
-        #     comment_schema.validate(data)
-        #     data['user_id'] = g.user['id']
-        #     data['review_id'] = data['review_id']
-        #     data['body'] = data['body']
-        #     comment = comment_schema.load(data)
-        #     db.session.add(comment)
-        #     db.session.commit()
-        #     serialized_comment = comment_schema.dump(comment)
-        #     return serialized_comment, 201
-        # except Exception as e:
-        #     db.session.rollback()
-        #     return {"message": str(e)}, 422
         
             data = request.json
             comment = comment_schema.load(data)

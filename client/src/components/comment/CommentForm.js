@@ -46,7 +46,7 @@ export const CommentForm = ({reviewId}) => {
         username: user.username,
       }),
     })
-    .then((resp) => { {debugger}
+    .then((resp) => {
       if (resp.ok) {
         return resp.json();
       } else {

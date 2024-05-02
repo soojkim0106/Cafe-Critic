@@ -16,6 +16,8 @@ const ReviewForm = ({cafeId}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+ console.log(user.username)
+
   const reviewSchema = object({
     body: string().required("Review body is required"),
     good_description: string().required("Good description is required"),
@@ -28,7 +30,7 @@ const ReviewForm = ({cafeId}) => {
     good_description: "",
     bad_description: "",
     star_rating: "",
-    // username: user.username,
+    username: user.username,
     // user_id: user.id,
     cafe_id: cafeId,
   };
@@ -38,7 +40,6 @@ const ReviewForm = ({cafeId}) => {
     validationSchema: reviewSchema,
     onSubmit: (formData) => {
       handlePostReview(formData);
-      {debugger}
       toast.success("Review posted successfully");
       setTimeout(() => {
         window.location.reload();
@@ -57,9 +58,9 @@ const ReviewForm = ({cafeId}) => {
         good_description: formData.good_description,
         bad_description: formData.bad_description,
         star_rating: Number.parseInt(formData.star_rating),
-        user_id: user.id,
+        // user_id: user.id,
         cafe_id: Number.parseInt(cafeId),
-        username: user.username,
+        username: formData.username,
       }),
     })
       .then((resp) => {

@@ -19,17 +19,12 @@ class Reviews(Resource):
             good_description = data.get('good_description')
             bad_description = data.get('bad_description')
             star_rating = data.get('star_rating')
-            review = Review(user_id=user_id, cafe_id=cafe_id, body=body, good_description=good_description, bad_description=bad_description, star_rating=star_rating)
+            username = data.get('username')
+            review = Review(user_id=user_id, cafe_id=cafe_id, body=body, good_description=good_description, bad_description=bad_description, star_rating=star_rating, username=username)
             db.session.add(review)
             db.session.commit()
             return review_schema.dump(review), 201
         except Exception as e:
             db.session.rollback()
             return {"message": str(e)}, 422
-    
-# class ReviewLikes(Resource):
-#     def get(self, id):
-#         review = Review.query.get(id)
-#         if review is None:
-#             return {'error': 'Review not found'}, 404
-#         return {'likes': review.likes}, 200
+        
