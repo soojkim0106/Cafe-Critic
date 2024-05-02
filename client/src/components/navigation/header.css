@@ -1,0 +1,38 @@
+.navigation {
+    background-color: #8f4431; 
+    color: hsl(0, 0%, 100%); 
+    border-radius: 15px;
+  }
+
+.navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+
+  }
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 20px; /* Adjust the spacing between navigation links */
+  }
+  
+.navbar a:hover {
+    color: #ccc; /* Color of navigation links on hover */
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .container a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 20px; /* Adjust the spacing between profile and logout links */
+  }
+  
+  .container a:hover {
+    color: #ccc; /* Color of profile and logout links on hover */
+  }

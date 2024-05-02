@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import ReviewCard from '../review/ReviewCard';
 import ReviewForm from '../review/ReviewForm';
 import ReviewContainer from '../review/ReviewContainer';
+import './cafedetail.css'
 
 const CafeDetail = () => {
     const [cafe, setCafe] = useState();
@@ -39,10 +40,8 @@ const CafeDetail = () => {
             }
           })
           .then((cafeData) => {
-            console.log(cafeData);
             if (cafeData.reviews && Array.isArray(cafeData.reviews)) {
               const reviewId = cafeData.reviews.map((review) => {
-                console.log(review);
                 return review.id;
               });
               Promise.all(
@@ -51,7 +50,6 @@ const CafeDetail = () => {
                 )
               )
                 .then((reviewData) => {
-                  console.log(reviewData);
                   setReviewList(reviewData);
                 })
                 .catch((error) => {
@@ -100,17 +98,20 @@ const CafeDetail = () => {
 
   return (
     <div className='cafe-detail-container'>
+      <div className='review-form-container'>
+        <ReviewForm cafeId={cafe.id}/>
+        </div>
         <h2>{name}</h2>
         {imageLoaded && imageUrl && <img src={imageUrl} alt={name} />}
         <div className='details'>
             <p>Address: {address}</p>
         </div>
         <div>
-            Review:
-            <ReviewForm/>
+        <div className='review-container'>
             {reviewList.map((review) => (
           <ReviewCard review={review} key={review.id}></ReviewCard>
         ))}
+        </div>
 
         </div>
     </div>

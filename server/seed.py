@@ -69,8 +69,31 @@ with app.app_context():
         image="kiss.png"
     )
     
+    c7 = Cafe(
+        name="Sightglass Coffee",
+        address="301 Divisadero St, San Francisco, CA 94117",
+        image="sightglass.png"
+    )
     
-    cafes = [c1, c2, c3, c4, c5, c6]
+    c8 = Cafe(
+        name="Andytown Coffee Roasters",
+        address="3655 Lawton St, San Francisco, CA 94122",
+        image="andytown.png"
+    )
+    
+    c9 = Cafe(
+        name="Ocean Beach Cafe",
+        address="734 La Playa St, San Francisco, CA 94121",
+        image="oceanbeach.jpg"
+    )
+    
+    c10 = Cafe(
+        name="Legion of Honor Cafe",
+        address="100 34th Ave, San Francisco, CA 94121",
+        image="default.jpg"
+    )
+    
+    cafes = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     db.session.add_all(cafes)
     db.session.commit()
     
@@ -86,12 +109,5 @@ with app.app_context():
     db.session.add(r1)
     db.session.commit()
     
-    c1 = Comment(
-        body="I agree!",
-        review_id=1,
-        user_id=2
-    )
-    db.session.add(c1)
-    db.session.commit()
     
     print("Completed seeding...")

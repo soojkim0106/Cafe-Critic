@@ -7,9 +7,11 @@ import { UserContext } from "../../context/UserContext";
 import CommentCard from "../comment/CommentCard";
 import CommentContainer from "../comment/CommentContainer";
 import CommentForm from "../comment/CommentForm";
+import './reviewcard.css'
+
 
 const ReviewCard = ({ review }) => {
-  const { id, body, star_rating, good_description, bad_description, username } = review;
+  const { id, body, star_rating, good_description, bad_description, username, cafe_id } = review;
   const { user, setUser } = useContext(UserContext);
   const {cafeId} = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -37,7 +39,9 @@ const ReviewCard = ({ review }) => {
     onSubmit: (formData) => {
       handleEditReview(formData);
       toast.success("Review updated successfully");
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     },
   });
   
@@ -64,7 +68,12 @@ const ReviewCard = ({ review }) => {
           }
         })
         .then(
-          toast.success("Review deleted successfully"),
+          toast.success("Review deleted successfully")
+        )
+        .then(
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500)
         )
         .catch((err) => {
           console.error(err);
@@ -98,6 +107,10 @@ const ReviewCard = ({ review }) => {
   const handleToggleComments = () => {
     setShowComments(!showComments);
   };
+
+  const handleNavigate =() => {
+    navigate(`/cafes/${cafe_id}`)
+  }
 
   return (
     <div className="review-body">
@@ -147,10 +160,10 @@ const ReviewCard = ({ review }) => {
       ) : (
         <div>
           <p>Written by: {username}</p>
-          <p>Description: {body}</p>
-          <p>Tell me the good stuff: {good_description}</p>
-          <p>What was bad about it: {bad_description}</p>
-          <p>Star Rating (1~5): {star_rating}</p>
+          <p><strong>Description</strong>: {body}</p>
+          <p><strong>Tell me the good stuff</strong>: {good_description}</p>
+          <p><strong>What was bad about it</strong>: {bad_description}</p>
+          <p><strong>Star Rating (1~5)</strong>: {star_rating}</p>
           {location.pathname === "/profile" && (
             <>
               <button
@@ -162,6 +175,7 @@ const ReviewCard = ({ review }) => {
               <button className="edit-button" onClick={handleDeleteReview}>
                 Delete
               </button>
+              <button className='back-to-cafe' onClick={handleNavigate}>Back to Cafe</button>
             </>
           )}
         </div>
@@ -169,11 +183,16 @@ const ReviewCard = ({ review }) => {
       <div>
       {location.pathname === `/cafes/${cafeId}` && (
         <>
+        <p>Comments:</p>
+        <button onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button><br></br>
+        {showComments && <CommentContainer reviewId={review.id}/>}<br></br>
         <CommentForm reviewId={review.id}/>
-        <h4>Comments:</h4>
-        <button onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button>
-        {showComments && <CommentContainer/>}
         </>
+      )}
+      </div>
+      <div>
+      {location.pathname === `/reviews` && (
+        <button className='back-to-cafe' onClick={handleNavigate}>Back to Cafe</button>
       )}
       </div>
     </div>

@@ -1,0 +1,66 @@
+/* Style the review form modal */
+.review-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .review{
+    overflow:auto;
+  }
+
+  .review-form input,
+  .review-form textarea {
+    width: 75%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+
+  .modal-close {
+    background-color: #8f4431; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    /* float: right; */
+  }
+  
+  .modal-close:hover {
+    background-color: #b85840; /* Darker green on hover */
+  }
+
+  .model-title{
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .model-start{
+    background-color: #8f4431; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    float: none;
+  }

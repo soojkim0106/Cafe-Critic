@@ -1,0 +1,30 @@
+.direction-btn {
+    background-color: #8f4431; /* Button color */
+    color: white; /* Text color */
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px 20px; /* Button padding */
+    margin: 10px;
+    border-radius: 5px; /* Rounded corners */
+    text-transform: uppercase; /* Uppercase text */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+  }
+  
+  .direction-btn:hover {
+    background-color: #6a3324; /* Darker color on hover */
+  }
+  
+  .direction-btn:disabled {
+    background-color: #ccc; /* Gray color when disabled */
+    cursor: not-allowed; /* No cursor on hover when disabled */
+  }
+  
+  .direction-btn-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .cafe-list {
+    flex: 1 0 auto;
+  }

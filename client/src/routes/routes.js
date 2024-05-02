@@ -8,6 +8,7 @@ import CafeDetail from '../components/cafe/CafeDetail'
 import GoogleAuth from '../components/auth/googleauth'
 import ReviewCard from '../components/review/ReviewCard'
 import CommentCard from '../components/comment/CommentCard'
+import ReviewContainer from '../components/review/ReviewContainer'
 
 export const router = createBrowserRouter([
     {
@@ -33,8 +34,8 @@ export const router = createBrowserRouter([
                 element: <UserCard />
             },
             {
-                path: "reviews/:reviewId",
-                element: <ReviewCard />
+                path: "reviews",
+                element: <ReviewContainer />
             },
             {
                 path:"cafes/:cafeId",

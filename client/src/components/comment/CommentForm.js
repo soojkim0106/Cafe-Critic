@@ -6,7 +6,7 @@ import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
 
 export const CommentForm = ({reviewId}) => {
-  const [comments, setComments] = useState([]);
+
   const { user, setUser } = useContext(UserContext);
   const { id } = user;
 
@@ -46,7 +46,7 @@ export const CommentForm = ({reviewId}) => {
         username: user.username,
       }),
     })
-    .then((resp) => {
+    .then((resp) => { {debugger}
       if (resp.ok) {
         return resp.json();
       } else {

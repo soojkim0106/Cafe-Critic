@@ -6,6 +6,7 @@ import { Form, Field, useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
+import "./registration.css"
 
 YupPassword(Yup);
 
@@ -98,101 +99,103 @@ const Registration = () => {
   });
 
   return (
-    <div className="auth">
-      <h2>{isLogin ? "Login" : "Sign Up"}</h2>
-      <Formik onSubmit={formik.handleSubmit}>
-        <Form className="form" onSubmit={formik.handleSubmit}>
-            {!isLogin && (
-                <>
-                <Field
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                    className="input"
-                />
-                {formik.errors.email &&
-                    formik.touched.email && (
-                    <div className="error-message show">
-                        {formik.errors.email}
-                    </div>
-                    )}
-                </>
+    <div className='conatiner'>
+      <div className="auth">
+        <h2>{isLogin ? "Welcome Back" : "Join the Critics"}</h2>
+        <Formik onSubmit={formik.handleSubmit}>
+          <Form className="form" onSubmit={formik.handleSubmit}>
+              {!isLogin && (
+                  <>
+                  <Field
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.email}
+                      className="regi-input"
+                  />
+                  {formik.errors.email &&
+                      formik.touched.email && (
+                      <div className="error-message show">
+                          {formik.errors.email}
+                      </div>
+                      )}
+                  </>
+              )}
+            <Field
+              type="text"
+              name="username"
+              placeholder="Username"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+              className="regi-input"
+              autoComplete="username"
+            />
+            {formik.errors.username && formik.touched.username && (
+              <div className="error-message show">{formik.errors.username}</div>
             )}
-          <Field
-            type="text"
-            name="username"
-            placeholder="Username"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-            className="input"
-            autoComplete="username"
-          />
-          {formik.errors.username && formik.touched.username && (
-            <div className="error-message show">{formik.errors.username}</div>
-          )}
-          <Field
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values._password_hash}
-            className="input"
-            autoComplete="current-password"
-          />
-          {formik.errors._password_hash && formik.touched._password_hash && (
-            <div className="error-message show">
-              {formik.errors._password_hash}
-            </div>
-          )}
-          {!isLogin && (
-            <>
-              <Field
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmPassword}
-                className="input"
-              />
-              {formik.errors.confirmPassword &&
-                formik.touched.confirmPassword && (
-                  <div className="error-message show">
-                    {formik.errors.confirmPassword}
-                  </div>
-                )}
-            </>
-          )}
-          <input
-            type="submit"
-            className="submit"
-            value={isLogin ? "Login" : "Sign up"}
-          />
-          {isLogin ? (
-            <button
-              type="button"
-              className="change-form"
-              onClick={handleIsLogin}
-            >
-              Create New Account
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="change-form"
-              onClick={handleIsLogin}
-            >
-              Login
-            </button>
-          )}
-        </Form>
-      </Formik>
-      <button onClick={handleCallbackResponse}>GoogleLogin</button>
+            <Field
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values._password_hash}
+              className="regi-input"
+              autoComplete="current-password"
+            />
+            {formik.errors._password_hash && formik.touched._password_hash && (
+              <div className="error-message show">
+                {formik.errors._password_hash}
+              </div>
+            )}
+            {!isLogin && (
+              <>
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.confirmPassword}
+                  className="regi-input"
+                />
+                {formik.errors.confirmPassword &&
+                  formik.touched.confirmPassword && (
+                    <div className="error-message show">
+                      {formik.errors.confirmPassword}
+                    </div>
+                  )}
+              </>
+            )}
+            <input
+              type="submit"
+              className="regi-submit"
+              value={isLogin ? "Login ☕" : "Sign up ✏️"}
+            />
+            {isLogin ? (
+              <button
+                type="button"
+                className="change-form"
+                onClick={handleIsLogin}
+              >
+                Create New Account
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="change-form"
+                onClick={handleIsLogin}
+              >
+                Already have an account?
+              </button>
+            )}
+          </Form>
+        </Formik>
+        <button className="googleLogin" onClick={handleCallbackResponse}>GoogleLogin</button>
+      </div>
     </div>
   );
 };

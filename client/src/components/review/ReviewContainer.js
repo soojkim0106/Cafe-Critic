@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/UserContext";
 import ReviewCard from "./ReviewCard";
+import './reviewcontainer.css'
 
 const ReviewContainer = () => {
     const [reviews, setReviews] = useState([]);
@@ -25,11 +26,9 @@ const ReviewContainer = () => {
           })
           .catch((err) => console.log(err));
       }, [setUser]);
-
-      console.log(reviews)
       
   return (
-    <div>
+    <div className="review-box">
         {reviews && reviews.map((review) => (
             <ReviewCard key={review.id} review={review} reviews={reviews} setReviews={setReviews} user={user}/>
         ))}

@@ -7,7 +7,7 @@ import { UserContext } from "../../context/UserContext";
 import {Modal} from "react-bootstrap-modal";
 import {Button} from 'react-bootstrap-buttons';
 import ReviewCard from "../review/ReviewCard";
-import CommentCard from "../comment/CommentCard";
+import './usercard.css'
 
 const UserCard = () => {
   const { user, updateCurrentUser, handleEditUser, handleDeleteUser } =
@@ -162,18 +162,12 @@ const UserCard = () => {
                      </div>
                    </div>}
       </div>
-      <div>
+      <div className='review-container'>
         <h1>Reviews</h1>
         {reviewList.map((review) => (
           <ReviewCard review={review} key={review.id}></ReviewCard>
         ))}
       </div>
-      {/* <div>
-        <h1>Comments</h1>
-        {commentList.map((comment) => (
-          <CommentCard comment={comment} key={comment.id}></CommentCard>
-        ))}
-      </div> */}
     </>
   );
 };

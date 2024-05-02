@@ -1,0 +1,43 @@
+/* Style the cafe card */
+.cafe-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    width: 400px;
+    height: 400px;
+    float: left;
+  }
+  
+  /* Style the cafe name */
+  .cafe-card h3 {
+    margin-bottom: 10px;
+  }
+  
+  /* Style the cafe image */
+  .cafe-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Style the link */
+  .cafe-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Style the button */
+  .cafe-card button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cafe-card button:hover {
+    color: #8f4431;
+  }

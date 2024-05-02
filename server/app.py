@@ -33,10 +33,15 @@ def signup():
         db.session.commit()
         session["user_id"] = user.id
         return user_schema.dump(user), 201
-    
+
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 422
+        if 'unique' not in str(e):
+            return {"message": str(e)}, 422
+        if 'UNIQUE constraint failed: users.username' in str(e):
+            return {"message": "Username already exists"}, 400
+        if 'UNIQUE constraint failed: users.email' in str(e):
+            return {"message": "Email already exists"}, 400
 
 @app.route("/login", methods=["POST"])
 def login():

@@ -11,6 +11,8 @@ const CommentContainer = ({reviewId}) => {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
 
+    const relatedComments = comments.filter(comment=>comment.review_id === reviewId)
+
     useEffect(() => {
         if (!user) {
           navigate("/registration");
@@ -27,12 +29,12 @@ const CommentContainer = ({reviewId}) => {
           })
           .catch((err) => console.log(err));
       }, []);
-
-
+    
+      console.log(relatedComments)
 
   return (
     <div>
-        {comments && comments.map((comment) => (<CommentCard key={comment.id} comment={comment} comments={comments} setComments={setComments} user={user} />))}
+        {relatedComments && relatedComments.map((comment) => (<CommentCard key={comment.id} comment={comment} comments={comments} setComments={setComments} user={user} />))}
     </div>
   )
 }
