@@ -9,26 +9,39 @@ const GoogleAuth = () => {
   const navigate = useNavigate();
   const { user, login, logout } = useContext(UserContext);
 
-  const handleGlogin = () => {
-    fetch(requestedUrl);
-  };
+
   useEffect(() => {
     /* global google */
-    google.accounts.id.initialize({
-      client_id: "1043251127291-45mscbh11d51040eeinopn9be09qlg1k.apps.googleusercontent.com",
-      callback: handleCallbackResponse
+    const loadGoogleScript = () => {
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = "https://apis.google.com/js/platform.js";
+        script.async = true;
+        script.defer = true;
+        script.onload = resolve;
+        document.head.appendChild(script);
+      });
+    };
+    // Load the Google API script and then initialize
+    loadGoogleScript().then(() => {
+      initializeGoogleSignIn(); //defined in the next block of code
     });
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      {theme: 'outline', size: 'large'}
-    )
-    google.accounts.id.prompt()
-  }, [])
+  }, []);
+
+  const initializeGoogleSignIn = () => {
+    if (window.google && window.google.accounts) {
+      window.google.accounts.id.initialize({
+        client_id: "1043251127291-45mscbh11d51040eeinopn9be09qlg1k.apps.googleusercontent.com",
+        callback: handleCallbackResponse,
+      });
+    } else {
+      setTimeout(initializeGoogleSignIn, 100);
+    }
+  };
+
+
 
   const handleCallbackResponse = (response) => {
-    console.log("Encoded JWT ID token: " + response.credential);
-    const userObject = jwtDecode(response.credential);
-    console.log(userObject)
     fetch('/googleauth', {
       method: 'POST',
       headers: {
@@ -42,12 +55,19 @@ const GoogleAuth = () => {
       navigate(`/cafes`)
     })
     .catch(error => console.error(error))
-    // document.getElementById("signInDiv").hidden = true;
   }
 
   // const handleSignOut = () => {
   //   document.getElementById("signInDiv").hidden = false;
   // }
+
+  useEffect(() => {
+    window.google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      {theme: 'outline', size: 'large'}
+    )
+
+  }, [])
 
 
   return (

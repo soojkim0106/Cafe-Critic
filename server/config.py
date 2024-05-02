@@ -24,8 +24,8 @@ app.secret_key = environ.get("SESSION_SECRET")
 app.config["SESSION_TYPE"] = "sqlalchemy"
 # app.config["SESSION_SQLALCHEMY_TABLE"] = "sessions"
 
-# GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", None)
-# GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", None)
+GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", None)
+GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", None)
 
 db = SQLAlchemy(app)
 app.config["SESSION_SQLALCHEMY"] = db

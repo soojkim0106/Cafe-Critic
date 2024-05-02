@@ -16,7 +16,6 @@ const ReviewForm = ({cafeId}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
- console.log(user.username)
 
   const reviewSchema = object({
     body: string().required("Review body is required"),
@@ -41,9 +40,9 @@ const ReviewForm = ({cafeId}) => {
     onSubmit: (formData) => {
       handlePostReview(formData);
       toast.success("Review posted successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1500);
     },
   });
 

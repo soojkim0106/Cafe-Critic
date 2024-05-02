@@ -59,7 +59,7 @@ class Review(db.Model):
     def validate_star_rating(self, _, sr):
         if not isinstance(sr, int):
             raise TypeError("Star rating must be an integer")
-        elif (sr >= 5):
+        elif not (sr <= 5):
             raise ValueError("Star rating muts be in between 1 to 5")
         return sr
         

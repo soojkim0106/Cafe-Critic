@@ -9,6 +9,13 @@ import "./header.css";
 
 const Header = () => {
     const {user, logout, login} = useContext(UserContext)
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout().then(() => {
+          navigate('/login')
+        })
+    }
 
   return (
     <>
@@ -23,7 +30,7 @@ const Header = () => {
                 Profile
               </NavLink> <br></br>
               <NavLink to={'/reviews'}> All Reviews </NavLink> <br></br>
-              <NavLink onClick={logout}>Logout</NavLink>
+              <NavLink onClick={handleLogout}>Logout</NavLink>
             </div> 
           ) : (
             <Link to={"/registration"}>

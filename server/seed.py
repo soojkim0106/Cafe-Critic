@@ -19,19 +19,6 @@ with app.app_context():
     Cafe.query.delete()
     print("Deleting initial tables...")
     
-    u1 = User(
-        username="test",
-        email="test@email.com",
-        _password_hash="this1Spassword"
-    )
-    u2 = User(
-        username="sooj",
-        email="sooj@email.com",
-        _password_hash="this1Spassword"
-    )
-    users = [u1, u2]
-    db.session.add_all(users)
-    db.session.commit()
     
     c1 = Cafe(
         name="The Mill",
@@ -95,18 +82,6 @@ with app.app_context():
     
     cafes = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     db.session.add_all(cafes)
-    db.session.commit()
-    
-    r1 = Review(
-        body="I love this place!",
-        good_description="Great coffee",
-        bad_description="None",
-        star_rating=2, 
-        cafe_id=1,
-        user_id=1,
-    )
-    
-    db.session.add(r1)
     db.session.commit()
     
     
