@@ -89,9 +89,8 @@ const ReviewForm = ({cafeId}) => {
         </Modal.Header>
         <Modal.Body>
           <div className="review">
-            <Formik onsubmit={formik.handleSubmit}>
-              <Form className="review-form" onSubmit={formik.handleSubmit}>
-                <Field
+              <form className="review-form" onSubmit={formik.handleSubmit}>
+                <input
                   type="text"
                   name="body"
                   placeholder="body"
@@ -104,7 +103,7 @@ const ReviewForm = ({cafeId}) => {
                 {formik.errors.body && formik.touched.body && (
                   <div className="error-message show">{formik.errors.body}</div>
                 )}
-                <Field
+                <input
                   type="text"
                   name="good_description"
                   placeholder="what were the pros?"
@@ -120,7 +119,7 @@ const ReviewForm = ({cafeId}) => {
                       {formik.errors.good_description}
                     </div>
                   )}
-                <Field
+                <input
                   type="text"
                   name="bad_description"
                   placeholder="what were the cons?"
@@ -136,7 +135,7 @@ const ReviewForm = ({cafeId}) => {
                       {formik.errors.bad_description}
                     </div>
                   )}
-                <Field
+                <input
                   type="integer"
                   name="star_rating"
                   placeholder="rating: 1-5 stars"
@@ -151,9 +150,8 @@ const ReviewForm = ({cafeId}) => {
                     {formik.errors.star_rating}
                   </div>
                 )}
-                <input type="submit" className="submit" value="submit" />
-              </Form>
-            </Formik>
+                <button className="review-submit-btn" type="submit">Post Review</button>
+              </form>
           </div>
         </Modal.Body>
         <Modal.Footer>

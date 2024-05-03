@@ -28,8 +28,6 @@ class UserById(Resource):
     @login_required
     def get(self,id):
         try:
-            print(g.user)
-            print(user_schema.dump(g.user))
             if g.user:
                 return user_schema.dump(g.user), 200
         except Exception as e:

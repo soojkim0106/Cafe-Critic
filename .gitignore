@@ -65,5 +65,8 @@ __pycache__
 instance
 .vscode
 package-lock.json
+
+# Ignore all logfiles and tempfiles.
 .env
+client/.env
 

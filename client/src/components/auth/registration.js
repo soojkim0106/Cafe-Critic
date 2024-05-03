@@ -7,6 +7,7 @@ import { UserContext } from "../../context/UserContext";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
 import "./registration.css"
+import GoogleAuth from "./GoogleAuth";
 
 YupPassword(Yup);
 
@@ -102,11 +103,10 @@ const Registration = () => {
     <div className='conatiner'>
       <div className="auth">
         <h2>{isLogin ? "Welcome Back" : "Join the Critics"}</h2>
-        <Formik onSubmit={formik.handleSubmit}>
-          <Form className="form" onSubmit={formik.handleSubmit}>
+          <form className="form" onSubmit={formik.handleSubmit}>
               {!isLogin && (
                   <>
-                  <Field
+                  <input
                       type="email"
                       name="email"
                       placeholder="Email"
@@ -123,7 +123,7 @@ const Registration = () => {
                       )}
                   </>
               )}
-            <Field
+            <input
               type="text"
               name="username"
               placeholder="Username"
@@ -136,7 +136,7 @@ const Registration = () => {
             {formik.errors.username && formik.touched.username && (
               <div className="error-message show">{formik.errors.username}</div>
             )}
-            <Field
+            <input
               type="password"
               name="password"
               placeholder="Password"
@@ -153,7 +153,7 @@ const Registration = () => {
             )}
             {!isLogin && (
               <>
-                <Field
+                <input
                   type="password"
                   name="confirmPassword"
                   placeholder="Confirm Password"
@@ -192,9 +192,8 @@ const Registration = () => {
                 Already have an account?
               </button>
             )}
-          </Form>
-        </Formik>
-        <button className="googleLogin" onClick={handleCallbackResponse}>Google Login</button>
+          </form>
+        <GoogleAuth/>
       </div>
     </div>
   );

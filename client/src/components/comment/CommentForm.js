@@ -70,6 +70,9 @@ export const CommentForm = ({reviewId}) => {
             value={formik.values.body}
             onChange={formik.handleChange}
           />
+          {formik.errors.body && formik.touched.body && (
+            <div className='error-message show'>{formik.errors.body}</div>
+          )}
           <button type="submit">Post Comment</button>
         </form>
       </div>

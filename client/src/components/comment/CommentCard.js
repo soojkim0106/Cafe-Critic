@@ -43,7 +43,6 @@ const CommentCard = ({ comment, user }) => {
         {user.id === user_id && (
         <button onClick={handleDeleteComment}>Delete</button>
       )}
-        {/* <button onClick={handleDeleteComment}>Delete</button> */}
       </div>
     </>
   );

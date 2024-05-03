@@ -8,6 +8,7 @@ const GoogleAuth = () => {
   const requestedUrl = "/googleauth";
   const navigate = useNavigate();
   const { user, login, logout } = useContext(UserContext);
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 
   useEffect(() => {
@@ -25,13 +26,19 @@ const GoogleAuth = () => {
     // Load the Google API script and then initialize
     loadGoogleScript().then(() => {
       initializeGoogleSignIn(); //defined in the next block of code
+    }).then(() => {
+      window.google.accounts.id.renderButton(
+        document.getElementById("signInDiv"),
+        {theme: 'outline', size: 'large'}
+      )
     });
+    // put in .then second useEffect
   }, []);
 
   const initializeGoogleSignIn = () => {
     if (window.google && window.google.accounts) {
       window.google.accounts.id.initialize({
-        client_id: "1043251127291-45mscbh11d51040eeinopn9be09qlg1k.apps.googleusercontent.com",
+        client_id: clientId,
         callback: handleCallbackResponse,
       });
     } else {
@@ -57,23 +64,10 @@ const GoogleAuth = () => {
     .catch(error => console.error(error))
   }
 
-  // const handleSignOut = () => {
-  //   document.getElementById("signInDiv").hidden = false;
-  // }
-
-  useEffect(() => {
-    window.google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      {theme: 'outline', size: 'large'}
-    )
-
-  }, [])
-
 
   return (
     <div>
       <div id="signInDiv"></div>
-
     </div>
   );
 };
