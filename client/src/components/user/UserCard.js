@@ -106,7 +106,7 @@ const UserCard = () => {
     <>
       <div className="user-profile" key={user.id}>
         {isEditMode ? 
-                   <form onSubmit={formik.handleSubmit}>
+                   <form className='user-edit-profile' onSubmit={formik.handleSubmit}>
                        <>
                          <label>Username</label>
                          <input
@@ -115,6 +115,7 @@ const UserCard = () => {
                            value={formik.values.username}
                            onChange={formik.handleChange}
                            autoComplete="username"
+                           className = "user-edit-profile-input"
                          />
                          <label>Email</label>
                          <input
@@ -123,6 +124,7 @@ const UserCard = () => {
                            value={formik.values.email}
                            onChange={formik.handleChange}
                            autoComplete="email"
+                           className = "user-edit-profile-input"
                          />
                        </>
                      <label>Current Password</label>
@@ -133,9 +135,10 @@ const UserCard = () => {
                        value={formik.values.current_password}
                        onChange={formik.handleChange}
                        autoComplete="current-password"
+                       className = "user-edit-profile-input"
                      />
-                     <button type="submit">Save</button>
-                     <button type="button" onClick={() => setIsEditMode(false)}> Cancel
+                     <button className="edit-form-btn" type="submit">Save</button>
+                     <button className="edit-form-btn" type="button" onClick={() => setIsEditMode(false)}> Cancel
                      </button>
                    </form>
                   : 

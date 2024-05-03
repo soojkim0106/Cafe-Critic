@@ -5,13 +5,13 @@ import { useFormik, Formik, Field, Form } from "formik";
 import { UserContext } from "../../context/UserContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./reviewform.css";
 
 const ReviewForm = ({cafeId}) => {
   const { user, setUser } = useContext(UserContext);
   const [show, setShow] = useState(false);
-  // const { id } = user
+  const navigate = useNavigate();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,9 +40,7 @@ const ReviewForm = ({cafeId}) => {
     onSubmit: (formData) => {
       handlePostReview(formData);
       toast.success("Review posted successfully");
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 1500);
+      navigate('/cafes')
     },
   });
 

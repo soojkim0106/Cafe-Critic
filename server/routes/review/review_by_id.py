@@ -9,7 +9,7 @@ class ReviewById(Resource):
             data = request.json
             updated_review = review_schema.load(data, instance=g.review, partial=True)
             db.session.commit()
-            return review_schema(updated_review), 200
+            return review_schema.dump(updated_review), 200
         except Exception as e:
             db.session.rollback()
             return {"error": str(e)}, 404

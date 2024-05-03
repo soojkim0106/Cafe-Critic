@@ -8,6 +8,7 @@ import CommentCard from "../comment/CommentCard";
 import CommentContainer from "../comment/CommentContainer";
 import CommentForm from "../comment/CommentForm";
 import './reviewcard.css'
+import * as Yup from 'yup'
 
 
 const ReviewCard = ({ review }) => {
@@ -19,11 +20,11 @@ const ReviewCard = ({ review }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const updateReview = object({
-    body: string().required("Review body is required"),
-    good_description: string().required("Good description is required"),
-    bad_description: string().required("Bad description is required"),
-    star_rating: number().required("Star rating is required"),
+  const updateReview = Yup.object({
+    body: Yup.string().required("Review body is required"),
+    good_description: Yup.string().required("Good description is required"),
+    bad_description: Yup.string().required("Bad description is required"),
+    star_rating: Yup.number().required("Star rating is required"),
   });
 
   const initialValues = {
@@ -115,7 +116,7 @@ const ReviewCard = ({ review }) => {
   return (
     <div className="review-body">
       {isEditMode ? (
-        <form onSubmit={formik.handleSubmit}>
+        <form className='review-edit' onSubmit={formik.handleSubmit}>
           <>
             <label>Body</label>
             <input
@@ -124,6 +125,7 @@ const ReviewCard = ({ review }) => {
               value={formik.values.body}
               onChange={formik.handleChange}
               autoComplete="body"
+              className="review-edit-input"
             />
             <label>Good Description</label>
             <input
@@ -132,6 +134,7 @@ const ReviewCard = ({ review }) => {
               value={formik.values.good_description}
               onChange={formik.handleChange}
               autoComplete="good_description"
+              className="review-edit-input"
             />
             <label>Bad Description</label>
             <input
@@ -140,6 +143,7 @@ const ReviewCard = ({ review }) => {
               value={formik.values.bad_description}
               onChange={formik.handleChange}
               autoComplete="bad_description"
+              className="review-edit-input"
             />
             <label>Star Rating</label>
 
@@ -149,10 +153,11 @@ const ReviewCard = ({ review }) => {
               value={formik.values.star_rating}
               onChange={formik.handleChange}
               autoComplete="star_rating"
+              className="review-edit-input"
             />
           </>
-          <button type="submit">Save</button>
-          <button type="button" onClick={() => setIsEditMode(false)}>
+          <button className='edit-form-btn' type="submit">Save</button>
+          <button className='edit-form-btn' type="button" onClick={() => setIsEditMode(false)}>
             {" "}
             Cancel
           </button>
@@ -183,8 +188,9 @@ const ReviewCard = ({ review }) => {
       <div>
       {location.pathname === `/cafes/${cafeId}` && (
         <>
-        <p>Comments:</p>
+        <div className='review-card-comments'> <br></br>
         <button onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button><br></br>
+        </div>
         {showComments && <CommentContainer reviewId={review.id}/>}<br></br>
         <CommentForm reviewId={review.id}/>
         </>

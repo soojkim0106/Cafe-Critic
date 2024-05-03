@@ -4,11 +4,13 @@ import toast from "react-hot-toast";
 import { object, string, number } from "yup";
 import { useFormik, Formik } from "formik";
 import { UserContext } from "../../context/UserContext";
+import './commentform.css'
 
 export const CommentForm = ({reviewId}) => {
 
   const { user, setUser } = useContext(UserContext);
   const { id } = user;
+  const navigate = useNavigate();
 
   const postComment = object({
     body: string().required("Comment body is required"),
@@ -27,9 +29,7 @@ export const CommentForm = ({reviewId}) => {
     onSubmit: (formData) => {
       handlePostComment(formData);
       toast.success("Comment posted successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+      navigate('/cafes')
     },
   });
 
@@ -62,7 +62,7 @@ export const CommentForm = ({reviewId}) => {
   return (
     <div>
       <div className="comment-post-body">
-        <form onSubmit={formik.handleSubmit}>
+        <form className ='comment-form' onSubmit={formik.handleSubmit}>
           <input
             type="text"
             name="body"

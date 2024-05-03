@@ -26,10 +26,10 @@ const Header = () => {
           {user ? (
             <div className="container">
                 <NavLink to={"/cafes"}>Cafe ☕</NavLink><br></br>
+              <NavLink to={'/reviews'}> All Reviews </NavLink> <br></br>
               <NavLink to={'/profile'}>
                 Profile
               </NavLink> <br></br>
-              <NavLink to={'/reviews'}> All Reviews </NavLink> <br></br>
               <NavLink onClick={handleLogout}>Logout</NavLink>
             </div> 
           ) : (

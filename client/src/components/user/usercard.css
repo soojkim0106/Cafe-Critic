@@ -43,3 +43,14 @@
     color: #666;
     margin-top: 10px;
   }
+
+  .user-edit-profile-input{
+    display: block;
+    width: 400px; 
+    height: 40px; 
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }

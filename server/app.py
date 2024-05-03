@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import request, g, session, send_file
+from flask import request, g, session, send_file, jsonify
 from flask_restful import Resource
 from functools import wraps
 from werkzeug.exceptions import NotFound
@@ -21,7 +21,6 @@ from routes.review.review_by_id import ReviewById
 from routes.user.users import Users
 from routes.user.user_by_id import UserById
 from routes.auth.google_auth import GoogleAuth
-# from routes.auth.google_auth import GoogleAuth
 
 
 @app.route("/signup", methods=["POST"])
@@ -67,22 +66,9 @@ def logout():
         db.session.rollback()
         raise e
 
-# @app.route('/reviews/<int:id>/likes', methods=['GET'])
-# def get_likes(id):
-#     review = Reviews.query.get(id)
-#     if review is None:
-#         return ({'error': 'Review not found'}), 404
-#     return ({'likes': review.likes}), 200
-# @app.route('/googleauth')
-# def googleauth():
-#     google = oauth.create_client('google')
-#     redirect_uri = url_for('authorize', _external=True)
-#     return google.authorize_redirect(redirect_uri)
-
 @app.route('/authorize')
 def authorize():
-    google = oauth.create_client('google')  # create the google oauth client
-    token = google.authorize_access_token()  # Access token from google (needed to get user info)
+    token = google.authorize_access_token()  
     resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
@@ -110,7 +96,6 @@ api.add_resource(Cafes, "/cafes")
 api.add_resource(CafeById, "/cafes/<int:id>")
 api.add_resource(Reviews, "/reviews")
 api.add_resource(ReviewById, "/reviews/<int:id>")
-# api.add_resource(ReviewById, "/reviews/<int:id>/likes")
 api.add_resource(Comments, "/comments")
 api.add_resource(CommentById, "/comments/<int:id>")
 api.add_resource(GoogleAuth, "/googleauth")

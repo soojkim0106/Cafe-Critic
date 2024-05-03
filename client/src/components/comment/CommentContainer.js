@@ -34,6 +34,7 @@ const CommentContainer = ({reviewId}) => {
 
   return (
     <div>
+        <p><strong>Comments</strong>:</p>
         {relatedComments && relatedComments.map((comment) => (<CommentCard key={comment.id} comment={comment} comments={comments} setComments={setComments} user={user} />))}
     </div>
   )

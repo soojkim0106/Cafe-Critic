@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import './commentcard.css'
 
 const CommentCard = ({ comment, user }) => {
   const { id, body, user_id, username } = comment;

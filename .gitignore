@@ -54,7 +54,7 @@ jspm_packages
 
 # Virtual env metadata
 .venv
-.env
+
 
 # pytest cache
 .pytest_cache
@@ -65,4 +65,5 @@ __pycache__
 instance
 .vscode
 package-lock.json
+.env
 

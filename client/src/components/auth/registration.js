@@ -91,7 +91,7 @@ const Registration = () => {
                 icon: "☕",
               });
             });
-        } else {
+        } else { 
           return resp.json().then((errorObj) => toast.error(errorObj.message));
         }
       });
@@ -194,7 +194,7 @@ const Registration = () => {
             )}
           </Form>
         </Formik>
-        <button className="googleLogin" onClick={handleCallbackResponse}>GoogleLogin</button>
+        <button className="googleLogin" onClick={handleCallbackResponse}>Google Login</button>
       </div>
     </div>
   );

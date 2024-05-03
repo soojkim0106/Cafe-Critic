@@ -1,14 +1,7 @@
 from .. import (api, Resource, request, User, db, user_schema, users_schema)
 
 class Users(Resource):
-    # def get(self):
-    #     try:
-    #         serialized_users = users_schema.dump(User.query)
-    #         return serialized_users, 200
-        
-    #     except Exception as e:
-    #         return {"error": str(e)}, 400
-        
+
     def post(self):
         try:
             data = (
