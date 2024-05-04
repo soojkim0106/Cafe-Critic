@@ -8,6 +8,7 @@
     margin: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    
   }
   
   .review{
@@ -21,6 +22,9 @@
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   
 
@@ -36,7 +40,9 @@
     margin: 10px 2px;
     cursor: pointer;
     border-radius: 4px;
-    /* float: right; */
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   
   .modal-close:hover {
@@ -48,6 +54,9 @@
     color: #333;
     margin-top: 20px;
     text-align: center;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
 
   .model-start{
@@ -63,6 +72,9 @@
     cursor: pointer;
     border-radius: 4px;
     float: none;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
 
   .review-submit-btn{
@@ -78,4 +90,7 @@
     cursor: pointer;
     border-radius: 4px;
     float: none;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }

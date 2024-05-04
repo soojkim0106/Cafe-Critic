@@ -33,7 +33,7 @@ const CafeCard = ({cafe}) => {
     <div className='cafe-card'>
         <button>
         <Link to={`/cafes/${id}`}>
-          <h3>{name}</h3>
+          <h3><strong>{name}</strong></h3>
           {imageLoaded && imageUrl && <img src={imageUrl} alt={name} />}
         </Link>
       </button>

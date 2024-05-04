@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
 import { UserContext } from "../../context/UserContext";
 
 
@@ -8,6 +7,7 @@ const GoogleAuth = () => {
   const requestedUrl = "/googleauth";
   const navigate = useNavigate();
   const { user, login, logout } = useContext(UserContext);
+  
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 
@@ -23,16 +23,14 @@ const GoogleAuth = () => {
         document.head.appendChild(script);
       });
     };
-    // Load the Google API script and then initialize
     loadGoogleScript().then(() => {
-      initializeGoogleSignIn(); //defined in the next block of code
+      initializeGoogleSignIn(); 
     }).then(() => {
       window.google.accounts.id.renderButton(
         document.getElementById("signInDiv"),
         {theme: 'outline', size: 'large'}
       )
     });
-    // put in .then second useEffect
   }, []);
 
   const initializeGoogleSignIn = () => {

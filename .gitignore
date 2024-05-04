@@ -69,4 +69,6 @@ package-lock.json
 # Ignore all logfiles and tempfiles.
 .env
 client/.env
-
+server/migration
+server/instance
+Pipfile.lock

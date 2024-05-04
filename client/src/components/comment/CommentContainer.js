@@ -5,6 +5,7 @@ import { UserContext } from "../../context/UserContext";
 import CommentCard from "./CommentCard";
 import { object, string, number } from "yup";
 import { useFormik, Formik } from "formik";
+import './commentcontainer.css'
 
 const CommentContainer = ({reviewId}) => {
     const [comments, setComments] = useState([]);
@@ -33,7 +34,7 @@ const CommentContainer = ({reviewId}) => {
       console.log(relatedComments)
 
   return (
-    <div>
+    <div className='comment-container'>
         <p><strong>Comments</strong>:</p>
         {relatedComments && relatedComments.map((comment) => (<CommentCard key={comment.id} comment={comment} comments={comments} setComments={setComments} user={user} />))}
     </div>

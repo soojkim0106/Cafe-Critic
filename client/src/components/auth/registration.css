@@ -7,15 +7,16 @@
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   
-  /* Style the error messages */
   .error-message {
     color: red;
     margin-bottom: 15px;
   }
   
-  /* Style the submit button */
   .regi-submit {
     background-color: #4CAF50;
     color: white;
@@ -27,14 +28,15 @@
     width: 200px; 
     height: 40px; 
     text-align: center;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   
-  /* Change the color of the submit button when you hover over it */
   .regi-submit:hover {
     background-color: #45a049;
   }
   
-  /* Style the change form button */
   .change-form {
     background-color: #c26b07;
     color: white;
@@ -47,9 +49,11 @@
     height: 40px; 
     display: block;
     text-align: center;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   
-  /* Change the color of the change form button when you hover over it */
   .change-form:hover {
     background-color: #ac4d00;
   }
@@ -60,6 +64,10 @@
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    
   }
 
   .googleLogin{
@@ -78,3 +86,5 @@
   .googleLogin:hover {
     background-color: #b30000;
   }
+
+  

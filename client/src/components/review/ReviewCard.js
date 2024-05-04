@@ -189,7 +189,7 @@ const ReviewCard = ({ review }) => {
       {location.pathname === `/cafes/${cafeId}` && (
         <>
         <div className='review-card-comments'> <br></br>
-        <button onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button><br></br>
+        <button className='show-comment' onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button><br></br>
         </div>
         {showComments && <CommentContainer reviewId={review.id}/>}<br></br>
         <CommentForm reviewId={review.id}/>

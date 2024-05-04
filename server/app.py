@@ -10,7 +10,7 @@ from config import app, db, api
 from models.user import User
 from schemas.user_schema import user_schema, users_schema
 
-from config import app, db, api, oauth, url_for, redirect, google
+from config import app, db, api
 from routes.auth.check_session import Me
 from routes.cafe.cafes import Cafes
 from routes.cafe.cafe_by_id import CafeById
@@ -65,28 +65,6 @@ def logout():
     except Exception as e:
         db.session.rollback()
         raise e
-
-@app.route('/authorize')
-def authorize():
-    token = google.authorize_access_token()  
-    resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
-    user_info = resp.json()
-    user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
-    # session['username'] = user_info['username']
-    session['email'] = user_info['email']
-    return redirect('/')
-
-@app.route("/")
-def hello_world():
-    email = dict(session).get('email')
-    # username = dict(session).get('username')
-    return f"Hello, {email}!"
-
-@app.route('/googleauthlogout')
-def googleauthlogout():
-    for key in list(session.keys()):
-        session.pop(key)
-    return redirect('/')
 
 
 api.add_resource(Users, "/users")

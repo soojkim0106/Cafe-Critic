@@ -1,30 +1,38 @@
 .direction-btn {
-    background-color: #8f4431; /* Button color */
-    color: white; /* Text color */
+    background-color: #8f4431;
+    color: white;
     border: none;
     cursor: pointer;
     font-size: 14px;
-    padding: 10px 20px; /* Button padding */
+    padding: 10px 20px; 
     margin: 10px;
-    border-radius: 5px; /* Rounded corners */
-    text-transform: uppercase; /* Uppercase text */
-    transition: background-color 0.3s ease; /* Smooth color transition */
+    border-radius: 5px; 
+    text-transform: uppercase; 
+    transition: background-color 0.3s ease; 
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+    font-style: normal;
   }
   
   .direction-btn:hover {
-    background-color: #6a3324; /* Darker color on hover */
+    background-color: #6a3324; 
   }
   
   .direction-btn:disabled {
-    background-color: #ccc; /* Gray color when disabled */
-    cursor: not-allowed; /* No cursor on hover when disabled */
+    background-color: #ccc; 
+    cursor: not-allowed; 
   }
   
   .direction-btn-container {
     display: flex;
     justify-content: center;
+    
+    
   }
   
   .cafe-list {
     flex: 1 0 auto;
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }

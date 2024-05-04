@@ -1,5 +1,5 @@
 from .. import (
-    Resource, db, session, User, login_required, user_schema
+    Resource, db, session, User, user_schema
 )
 
 class Me(Resource):

@@ -5,6 +5,9 @@
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: "Khand", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 
@@ -20,4 +23,7 @@ background-color: #8f4431;
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
+  font-family: "Khand", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

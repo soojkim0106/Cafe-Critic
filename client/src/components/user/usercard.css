@@ -7,6 +7,9 @@
     margin: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+    font-style: normal;
   }
   
   
@@ -14,12 +17,14 @@
     font-size: 24px;
     color: #333;
     margin-top: 20px;
+    
   }
   
 .user-profile p {
     font-size: 16px;
     color: #666;
     margin-top: 10px;
+    
   }
 
 .review-container{
@@ -30,6 +35,9 @@
     margin: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+    font-style: normal;
 }
 
 .review-container h1{
@@ -53,4 +61,19 @@
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .edit-form-btn{
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .edit-button{
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+    font-style: normal;
   }
