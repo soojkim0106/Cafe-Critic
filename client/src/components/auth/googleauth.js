@@ -1,18 +1,16 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
 
 const GoogleAuth = () => {
-  const requestedUrl = "/googleauth";
   const navigate = useNavigate();
-  const { user, login, logout } = useContext(UserContext);
+  const { login } = useContext(UserContext);
   
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 
   useEffect(() => {
-    /* global google */
     const loadGoogleScript = () => {
       return new Promise((resolve) => {
         const script = document.createElement("script");
@@ -28,7 +26,7 @@ const GoogleAuth = () => {
     }).then(() => {
       window.google.accounts.id.renderButton(
         document.getElementById("signInDiv"),
-        {theme: 'outline', size: 'large'}
+        {theme: 'outline', size: 'large', text: 'continue_with'}
       )
     });
   }, []);

@@ -1,11 +1,11 @@
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import "./header.css";
 
 const Header = () => {
-  const { user, logout, login } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -18,8 +18,12 @@ const Header = () => {
     <>
       <Toaster />
       <div className="navigation">
+        <div>
+
+        </div>
         <nav className="navbar">
           <>
+          <h1 className="title">Cafe Critic</h1>
             {user ? (
               <div className="container">
                 <NavLink to={"/cafes"}>Cafe ☕</NavLink>

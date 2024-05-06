@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { object, string } from "yup";
-import { Form, Field, useFormik, Formik } from "formik";
+import { useFormik } from "formik";
 import { UserContext } from "../../context/UserContext";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
@@ -48,9 +48,10 @@ const initialValues = {
 const Registration = () => {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
-  const { user, login, setUser } = useContext(UserContext);
+  const { user, login } = useContext(UserContext);
   const requestedUrl = isLogin ? "/login" : "/signup";
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  
+  // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     if(user){
@@ -61,10 +62,6 @@ const Registration = () => {
   const handleIsLogin = () => {
     setIsLogin(!isLogin);
   };
-
-  const handleCallbackResponse = (response) => {
-    navigate("/googleauth")
-  }
 
 
   const formik = useFormik({

@@ -2,27 +2,28 @@
     background-color: #8f4431; 
     color: hsl(0, 0%, 100%); 
     border-radius: 15px;
+    /* display: flex; */
   }
 
 .navbar {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0px 20px;
     font-family: "Khand", sans-serif;
     font-weight: 400;
     font-style: normal;
-
+    justify-content: space-between;
   }
 
 .navbar a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 20px; /* Adjust the spacing between navigation links */
+    margin-right: 20px;
   }
   
 .navbar a:hover {
-    color: #ccc; /* Color of navigation links on hover */
+    color: #ccc;
   }
 
   .container {
@@ -34,9 +35,15 @@
   .container a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 20px; /* Adjust the spacing between profile and logout links */
+    margin-right: 20px; 
   }
   
   .container a:hover {
-    color: #ccc; /* Color of profile and logout links on hover */
+    color: #ccc; 
+  }
+
+  .title {
+    font-family: "Khand", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }

@@ -1,15 +1,15 @@
-import { useEffect, useState, useContext } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { useState, useContext } from "react";
+import toast from "react-hot-toast";
 import { object, string, number } from "yup";
-import { useFormik, Formik, Field, Form } from "formik";
+import { useFormik } from "formik";
 import { UserContext } from "../../context/UserContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./reviewform.css";
 
 const ReviewForm = ({cafeId}) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 

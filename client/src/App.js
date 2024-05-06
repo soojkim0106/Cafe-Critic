@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
-import toast ,{Toaster} from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import Header from './components/navigation/Header'
 import { UserContext } from "./context/UserContext";
 

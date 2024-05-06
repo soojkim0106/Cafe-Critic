@@ -1,11 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { object, string } from "yup";
 import { useFormik } from "formik";
 import { UserContext } from "../../context/UserContext";
-import { Modal } from "react-bootstrap-modal";
-import { Button } from "react-bootstrap-buttons";
 import ReviewCard from "../review/ReviewCard";
 import "./usercard.css";
 
@@ -15,12 +13,8 @@ const UserCard = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
-  const [show, setShow] = useState(false);
   const [reviewList, setReviewList] = useState([]);
-  const [commentList, setCommentList] = useState([]);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const updateProfileSchema = object({
     username: string()

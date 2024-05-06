@@ -1,10 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { object, string, number } from "yup";
-import { useFormik, Formik } from "formik";
+import { useFormik } from "formik";
 import { UserContext } from "../../context/UserContext";
-import CommentCard from "../comment/CommentCard";
 import CommentContainer from "../comment/CommentContainer";
 import CommentForm from "../comment/CommentForm";
 import './reviewcard.css'
@@ -12,8 +10,8 @@ import * as Yup from 'yup'
 
 
 const ReviewCard = ({ review }) => {
-  const { id, body, star_rating, good_description, bad_description, username, cafe_id } = review;
-  const { user, setUser } = useContext(UserContext);
+  const { id, body, star_rating, good_description, bad_description, cafe_id } = review;
+  const { user } = useContext(UserContext);
   const {cafeId} = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
   const [showComments, setShowComments] = useState(false);

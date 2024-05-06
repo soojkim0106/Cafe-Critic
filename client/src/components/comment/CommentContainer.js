@@ -1,15 +1,13 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/UserContext";
 import CommentCard from "./CommentCard";
-import { object, string, number } from "yup";
-import { useFormik, Formik } from "formik";
 import './commentcontainer.css'
 
 const CommentContainer = ({reviewId}) => {
     const [comments, setComments] = useState([]);
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
     const relatedComments = comments.filter(comment=>comment.review_id === reviewId)

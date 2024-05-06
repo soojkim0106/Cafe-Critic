@@ -1,10 +1,8 @@
 import React from 'react'
-import { useEffect, useState, useContext } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
-import toast from "react-hot-toast";
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import ReviewCard from '../review/ReviewCard';
 import ReviewForm from '../review/ReviewForm';
-import ReviewContainer from '../review/ReviewContainer';
 import './cafedetail.css'
 
 const CafeDetail = () => {

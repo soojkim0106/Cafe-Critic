@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { object, string, number } from "yup";
-import { useFormik, Formik } from "formik";
+import { object, string } from "yup";
+import { useFormik } from "formik";
 import { UserContext } from "../../context/UserContext";
 import './commentform.css'
 
 export const CommentForm = ({reviewId}) => {
 
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { id } = user;
   const navigate = useNavigate();
 
