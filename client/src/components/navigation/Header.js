@@ -23,10 +23,10 @@ const Header = () => {
         </div>
         <nav className="navbar">
           <>
-          <h1 className="title">Cafe Critic</h1>
+          <h1 className="title">Cafe Critic ☕</h1>
             {user ? (
               <div className="container">
-                <NavLink to={"/cafes"}>Cafe ☕</NavLink>
+                <NavLink to={"/cafes"}>Cafe List</NavLink>
                 <br></br>
                 <NavLink to={"/reviews"}> All Reviews </NavLink> <br></br>
                 <NavLink to={"/profile"}>Profile</NavLink> <br></br>

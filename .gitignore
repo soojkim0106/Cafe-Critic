@@ -72,3 +72,4 @@ client/.env
 server/migration
 server/instance
 Pipfile.lock
+Pipfile
