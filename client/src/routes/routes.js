@@ -40,16 +40,6 @@ export const router = createBrowserRouter([
                 path:"cafes/:cafeId",
                 element: <CafeDetail />
             }
-            ,
-            {
-                path:"googleauth",
-                element: <GoogleAuth />
-            }
-            ,
-            {
-                path:"comments/:commentId",
-                element: <CommentCard />
-            }
         ]
     }
 ])

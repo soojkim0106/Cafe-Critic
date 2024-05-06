@@ -39,8 +39,7 @@ const ReviewForm = ({cafeId}) => {
     validationSchema: reviewSchema,
     onSubmit: (formData) => {
       handlePostReview(formData);
-      toast.success("Review posted successfully");
-      navigate('/cafes')
+      // navigate('/cafes')
     },
   });
 
@@ -60,17 +59,18 @@ const ReviewForm = ({cafeId}) => {
         username: formData.username,
       }),
     })
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        } else {
-          throw new Error("Failed to submit form");
-        }
-      })
-      .catch((error) => {
-        toast.error("An error occurred. Please try again.");
-        console.error(error);
-      });
+    .then(response => {
+      if (response.status === 201) {
+        toast.success("Review posted successfully!");
+        navigate('/cafes');
+      } else if (!response.ok) {
+        toast.error("You cannot submit another review for this cafe.");
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
   };
 
   if (!user) {

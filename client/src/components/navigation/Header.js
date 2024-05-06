@@ -23,7 +23,9 @@ const Header = () => {
         </div>
         <nav className="navbar">
           <>
-          <h1 className="title">Cafe Critic ☕</h1>
+          <div className="title">
+            <h1><NavLink to={"/cafes"}>Cafe Critic ☕</NavLink></h1>
+          </div>
             {user ? (
               <div className="container">
                 <NavLink to={"/cafes"}>Cafe List</NavLink>
