@@ -7,7 +7,7 @@ import { UserContext } from "../../context/UserContext";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
 import "./registration.css"
-import GoogleAuth from "./GoogleAuth";
+import GoogleAuth from "./googleauth";
 
 YupPassword(Yup);
 
