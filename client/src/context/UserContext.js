@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
 
 export const UserContext = createContext();
 
