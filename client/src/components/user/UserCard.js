@@ -83,9 +83,7 @@ const UserCard = () => {
     initialValues,
     validationSchema: updateProfileSchema,
     onSubmit: (formData) => {
-      handleEditUser(formData).then(() => {
-        toast.success("Profile updated successfully");
-      })
+      handleEditUser(formData)
     },
   });
 

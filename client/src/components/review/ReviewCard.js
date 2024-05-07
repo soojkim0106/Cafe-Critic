@@ -37,10 +37,6 @@ const ReviewCard = ({ review }) => {
     validationSchema: updateReview,
     onSubmit: (formData) => {
       handleEditReview(formData);
-      toast.success("Review updated successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
     },
   });
   
@@ -90,7 +86,9 @@ const ReviewCard = ({ review }) => {
             toast.error(errorObj.message);
           });
         }
-        return resp.json();
+        return resp.json().then(() => {
+          toast.success("Review updated successfully");
+        });
       })
       .catch((err) => {
         console.error(err);

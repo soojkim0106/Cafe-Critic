@@ -1,11 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  // const location = useLocation();
 
   const login = (user) => {
     setUser(user);
@@ -40,11 +41,18 @@ const UserProvider = ({ children }) => {
       .then((resp) => {
         if (!resp.ok) {
           return resp.json().then((errorObj) => {
-            toast.error(errorObj.message || errorObj.error);
-            // return errorObj
+            if(errorObj.error){
+              let errorMessage = errorObj.error
+              if (errorMessage.includes("UNIQUE")){
+                errorMessage = 'Username or Email already exists. Please try again.'
+              }
+              toast.error(errorMessage);
+            }
           });
         }
-        return resp.json();
+        return resp.json().then(() => {
+          toast.success("Profile updated successfully");
+        });
       })
       .then((user) => {
         updateCurrentUser(user);
@@ -65,13 +73,15 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetch("/me").then((resp) => {
-      if (resp.ok) {
-        resp.json().then(setUser);
-      } else {
-        toast.error("Please log in");
-      }
-    });
+    // if (location.pathname !== "/" && location.pathname !== "/registration") {
+      fetch("/me").then((resp) => {
+        if (resp.ok) {
+          resp.json().then(setUser);
+        } else {
+          toast.error("Please log in");
+        }
+      });
+    // }
   }, []);
 
   return (
