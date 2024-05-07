@@ -29,7 +29,7 @@ const ReviewForm = ({cafeId}) => {
     good_description: "",
     bad_description: "",
     star_rating: "",
-    username: user.username,
+    username: user?.username,
     // user_id: user.id,
     cafe_id: cafeId,
   };

@@ -23,9 +23,6 @@ const CommentCard = ({ comment, user }) => {
         })
         .then(() => {
           toast.success("Comment deleted successfully");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
         })
         .catch((err) => {
           console.error(err);

@@ -3,7 +3,7 @@ from .. import (review, db, review_schema, login_required, g, session, request, 
 class ReviewById(Resource):
     @login_required
     def patch(self,id):
-        if not g.review:
+        if not g.review or g.review.user_id != session["user_id"]:
             return {"error": F"Review {id} not found"}, 404
         try:
             data = request.json
@@ -17,7 +17,7 @@ class ReviewById(Resource):
     @login_required
     def delete(self, id):
         try:
-            if g.review:
+            if g.review and g.review.user_id == session["user_id"]:
                 db.session.delete(g.review)
                 db.session.commit()
                 return {}, 204

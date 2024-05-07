@@ -74,8 +74,8 @@ const UserCard = () => {
   }, [user]);
 
   const initialValues = {
-    username: "",
-    email: "",
+    username: user?.username,
+    email: user?.email,
     current_password: "",
   };
 
@@ -83,9 +83,9 @@ const UserCard = () => {
     initialValues,
     validationSchema: updateProfileSchema,
     onSubmit: (formData) => {
-      handleEditUser(formData);
-      toast.success("Profile updated successfully");
-      window.location.reload();
+      handleEditUser(formData).then(() => {
+        toast.success("Profile updated successfully");
+      })
     },
   });
 

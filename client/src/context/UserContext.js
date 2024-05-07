@@ -40,7 +40,8 @@ const UserProvider = ({ children }) => {
       .then((resp) => {
         if (!resp.ok) {
           return resp.json().then((errorObj) => {
-            toast.error(errorObj.message);
+            toast.error(errorObj.message || errorObj.error);
+            // return errorObj
           });
         }
         return resp.json();
