@@ -69,11 +69,6 @@ const ReviewCard = ({ review }) => {
         .then(
           toast.success("Review deleted successfully")
         )
-        .then(
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500)
-        )
         .catch((err) => {
           console.error(err);
           toast.error(err.message);

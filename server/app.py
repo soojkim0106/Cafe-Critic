@@ -35,12 +35,13 @@ def signup():
 
     except Exception as e:
         db.session.rollback()
-        if 'unique' not in str(e):
-            return {"message": str(e)}, 422
-        if 'UNIQUE constraint failed: users.username' in str(e):
-            return {"message": "Username already exists"}, 400
-        if 'UNIQUE constraint failed: users.email' in str(e):
-            return {"message": "Email already exists"}, 400
+        error_message = str(e)
+        if 'unique' in error_message:
+            if 'UNIQUE constraint failed: users.username' in error_message:
+                error_message = "Username already exists"
+            if 'UNIQUE constraint failed: users.email' in error_message:
+                error_message = "Email already exists"
+        return jsonify({"error": error_message}), 422
 
 @app.route("/login", methods=["POST"])
 def login():

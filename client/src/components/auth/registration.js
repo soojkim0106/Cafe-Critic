@@ -51,8 +51,6 @@ const Registration = () => {
   const { user, login } = useContext(UserContext);
   const requestedUrl = isLogin ? "/login" : "/signup";
   
-  // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-
   useEffect(() => {
     if(user){
       navigate("/cafes")
@@ -90,7 +88,23 @@ const Registration = () => {
               });
             });
         } else { 
-          return resp.json().then((errorObj) => toast.error(errorObj.message));
+          return resp.json().then((errorObj) => {
+            if(errorObj.error){
+              let errorMessage = errorObj.error
+              if (errorMessage.includes("UNIQUE")){
+                errorMessage = 'Username or Email already exists. Please try again.'
+              }
+              if (errorMessage.includes("Length")){
+                errorMessage = 'Username must be 5 to 20 characters. Please try again.'
+              }
+              if (errorMessage.includes("Not a valid email address")){
+                errorMessage = 'Please enter a valid email address.'
+              }
+              if (errorMessage.includes("password_hash")){
+                errorMessage = 'Password must be at least 5 characters with 1 special char and 1 number. Please try again.'
+              }
+              toast.error(errorMessage);
+            }});
         }
       });
     },
