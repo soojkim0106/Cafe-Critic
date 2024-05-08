@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
-from flask import request, g, session, send_file, jsonify, render_template
+from flask import request, session, jsonify, render_template
 from flask_restful import Resource
 from functools import wraps
 from werkzeug.exceptions import NotFound
-import os
 from config import app, db, api
 
 from models.user import User
-from schemas.user_schema import user_schema, users_schema
+from schemas.user_schema import user_schema
 
 from config import app, db, api
 from routes.auth.check_session import Me
