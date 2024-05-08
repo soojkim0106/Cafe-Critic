@@ -55,7 +55,7 @@ const GoogleAuth = () => {
     .then(response => response.json())
     .then(user => {
       login(user)
-      navigate(`/cafes`)
+      navigate(`/cafe`)
     })
     .catch(error => console.error(error))
   }

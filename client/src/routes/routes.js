@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
                 element: <Registration />
             },
             {
-                path: "cafes",
+                path: "cafe",
                 element: <CafeContainer />
             },
             {
@@ -33,11 +33,11 @@ export const router = createBrowserRouter([
                 element: <UserCard />
             },
             {
-                path: "reviews",
+                path: "review",
                 element: <ReviewContainer />
             },
             {
-                path:"cafes/:cafeId",
+                path:"cafe/:cafeId",
                 element: <CafeDetail />
             }
         ]

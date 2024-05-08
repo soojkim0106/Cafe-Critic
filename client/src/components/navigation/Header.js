@@ -24,13 +24,13 @@ const Header = () => {
         <nav className="navbar">
           <>
           <div className="title">
-            <h1><NavLink to={"/cafes"}>Cafe Critic ☕</NavLink></h1>
+            <h1><NavLink to={"/cafe"}>Cafe Critic ☕</NavLink></h1>
           </div>
             {user ? (
               <div className="container">
-                <NavLink to={"/cafes"}>Cafe List</NavLink>
+                <NavLink to={"/cafe"}>Cafe List</NavLink>
                 <br></br>
-                <NavLink to={"/reviews"}> All Reviews </NavLink> <br></br>
+                <NavLink to={"/review"}> All Reviews </NavLink> <br></br>
                 <NavLink to={"/profile"}>Profile</NavLink> <br></br>
                 <NavLink onClick={handleLogout}>Logout</NavLink>
               </div>

@@ -28,8 +28,6 @@ export const CommentForm = ({reviewId}) => {
     validationSchema: postComment,
     onSubmit: (formData) => {
       handlePostComment(formData);
-      toast.success("Comment posted successfully");
-      navigate('/cafes')
     },
   });
 
@@ -48,7 +46,10 @@ export const CommentForm = ({reviewId}) => {
     })
     .then((resp) => {
       if (resp.ok) {
-        return resp.json();
+        return resp.json().then(() => {
+          toast.success("Comment posted successfully");
+          navigate('/cafe')
+        });
       } else {
         throw new Error("Failed to submit form");
       }
