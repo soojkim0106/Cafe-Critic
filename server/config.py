@@ -6,13 +6,12 @@ from flask_marshmallow import Marshmallow
 from flask_restful import Api
 from flask_session import Session
 from flask_bcrypt import Bcrypt
-from os import environ
-# from requests_oauthlib import OAuth2Session
-# from authlib.integrations.flask_client import OAuth
+
 import os
+
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('.env')
 
 
 app = Flask(
