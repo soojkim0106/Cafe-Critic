@@ -21,6 +21,7 @@ requests = "*"
 google-auth = "*"
 psycopg2 = "*"
 gunicorn = "*"
+python-dotenv = "*"
 
 [requires]
 python_full_version = "3.8.13"
