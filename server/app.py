@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import request, g, session, send_file, jsonify
+from flask import request, g, session, send_file, jsonify, render_template
 from flask_restful import Resource
 from functools import wraps
 from werkzeug.exceptions import NotFound
@@ -68,6 +68,7 @@ def logout():
         raise e
 
 
+
 api.add_resource(Users, "/users")
 api.add_resource(UserById,"/users/<int:id>")
 api.add_resource(Me, "/me")
@@ -78,6 +79,17 @@ api.add_resource(ReviewById, "/reviews/<int:id>")
 api.add_resource(Comments, "/comments")
 api.add_resource(CommentById, "/comments/<int:id>")
 api.add_resource(GoogleAuth, "/googleauth")
+
+#FRONTEND ROUTES
+@app.route("/registration")
+@app.route("/profile")
+@app.route("/")
+@app.route("/cafe")
+@app.route("/cafe/<int:id>")
+@app.route("/review")
+
+def index(id=0):
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

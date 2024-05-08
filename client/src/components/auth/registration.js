@@ -53,7 +53,7 @@ const Registration = () => {
   
   useEffect(() => {
     if(user){
-      navigate("/cafes")
+      navigate("/cafe")
     }
   },[user, navigate])
 
@@ -82,7 +82,7 @@ const Registration = () => {
             .json()
             .then(login)
             .then(() => {
-              navigate("/cafes");
+              navigate("/cafe");
               toast("Grab your favorite critic pen", {
                 icon: "☕",
               });

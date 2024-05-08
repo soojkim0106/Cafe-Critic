@@ -1,8 +1,8 @@
-"""initial migration
+"""create models
 
-Revision ID: bb8ca844defa
+Revision ID: fa6f7b9cf3c6
 Revises: 
-Create Date: 2024-04-23 16:46:54.152475
+Create Date: 2024-05-07 16:38:06.834717
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bb8ca844defa'
+revision = 'fa6f7b9cf3c6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('address', sa.String(), nullable=False),
     sa.Column('image', sa.String(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('address')
@@ -33,7 +33,7 @@ def upgrade():
     sa.Column('username', sa.String(length=20), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('_password_hash', sa.String(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
@@ -43,12 +43,12 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('cafe_id', sa.Integer(), nullable=True),
+    sa.Column('username', sa.String(), nullable=True),
     sa.Column('body', sa.String(), nullable=False),
     sa.Column('good_description', sa.String(), nullable=False),
     sa.Column('bad_description', sa.String(), nullable=False),
     sa.Column('star_rating', sa.Integer(), nullable=False),
-    sa.Column('liked', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['cafe_id'], ['cafes.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
@@ -60,8 +60,9 @@ def upgrade():
     sa.Column('body', sa.String(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('review_id', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.Column('username', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['review_id'], ['reviews.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

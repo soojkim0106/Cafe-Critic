@@ -32,7 +32,7 @@ const CafeCard = ({cafe}) => {
   return (
     <div className='cafe-card'>
         <button>
-        <Link to={`/cafes/${id}`}>
+        <Link to={`/cafe/${id}`}>
           <h3><strong>{name}</strong></h3>
           {imageLoaded && imageUrl && <img src={imageUrl} alt={name} />}
         </Link>

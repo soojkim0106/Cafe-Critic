@@ -101,7 +101,7 @@ const ReviewCard = ({ review }) => {
   };
 
   const handleNavigate =() => {
-    navigate(`/cafes/${cafe_id}`)
+    navigate(`/cafe/${cafe_id}`)
   }
 
   return (
@@ -177,7 +177,7 @@ const ReviewCard = ({ review }) => {
         </div>
       )}
       <div>
-      {location.pathname === `/cafes/${cafeId}` && (
+      {location.pathname === `/cafe/${cafeId}` && (
         <>
         <div className='review-card-comments'> <br></br>
         <button className='show-comment' onClick={handleToggleComments}>{showComments ? "Hide Comments" : "Show Comments"}</button><br></br>

@@ -62,7 +62,7 @@ const ReviewForm = ({cafeId}) => {
     .then(response => {
       if (response.status === 201) {
         toast.success("Review posted successfully!");
-        navigate('/cafes');
+        navigate('/cafe');
       } else if (!response.ok) {
         toast.error("You cannot submit another review for this cafe.");
       }

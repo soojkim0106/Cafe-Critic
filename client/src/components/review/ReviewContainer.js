@@ -18,11 +18,11 @@ const ReviewContainer = () => {
 
     const filteredUser = reviews.filter((review) => review.username.toLowerCase().includes(searchQuery.toLowerCase()))
 
-    useEffect(() => {
-        if (!user) {
-          navigate("/registration");
-        }
-      }, [user, navigate])
+    // useEffect(() => {
+    //     if (!user) {
+    //       navigate("/review");
+    //     }
+    //   }, [user, navigate])
     
       useEffect(() => {
         fetch("/reviews")
