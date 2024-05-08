@@ -41,11 +41,11 @@ const ReviewCard = ({ review }) => {
   });
   
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/registration");
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/registration");
+  //   }
+  // }, [user, navigate]);
 
   const handleDeleteReview = () => {
     const confirmDelete = window.confirm(
