@@ -7,7 +7,7 @@ const GoogleAuth = () => {
   const navigate = useNavigate();
   const { login } = useContext(UserContext);
   
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const clientId = "1043251127291-ond5m5bdur5vsdoq6vqvmqhvtu9iv9gb.apps.googleusercontent.com";
 
 
   useEffect(() => {
