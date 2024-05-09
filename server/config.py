@@ -11,7 +11,7 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv('.env')
+load_dotenv()
 
 
 app = Flask(
@@ -20,8 +20,6 @@ app = Flask(
     static_folder='../client/build',
     template_folder='../client/build'
 )
-
-# oauth = OAuth(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
