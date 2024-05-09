@@ -188,7 +188,7 @@ const ReviewCard = ({ review }) => {
       )}
       </div>
       <div>
-      {location.pathname === `/reviews` && (
+      {location.pathname === `/review` && (
         <button className='back-to-cafe' onClick={handleNavigate}>Back to Cafe</button>
       )}
       </div>
