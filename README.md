@@ -1,16 +1,29 @@
 <div>
     <h1 align='center'> Cafe Critic</h1>
     <p align='center'> Condensed and fun review web application for fellow Cafe hoppers!</p>
-    <p align='center'> Check out the website here: (insert)</p>
+    <p align='center'> Check out the website here: https://cafe-critic.onrender.com/</p>
 </div>
 
 ## About the Project
-INSERT GIF OF THE WEBSITE HERE
+![](/for_readme/around_the_app_v1.gif)
+
+![](/for_readme/form_submission.gif)
+
+![](/for_readme/delete_comment.gif)
+
 
 Cafe Critic is a platform developed for those who wishes to keep track of their favorite and not-so-favorite cafes. It is built with React, Flask, and SQLAlchemy with the help of variety of other packages. 
 
 In this project, the following frameworks (or libraries) were used:
-( LIST THEM )
+* React
+* Flask
+* SQLAlchemy
+* Formik
+* Yup
+* Google Auth
+* Marshmallow
+* Hot Toast
+
 
 ## Installation
 If you wish to view the project locally, please fork and clone the repo. 
