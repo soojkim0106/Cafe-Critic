@@ -88,7 +88,7 @@ api.add_resource(GoogleAuth, "/googleauth")
 @app.route("/review")
 
 def index(id=0):
-    return render_template("index.html", google_client_id=os.environ.get("GOOGLE_CLIENT_ID"))
+    return render_template("index.html", google_client_id=os.environ.get("REACT_APP_GOOGLE_CLIENT_ID"))
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
